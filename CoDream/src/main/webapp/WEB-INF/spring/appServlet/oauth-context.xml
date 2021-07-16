@@ -4,15 +4,15 @@
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
 	<!-- oauth2 login -->
-	
+
 	<bean id="kakaoClientId" class="java.lang.String">
-		<constructor-arg value="1f212b78287a8e560acf42ec064fe081"/>
+		<constructor-arg value="${kakaoClientId}"/>
 	</bean>
 	<bean id="kakaoClientSecret" class="java.lang.String">
-		<constructor-arg value="XoZrwCCoEOtVFFC7KESIKu6FSb3BSQob"/>
+		<constructor-arg value="${kakaoClientSecret}"/>
 	</bean>
 	<bean id="kakaoRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8099/Security_Test/login/oauth2/kakao"/>
+		<constructor-arg value="${kakaoRedirectUrl}"/>
 	</bean>
 	
 	<bean id="kakaoSns" class="com.code.dream.auth.SnsValue">
@@ -23,13 +23,13 @@
 	</bean>
 	
 	<bean id="naverClientId" class="java.lang.String">
-		<constructor-arg value="oahMb4TFvprZjvOLKuI6"/>
+		<constructor-arg value="${naverClientId}"/>
 	</bean>
 	<bean id="naverClientSecret" class="java.lang.String">
-		<constructor-arg value="BFSIr92a1N"/>
+		<constructor-arg value="${naverClientSecret}"/>
 	</bean>
 	<bean id="naverRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8099/Security_Test/login/oauth2/naver"/>
+		<constructor-arg value="${naverRedirectUrl}"/>
 	</bean>
 	
 	<bean id="naverSns" class="com.code.dream.auth.SnsValue">
@@ -38,32 +38,14 @@
 		<constructor-arg ref="naverClientSecret"/>
 		<constructor-arg ref="naverRedirectUrl"/>
 	</bean>
-	
-	<bean id="facebookClientId" class="java.lang.String">
-		<constructor-arg value="960415908071996"/>
-	</bean>
-	<bean id="facebookClientSecret" class="java.lang.String">
-		<constructor-arg value="44fd621fa377403c9b77078621ac2630"/>
-	</bean>
-	<bean id="facebookRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8099/Security_Test/login/oauth2/facebook"/>
-	</bean>
-	
-	<bean id="facebookSns" class="com.code.dream.auth.SnsValue">
-		<constructor-arg value="facebook"/>
-		<constructor-arg ref="facebookClientId"/>
-		<constructor-arg ref="facebookClientSecret"/>
-		<constructor-arg ref="facebookRedirectUrl"/>
-	</bean>
-	
 	<bean id="googleClientId" class="java.lang.String">
-		<constructor-arg value="466425250261-l0pg8hrk011ob4q5dvn41mq3i7aaontc.apps.googleusercontent.com"/>
+		<constructor-arg value="${googleClientId}"/>
 	</bean>
 	<bean id="googleClientSecret" class="java.lang.String">
-		<constructor-arg value="biselgNq4HgXf1vAGsy5eFQB"/>
+		<constructor-arg value="${googleClientSecret}"/>
 	</bean>
 	<bean id="googleRedirectUrl" class="java.lang.String">
-		<constructor-arg value="http://localhost:8099/Security_Test/login/oauth2/google"/>
+		<constructor-arg value="${googleRedirectUrl}"/>
 	</bean>
 	
 	<bean id="googleSns" class="com.code.dream.auth.SnsValue">
