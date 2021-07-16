@@ -5,7 +5,6 @@
 	<title>Home</title>
 </head>
 <body>
-<%@include file="./header.jsp" %>
 <h1>
 	Hello world!  
 </h1>

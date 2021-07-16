@@ -7,7 +7,6 @@
 		<property name="locations">
 			<list>
 				<value>classpath:properties/db.properties</value>
-				<value>classpath:properties/oauth.properties</value>
 			</list>
 		</property>
 	</bean>
