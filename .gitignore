@@ -230,4 +230,5 @@ buildNumber.properties
 
 # project custom ignore
 db.properties
+oauth.properties
 Scripts/
