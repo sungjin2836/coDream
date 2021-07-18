@@ -9,7 +9,8 @@
 <body>
 <%@include file="../header.jsp" %>
 <div class="container">
-<form action="/member/register" method="post" onsubmit="return chkbtn()">
+<input type="hidden" id="chkval" value="1">
+<form action="/member/register" method="post" onsubmit="return check()">
 	<security:csrfInput/>
 	<table>
 		<tr>
@@ -17,7 +18,7 @@
 				아이디
 			</th>
 			<td>
-				<input type="text" id="id" name="id" autocomplete="off">
+				<input type="text" id="id" name="id" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -30,7 +31,7 @@
 				비밀번호
 			</th>
 			<td>
-				<input type="password" id="pw" name="password" autocomplete="off">
+				<input type="password" id="pw" name="password" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -38,7 +39,7 @@
 				비밀번호 확인
 			</th>
 			<td>
-				<input type="password" id="pwChk" autocomplete="off">
+				<input type="password" id="pwChk" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -46,7 +47,7 @@
 				이름
 			</th>
 			<td>
-				<input type="text" id="id" name="id" autocomplete="off">
+				<input type="text" id="name" name="name" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -54,7 +55,7 @@
 				핸드폰 번호
 			</th>
 			<td>
-				<input type="text" id="id" name="id" autocomplete="off">
+				<input type="text" id="phone" name="phone" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -62,7 +63,7 @@
 				이메일
 			</th>
 			<td>
-				<input type="text" id="id" name="id" autocomplete="off">
+				<input type="text" id="email" name="email" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -70,11 +71,15 @@
 				주소
 			</th>
 			<td>
-				<input type="text" id="id" name="id" autocomplete="off">
+				<input type="text" id="address" name="address" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
-			<td><input type="checkbox" id="adrecive" name="adrecive"><label for="adrecive">마케팅 수신 동의</label></td>
+			<th></th>
+			<td><input type="checkbox" id="adrecieve" name="adrecieve"><label for="adrecive">마케팅 수신 동의</label></td>
+		</tr>
+		<tr>
+			<td colspan="2"><input type="submit" value="회원 가입"></td>
 		</tr>
 	</table>
 </form>
@@ -83,12 +88,12 @@
 <script type="text/javascript">
 	function check(){
 		var pw = document.getElementById('pw').value;
-		var pwCheck = document.getElementById('pwCheck').value;
+		var pwChk = document.getElementById('pwChk').value;
 		var chkval = document.getElementById('chkval').value;
 		
 // 		alert(pw + "/" + pwCheck + "/" + chkval);
 		
-		if (pw != pwCheck) {
+		if (pw != pwChk) {
 			swal('회원가입 오류', '비밀번호를 확인해주세요');
 // 			alert("비밀번호를 확인해주세요");
 			return false;
@@ -124,7 +129,7 @@
 				
 				$.ajax({
 					type: "post",
-					url: "/member/idChk.do",
+					url: "/member/idChk",
 					headers: headers,
 					data: "id="+$(this).val(),
 					async: true,

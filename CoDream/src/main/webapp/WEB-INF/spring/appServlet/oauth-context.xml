@@ -15,7 +15,7 @@
 		<constructor-arg value="${kakaoRedirectUrl}"/>
 	</bean>
 	
-	<bean id="kakaoSns" class="com.code.dream.auth.SnsValue">
+	<bean id="kakaoSns" class="com.code.dream.oauth.SnsValue">
 		<constructor-arg value="kakao"/>
 		<constructor-arg ref="kakaoClientId"/>
 		<constructor-arg ref="kakaoClientSecret"/>
@@ -32,7 +32,7 @@
 		<constructor-arg value="${naverRedirectUrl}"/>
 	</bean>
 	
-	<bean id="naverSns" class="com.code.dream.auth.SnsValue">
+	<bean id="naverSns" class="com.code.dream.oauth.SnsValue">
 		<constructor-arg value="naver"/>
 		<constructor-arg ref="naverClientId"/>
 		<constructor-arg ref="naverClientSecret"/>
@@ -48,7 +48,7 @@
 		<constructor-arg value="${googleRedirectUrl}"/>
 	</bean>
 	
-	<bean id="googleSns" class="com.code.dream.auth.SnsValue">
+	<bean id="googleSns" class="com.code.dream.oauth.SnsValue">
 		<constructor-arg value="google"/>
 		<constructor-arg ref="googleClientId"/>
 		<constructor-arg ref="googleClientSecret"/>

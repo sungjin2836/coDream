@@ -11,6 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<security:csrfMetaTags />
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -28,6 +29,9 @@
 <div>
 	<h1 style="display: inline">
 		<a href="/">로고</a>
+		<security:authorize access="hasRole('ROLE_ADMIN')">
+		  <button class="btn btn-danger" onclick="#">관리자 페이지</button>
+		</security:authorize>
 	</h1>
 	<security:authorize access="isAnonymous()">
 			<div style="display: inline; float:right; margin : 8px;">
@@ -41,9 +45,7 @@
 				<button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button>
 			</div>
 	</security:authorize>
-	<security:authorize access="hasRole('admin')">
-	  관리자 페이지
-	</security:authorize>
+	
 </div>
 </header>
 </html>

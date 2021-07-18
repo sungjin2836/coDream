@@ -1,4 +1,4 @@
-package com.code.dream.auth;
+package com.code.dream.oauth;
 
 import java.io.IOException;
 import java.net.URI;
@@ -41,6 +41,12 @@ public class SNSLogin {
 					.apiSecret(sns.getClientSecret())
 					.callback(sns.getRedirectUrl())
 					.scope("account_email")
+					.build(sns.getApi20Instance());
+		} else if(sns.getService().equals("google")) {
+			this.oauthService = new ServiceBuilder(sns.getClientId())
+					.apiSecret(sns.getClientSecret())
+					.callback(sns.getRedirectUrl())
+					.scope("email")
 					.build(sns.getApi20Instance());
 		}
 		

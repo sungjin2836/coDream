@@ -1,4 +1,4 @@
-package com.code.dream.auth;
+package com.code.dream.oauth;
 
 import com.github.scribejava.core.builder.api.DefaultApi20;
 
