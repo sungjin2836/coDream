@@ -25,8 +25,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.code.dream.auth.SNSLogin;
-import com.code.dream.auth.SnsValue;
+import com.code.dream.oauth.SNSLogin;
+import com.code.dream.oauth.SnsValue;
 
 
 @Controller

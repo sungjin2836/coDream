@@ -28,7 +28,13 @@ public class UserSecurityDaoImpl implements IUserSecurityDao {
 
 	@Override
 	public boolean registUser(RegisterDto dto) {
-		return session.insert("register.registerUser", dto)>0?true:false;
+		return session.insert("register.registUser", dto)>0?true:false;
+	}
+	
+	@Override
+	public boolean idChk(String id) {
+		int n = session.selectOne("register.idDuplicateCheck",id);
+		return n>0?true:false;
 	}
 
 	@Override

@@ -1,10 +1,10 @@
 package com.code.dream.security;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,6 +16,9 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 
 	@Autowired
 	private IUserSecurityDao dao;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoding;
 	
 	@Override
 	public UserDetails loadUserByUsername(String inputUserId) {
@@ -47,10 +50,13 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 
 	@Override
 	public boolean regist(RegisterDto dto) {
-		if(!(dao.registUser(dto)&&dao.addRole(dto.getId(), "ROLE_USER"))) {
-			return false;
-		}
-		return true;
+		String enPassword = passwordEncoding.encode(dto.getPassword());
+		dto.setPassword(enPassword);
+		return dao.registUser(dto)&&dao.addRole(dto.getId(), "ROLE_USER");
+	}
+	
+	public boolean idChk(String id) {
+		return dao.idChk(id);
 	}
 
 	@Override
@@ -72,5 +78,7 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 	public boolean deleteRole(String id, String role) {
 		return dao.deleteRole(id, role);
 	}
+	
+	
 
 }
