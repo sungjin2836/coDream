@@ -2,6 +2,7 @@ package com.code.dream.security;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -9,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.code.dream.dto.RegisterDto;
+import com.code.dream.oauth.IOAuthDao;
+import com.code.dream.oauth.IOAuthService;
 
 @Service
 @Transactional
@@ -18,6 +21,9 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 	private IUserSecurityDao dao;
 	
 	@Autowired
+	private IOAuthDao auth;
+	
+	@Autowired
 	private PasswordEncoder passwordEncoding;
 	
 	@Override
@@ -25,11 +31,36 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 
 		// 최종적으로 리턴해야할 객체
 		UserSecurityDto userDetails = new UserSecurityDto();
-		System.out.println("loadUserByUsername" + inputUserId);
+		
+		String naver = "naver#";
+		String google = "google#";
+		String kakao = "kakao#";
+		String service = "";
+		RegisterDto userInfo = null;
+		//OAuth인지 확인.
 		// 사용자 정보 select
-		System.out.println(dao);
-		RegisterDto userInfo = dao.login(inputUserId);
-
+		if(StringUtils.substring(inputUserId, 0, naver.length()).equals(naver)) {
+			inputUserId = inputUserId.substring(naver.length());
+			service = "naver";
+			String oauth = auth.selectOAuthById(service, inputUserId);
+			userInfo = loadUserByOAuth(service, inputUserId, oauth);
+			userInfo.setPassword(passwordEncoding.encode(oauth));
+		} else if(StringUtils.substring(inputUserId, 0, google.length()).equals(google)) {
+			service = "google";
+			inputUserId = inputUserId.substring(google.length());
+			String oauth = auth.selectOAuthById(service, inputUserId);
+			userInfo = loadUserByOAuth(service, inputUserId, oauth);
+			userInfo.setPassword(passwordEncoding.encode(oauth));
+		} else if(StringUtils.substring(inputUserId, 0, kakao.length()).equals(kakao)) {
+			service = "kakao";
+			inputUserId = inputUserId.substring(kakao.length());
+			String oauth = auth.selectOAuthById(service, inputUserId);
+			userInfo = loadUserByOAuth(service, inputUserId, oauth);
+			userInfo.setPassword(passwordEncoding.encode(oauth));
+		} else {
+			userInfo = dao.login(inputUserId);
+		}
+		
 		// 사용자 정보 없으면 null 처리
 		if (userInfo == null) {
 			return null;
@@ -48,6 +79,14 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 		return userDetails;
 	}
 
+	@Override
+	public RegisterDto loadUserByOAuth(String service, String inputUserId, String oauth) {
+		RegisterDto dto = null;
+		dto = auth.loginOAuth(service, inputUserId, oauth);
+		
+		return dto;
+	}
+	
 	@Override
 	public boolean regist(RegisterDto dto) {
 		String enPassword = passwordEncoding.encode(dto.getPassword());
@@ -78,6 +117,8 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 	public boolean deleteRole(String id, String role) {
 		return dao.deleteRole(id, role);
 	}
+
+	
 	
 	
 

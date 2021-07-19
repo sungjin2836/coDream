@@ -21,7 +21,7 @@
 		<security:intercept-url pattern="/member/**" access="isAnonymous()" />
 
 		<!-- 관리자페이지는 관리자만 접근 허용 -->
-		<security:intercept-url pattern="/admin/**" access="hasRole('admin')" />
+		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 
 		<!-- 로그인 설정 -->
 		<security:form-login	
@@ -31,6 +31,7 @@
 			login-page="/member/login"
 			authentication-success-handler-ref="userLoginSuccessHandler"
 			authentication-failure-handler-ref="userLoginFailHandler" />
+			
 
 		<!-- 로그아웃 설정 -->
 		<security:logout 

@@ -4,13 +4,15 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 약관 동의</title>
+<title>회원 가입</title>
 </head>
 <body>
 <%@include file="../header.jsp" %>
 <div class="container">
 <input type="hidden" id="chkval" value="1">
 <form action="/member/register" method="post" onsubmit="return check()">
+	<input type="hidden" id="uid" name="uid" value="${uid}">
+	<input type="hidden" id="site" name="site" value="${site}">
 	<security:csrfInput/>
 	<table>
 		<tr>
@@ -106,8 +108,26 @@
 		}
 	}
 	
-	// 아이디 중복체크
+	
 	$(document).ready(function() {
+		if("${site}"== "naver") {
+			$('#name').val("${dto.name}");
+			$('#phone').val("${dto.phone}");
+			$('#email').val("${dto.email}");
+		}
+		
+		if("${site}"== "kakao") {
+			$('#email').val("${dto.email}");
+		}
+		
+		if("${site}"== "google") {
+			$('#name').val("${dto.name}");
+			$('#phone').val("${dto.phone}");
+			$('#email').val("${dto.email}");
+		}
+		
+		
+		// 아이디 중복체크
 		$('#id').keyup(function() {
 			var idLength = $(this).val().length;
 			var id = '';
