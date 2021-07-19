@@ -26,15 +26,15 @@
 		<!-- 로그인 설정 -->
 		<security:form-login	
 			username-parameter="id" 
-			password-parameter="pw"
-			login-processing-url="/login.do" 
-			login-page="/loginForm.do"
+			password-parameter="password"
+			login-processing-url="/login" 
+			login-page="/member/login"
 			authentication-success-handler-ref="userLoginSuccessHandler"
 			authentication-failure-handler-ref="userLoginFailHandler" />
 
 		<!-- 로그아웃 설정 -->
 		<security:logout 
-			logout-url="/logout.do"
+			logout-url="/logout"
 			invalidate-session="true"
 			delete-cookies="true" />
 			

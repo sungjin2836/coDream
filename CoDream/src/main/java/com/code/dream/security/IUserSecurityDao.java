@@ -14,5 +14,6 @@ public interface IUserSecurityDao {
 	public List<String> selectRole(String id);
 	public boolean addRole(String id, String role);
 	public boolean deleteRole(String id, String role);
+	public boolean idChk(String id);
 
 }

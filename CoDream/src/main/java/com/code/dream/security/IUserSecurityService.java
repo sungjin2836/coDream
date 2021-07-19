@@ -13,4 +13,5 @@ public interface IUserSecurityService extends UserDetailsService  {
 	public boolean deleteUser(String id);
 	public boolean modifyUser(RegisterDto dto);
 	public boolean deleteRole(String id, String role);
+	public boolean idChk(String id);
 }

@@ -1,4 +1,4 @@
-package com.code.dream.auth;
+package com.code.dream.oauth;
 
 import org.apache.commons.lang3.StringUtils;
 
