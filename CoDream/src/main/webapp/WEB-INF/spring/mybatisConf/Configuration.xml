@@ -4,10 +4,13 @@
 
 <typeAliases>
 	<typeAlias type="com.code.dream.dto.RegisterDto" alias="RegisterDto"/>
+	<typeAlias type="com.code.dream.dto.ClassDto" alias="ClassDto"/>
+	<typeAlias type="com.code.dream.dto.StudentDto" alias="StudentDto"/>
 </typeAliases>
 
 <mappers>
 	<mapper resource="sqls/register_Statement.xml"/>
+	<mapper resource="sqls/class_Statement.xml"/>
 </mappers>
 
 </configuration>
