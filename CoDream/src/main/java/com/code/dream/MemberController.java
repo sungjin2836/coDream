@@ -4,7 +4,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +20,6 @@ import com.code.dream.security.IUserSecurityService;
 import com.code.dream.security.UserSecurityDto;
 
 @Controller
-@RequestMapping("/member/")
 public class MemberController {
 	
 	@Autowired
@@ -26,23 +28,23 @@ public class MemberController {
 	@Autowired
 	private IOAuthService auth;
 	
-	@RequestMapping(value="agree", method=RequestMethod.GET)
+	@RequestMapping(value="/member/agree", method=RequestMethod.GET)
 	public String agree() {
 		return "member/agree";
 	}
 	
-	@RequestMapping(value="signup", method=RequestMethod.POST)
+	@RequestMapping(value="/member/signup", method=RequestMethod.POST)
 	public String signup(Model model, HttpServletRequest request) {
 		model.addAttribute("site", "normal");
 		return "member/signup";
 	}
 	
-	@RequestMapping(value="register", method=RequestMethod.POST)
+	@RequestMapping(value="/member/register", method=RequestMethod.POST)
 	public String register(HttpServletRequest request, RegisterDto dto) {
 		System.out.println(dto);
 		String site = request.getParameter("site");
 		// adrecieve는 체크시 on 아닐시 null 처리.
-		if(dto.getAddress()!=null) {
+		if(dto.getAdrecieve()!=null) {
 			dto.setAdrecieve("Y");
 		} else {
 			dto.setAdrecieve("N");
@@ -57,7 +59,7 @@ public class MemberController {
 		return "member/login";
 	}
 	
-	@RequestMapping(value="idChk", method=RequestMethod.POST)
+	@RequestMapping(value="/idChk", method=RequestMethod.POST)
 	@ResponseBody
 	public String idChk(String id) {
 		boolean isc = false;
@@ -65,5 +67,35 @@ public class MemberController {
 		return String.valueOf(isc);
 	}
 	
+	@RequestMapping(value="/myInfo", method=RequestMethod.GET)
+	public String myInfo(Model model, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto dto = usDto.getDto();
+		dto.setPassword(null);
+		model.addAttribute("dto", dto);
+		return "member/myInfo";
+	}
+	
+	@RequestMapping(value="/modifyForm", method=RequestMethod.GET)
+	public String modifyForm(Model model, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto dto = usDto.getDto();
+		dto.setPassword(null);
+		model.addAttribute("dto", dto);
+		return "member/modifyForm";
+	}
+	
+	@RequestMapping(value="/modifyInfo", method=RequestMethod.POST)
+	public String modifyInfo(Model model, RegisterDto dto, Authentication authentication, HttpServletRequest request) {
+		dto.setId(authentication.getName());
+		
+		if(dto.getAdrecieve()!=null) {
+			dto.setAdrecieve("Y");
+		} else {
+			dto.setAdrecieve("N");
+		}
+		
+		return "redirect:/myInfo";
+	}
 	
 }

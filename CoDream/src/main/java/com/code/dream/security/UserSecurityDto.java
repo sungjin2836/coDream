@@ -19,6 +19,7 @@ public class UserSecurityDto implements UserDetails {
 	private String username; // ID
 	private String password; // PW
 	private List<GrantedAuthority> authorities;
+	private String service;
 	private RegisterDto dto; // 외부에서 꺼내 쓸 객체
 	
 	public RegisterDto getDto() {
@@ -98,6 +99,14 @@ public class UserSecurityDto implements UserDetails {
 	public boolean isEnabled() {
 
 		return true;
+	}
+
+	public String getService() {
+		return service;
+	}
+
+	public void setService(String service) {
+		this.service = service;
 	}
 
 	

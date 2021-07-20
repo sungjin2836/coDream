@@ -12,8 +12,11 @@ public interface IUserSecurityService extends UserDetailsService  {
 	public RegisterDto loadUserByOAuth(String service,String inputUserId, String oauth);
 	public boolean regist(RegisterDto dto);
 	public List<RegisterDto> selectUser();
+	public List<UserSecurityDto> selectUserList();
 	public boolean deleteUser(String id);
 	public boolean modifyUser(RegisterDto dto);
+	public List<String> selectRole(String id);
+	public boolean addRole(String id, String role);
 	public boolean deleteRole(String id, String role);
 	public boolean idChk(String id);
 }

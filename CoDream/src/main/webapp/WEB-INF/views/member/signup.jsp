@@ -141,12 +141,6 @@
 				$('#result').html('아이디는 6~15자리만 입력해주세요');
 				$('#chkval').val('0');
 			} else if(idLength > 5) {
-				var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
-				var csrfToken = $("meta[name='_csrf']").attr("content");
-				var csrfHeader = $("meta[name='_csrf_header']").attr("content");
-				var headers = {};
-				headers[csrfHeader] = csrfToken;
-				
 				$.ajax({
 					type: "post",
 					url: "/member/idChk",

@@ -4,7 +4,6 @@
 
 <typeAliases>
 	<typeAlias type="com.code.dream.dto.RegisterDto" alias="RegisterDto"/>
-
 	<typeAlias type="com.code.dream.dto.ClassDto" alias="ClassDto"/>
 	<typeAlias type="com.code.dream.dto.StudentDto" alias="StudentDto"/>
 	<typeAlias type="com.code.dream.dto.OAuthDto" alias="OAuthDto"/>
