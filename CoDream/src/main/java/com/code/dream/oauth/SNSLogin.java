@@ -59,7 +59,6 @@ public class SNSLogin {
 	public String getUserProfile(String code) throws IOException, InterruptedException, ExecutionException {
 		System.out.println(code);
 		OAuth2AccessToken accessToken = oauthService.getAccessToken(code);
-		System.out.println(accessToken.getAccessToken());
 		OAuthRequest request = new OAuthRequest(Verb.GET, this.profileUrl);
 		oauthService.signRequest(accessToken, request);
 		
@@ -83,7 +82,6 @@ public class SNSLogin {
                 HttpResponse.BodyHandlers.ofString()  //응답은 문자형태
             ).thenApply(HttpResponse::body)  //thenApply메소드로 응답body값만 받기
             .get();  //get메소드로 body값의 문자를 확인
-        System.out.println(token);
         
         JSONParser jsonParse = new JSONParser();
 		JSONObject json = (JSONObject) jsonParse.parse(token);

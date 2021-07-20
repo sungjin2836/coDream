@@ -30,7 +30,7 @@
 	<h1 style="display: inline">
 		<a href="/">로고</a>
 		<security:authorize access="hasRole('ROLE_ADMIN')">
-		  <button class="btn btn-danger" onclick="#">관리자 페이지</button>
+		  <button class="btn btn-danger" onclick="location.href='/admin/myInfo'">관리자 페이지</button>
 		</security:authorize>
 	</h1>
 	<security:authorize access="isAnonymous()">
@@ -41,7 +41,7 @@
 	</security:authorize>
 	<security:authorize access="isAuthenticated()">
 			<div style="display: inline; float:right; margin : 8px; color : white;">
-				<button class="btn btn-info" onclick="location.href='./myInfo.do'">내 정보</button>
+				<button class="btn btn-info" onclick="location.href='/myInfo'">내 정보</button>
 				<button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button>
 			</div>
 	</security:authorize>

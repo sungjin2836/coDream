@@ -1,6 +1,7 @@
 package com.code.dream.security;
 
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -13,6 +14,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.code.dream.dto.RegisterDto;
 
 @Service
 public class UserLoginAuthenticationProvider implements AuthenticationProvider {
@@ -38,8 +41,22 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 		UserSecurityDto userDetails = (UserSecurityDto) userDetailsServcie
 				.loadUserByUsername(userId);
 
+		
 		/* 인증 진행 */
 		
+		String naver = "naver#";
+		String google = "google#";
+		String kakao = "kakao#";
+		
+		//OAuth인지 확인.
+		// 사용자 정보 select
+		if(StringUtils.substring(userId, 0, naver.length()).equals(naver)) {
+			userId = userId.substring(naver.length());
+		} else if(StringUtils.substring(userId, 0, google.length()).equals(google)) {
+			userId = userId.substring(google.length());
+		} else if(StringUtils.substring(userId, 0, kakao.length()).equals(kakao)) {
+			userId = userId.substring(kakao.length());
+		}
 		// DB에 정보가 없는 경우 예외 발생 (아이디/패스워드 잘못됐을 때와 동일한 것이 좋음)
 		// ID 및 PW 체크해서 안맞을 경우 (matches를 이용한 암호화 체크를 해야함)
 		if (userDetails == null || !userId.equals(userDetails.getUsername())
