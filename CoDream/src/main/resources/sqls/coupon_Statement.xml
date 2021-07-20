@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="coupon">
+
+	<select id="selectCoupon" resultType="CouponDto">
+		SELECT COUPON_SEQ , COUPONNAME , DISCOUNT , MAXPRICE , STATUS 
+			FROM COUPON
+	</select>
+	
+	<insert id="insertCoupon" parameterType="CouponDto">
+		INSERT INTO COUPON
+ (COUPON_SEQ, COUPONNAME, DISCOUNT, MAXPRICE, STATUS)
+ VALUES((SELECT NVL(MAX(COUPON_SEQ),0)+1 FROM COUPON), #{couponname}, #{discount}, #{maxprice}, #{status})
+	</insert>
+
+</mapper>
