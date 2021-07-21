@@ -24,4 +24,14 @@ public class CouponServiceImpl implements ICouponService {
 		return dao.insertCoupon(dto);
 	}
 	
+	@Override
+	public List<CouponDto> MemCoupon() {
+		return dao.MemCoupon();
+	}
+	
+	@Override
+	public int insertMemCoupon(CouponDto dto) {
+		return dao.insertMemCoupon(dto);
+	}
+	
 }

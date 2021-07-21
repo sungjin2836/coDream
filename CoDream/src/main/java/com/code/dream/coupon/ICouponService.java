@@ -8,4 +8,6 @@ public interface ICouponService {
 
 	public List<CouponDto> CouponAll();
 	public int insertCoupon(CouponDto dto);
+	public List<CouponDto> MemCoupon();
+	public int insertMemCoupon(CouponDto dto);
 }
