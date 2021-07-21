@@ -23,4 +23,15 @@ public class CouponDaoImpl implements ICouponDao {
 	public int insertCoupon(CouponDto dto) {
 		return sqlsession.insert("coupon.insertCoupon", dto);
 	}
+	
+	@Override
+	public List<CouponDto> MemCoupon() {
+		return sqlsession.selectList("coupon.selectMemCoupon");
+	}
+	
+	@Override
+	public int insertMemCoupon(CouponDto dto) {
+		return sqlsession.insert("coupon.insertMemCoupon", dto);
+	}
+	
 }

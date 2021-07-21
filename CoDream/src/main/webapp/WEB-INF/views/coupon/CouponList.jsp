@@ -33,16 +33,21 @@
 			<c:if test="${c.status eq 'D'}">
 				<td>${c.discount}원</td>
 			</c:if>
-			
 			<td>${c.maxprice}원</td>
-			<td><button>지급</button></td>
+			<td><button onclick="giveCoupon(${c.coupon_seq})">지급</button></td>
 		</tr>
 		</c:forEach>
 		
 	</table>
 	<h1>test1</h1>
 </div>
-
-
 </body>
+<script type="text/javascript">
+
+function giveCoupon(seq){
+	alert(seq);
+}
+
+</script>
+
 </html>

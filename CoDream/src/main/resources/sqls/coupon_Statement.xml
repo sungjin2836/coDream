@@ -12,5 +12,17 @@
  (COUPON_SEQ, COUPONNAME, DISCOUNT, MAXPRICE, STATUS)
  VALUES((SELECT NVL(MAX(COUPON_SEQ),0)+1 FROM COUPON), #{couponname}, #{discount}, #{maxprice}, #{status})
 	</insert>
+	
+	<select id="selectMemCoupon" resultType="CouponDto">
+		SELECT c.COUPONNAME ,c.DISCOUNT,c.MAXPRICE , c.STATUS
+			FROM COUPON_LIST cl JOIN COUPON c USING(COUPON_SEQ)
+			WHERE ID = 'ADMIN'
+	</select>
+	
+	<insert id="insertMemCoupon" parameterType="CouponDto">
+		INSERT INTO COUPON_LIST
+			(CLIST_SEQ, ID, COUPON_SEQ, EXPIRE, DEFLAG)
+			VALUES((SELECT NVL(MAX(CLIST_SEQ),0)+1 FROM COUPON_LIST), #{id}, #{coupon_seq}, SYSDATE+7, 'N')
+	</insert>
 
 </mapper>
