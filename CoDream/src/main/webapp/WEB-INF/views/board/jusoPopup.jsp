@@ -24,7 +24,7 @@ window.onload = function(){
         document.form.action="https://www.juso.go.kr/addrlink/addrLinkUrl.do"; //인터넷망
         document.form.submit();
     }else{
-        opener.document.classform.address.value = document.getElementById("roadFullAddr").value;
+        opener.document.classform.address.value = document.getElementById("roadFullAddr").value + " " + document.getElementById("addrDetail").value;
         window.close();
 	}
 }
@@ -35,6 +35,7 @@ window.onload = function(){
     <form id="form" name="form" method="post">
 		<input type="hidden" id="inputYn" value="${inputYn}"/>
 		<input type="hidden" id="roadFullAddr" value="${roadFullAddr}"/>
+		<input type="hidden" id="addrDetail"  value="${addrDetail}"/>
         <input type="hidden" id="confmKey" name="confmKey" value=""/>
         <input type="hidden" id="returnUrl" name="returnUrl" value=""/>
         <input type="hidden" id="resultType" name="resultType" value=""/>
