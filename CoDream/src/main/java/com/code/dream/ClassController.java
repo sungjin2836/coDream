@@ -53,11 +53,12 @@ public class ClassController {
 	}
 	
 	@RequestMapping(value = "/board/jusoPopup", method = RequestMethod.POST)
-	public String jusoPopupSuccess(String inputYn, String roadFullAddr, Model model) {
+	public String jusoPopupSuccess(String inputYn, String roadFullAddr, String addrDetail, Model model) {
 		logger.info("[ClassController] jusoPopup 도로명주소 검색 완료");
 		System.out.println(roadFullAddr);
 		model.addAttribute("inputYn", "Y");
 		model.addAttribute("roadFullAddr", roadFullAddr);
+		model.addAttribute("addrDetail", addrDetail);
 		return "/board/jusoPopup";
 	}
 	
