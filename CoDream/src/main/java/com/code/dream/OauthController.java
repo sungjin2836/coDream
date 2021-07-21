@@ -67,14 +67,6 @@ public class OauthController {
 	@Autowired
 	private UserLoginAuthenticationProvider authProvider;
 
-	@RequestMapping(value="/myInfo", method=RequestMethod.GET)
-	public String myInfo(Model model, Authentication authentication) {
-		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
-		RegisterDto dto = usDto.getDto();
-		dto.setPassword(null);
-		model.addAttribute("dto", dto);
-		return "member/myInfo";
-	}
 
 	@RequestMapping(value = "/login/oauth2/naver", method = {RequestMethod.GET, RequestMethod.POST})
 	public String naver(Model model, HttpServletRequest request) throws IOException, InterruptedException, ExecutionException {
@@ -85,7 +77,6 @@ public class OauthController {
 		SNSLogin snsLogin = new SNSLogin(naverSns);
 		String profile = snsLogin.getUserProfile(code);
 		System.out.println("Profile>>" + profile);
-		model.addAttribute("result", profile);
 
 
 		JSONParser jsonParse = new JSONParser();
@@ -154,7 +145,6 @@ public class OauthController {
 		SNSLogin snsLogin = new SNSLogin(googleSns);
 		String profile = snsLogin.getUserProfile(code);
 		System.out.println("Profile>>" + profile);
-		model.addAttribute("result", profile);
 
 		JSONParser jsonParse = new JSONParser();
 		JSONObject json = null;
@@ -202,7 +192,6 @@ public class OauthController {
 		SNSLogin snsLogin = new SNSLogin(kakaoSns);
 		String profile = snsLogin.getKakaoProfile(code);
 		System.out.println("Profile>>" + profile);
-		model.addAttribute("result", profile);
 
 
 		JSONParser jsonParse = new JSONParser();

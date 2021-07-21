@@ -9,6 +9,7 @@ public interface IUserSecurityDao {
 	public boolean registUser(RegisterDto dto);
 	public RegisterDto login(String id);
 	public List<RegisterDto> selectUser();
+	public List<UserSecurityDto> selectUserList();
 	public boolean deleteUser(String id);
 	public boolean modifyUser(RegisterDto dto);
 	public List<String> selectRole(String id);

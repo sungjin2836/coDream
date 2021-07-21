@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Login</title>
+<title>내 정보</title>
 </head>
 <body>
 <%@include file="../header.jsp" %>
@@ -43,6 +43,9 @@
 			<tr>
 				<th>마케팅 수신 여부</th>
 				<td>${dto.adrecieve}</td>
+			</tr>
+			<tr>
+				<td colspan="2"><button onclick="location.href='/modifyForm'">수정</button> </td>
 			</tr>
 		</tbody>
 	</table>

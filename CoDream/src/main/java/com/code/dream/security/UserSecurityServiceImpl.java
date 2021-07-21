@@ -42,22 +42,27 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 		if(StringUtils.substring(inputUserId, 0, naver.length()).equals(naver)) {
 			inputUserId = inputUserId.substring(naver.length());
 			service = "naver";
+			userDetails.setService(service);
 			String oauth = auth.selectOAuthById(service, inputUserId);
 			userInfo = loadUserByOAuth(service, inputUserId, oauth);
 			userInfo.setPassword(passwordEncoding.encode(oauth));
 		} else if(StringUtils.substring(inputUserId, 0, google.length()).equals(google)) {
 			service = "google";
+			userDetails.setService(service);
 			inputUserId = inputUserId.substring(google.length());
 			String oauth = auth.selectOAuthById(service, inputUserId);
 			userInfo = loadUserByOAuth(service, inputUserId, oauth);
 			userInfo.setPassword(passwordEncoding.encode(oauth));
 		} else if(StringUtils.substring(inputUserId, 0, kakao.length()).equals(kakao)) {
 			service = "kakao";
+			userDetails.setService(service);
 			inputUserId = inputUserId.substring(kakao.length());
 			String oauth = auth.selectOAuthById(service, inputUserId);
 			userInfo = loadUserByOAuth(service, inputUserId, oauth);
 			userInfo.setPassword(passwordEncoding.encode(oauth));
 		} else {
+			service="normal";
+			userDetails.setService(service);
 			userInfo = dao.login(inputUserId);
 		}
 		
@@ -116,6 +121,21 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 	@Override
 	public boolean deleteRole(String id, String role) {
 		return dao.deleteRole(id, role);
+	}
+
+	@Override
+	public List<UserSecurityDto> selectUserList() {
+		return dao.selectUserList();
+	}
+
+	@Override
+	public List<String> selectRole(String id) {
+		return dao.selectRole(id);
+	}
+
+	@Override
+	public boolean addRole(String id, String role) {
+		return dao.addRole(id, role);
 	}
 
 	

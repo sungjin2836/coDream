@@ -44,7 +44,9 @@ public class UserSecurityDaoImpl implements IUserSecurityDao {
 
 	@Override
 	public boolean deleteUser(String id) {
-		return session.update("register.deleteUser",id)>0?true:false;
+		Map<String, String> map = new HashMap<String, String>();
+		map.put("id", id);
+		return session.update("register.deleteUser",map)>0?true:false;
 	}
 
 	@Override
@@ -66,5 +68,11 @@ public class UserSecurityDaoImpl implements IUserSecurityDao {
 		map.put("id", id);
 		map.put("role", role);
 		return session.delete("register.deleteRole",map)>0?true:false;
+	}
+
+	@Override
+	public List<UserSecurityDto> selectUserList() {
+		List<UserSecurityDto> list = session.selectList("register.selectUserList");
+		return list;
 	}
 }

@@ -23,14 +23,20 @@
 	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <script type="text/javascript"
 	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
-
+<script type="text/javascript">
+	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
+	var csrfToken = $("meta[name='_csrf']").attr("content");
+	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
+	var headers = {};
+	headers[csrfHeader] = csrfToken;
+</script>
 </head>
 <header>
 <div>
 	<h1 style="display: inline">
 		<a href="/">로고</a>
 		<security:authorize access="hasRole('ROLE_ADMIN')">
-		  <button class="btn btn-danger" onclick="location.href='/admin/myInfo'">관리자 페이지</button>
+		  <button class="btn btn-danger" onclick="location.href='/admin/memberList'">관리자 페이지</button>
 		</security:authorize>
 	</h1>
 	<security:authorize access="isAnonymous()">
