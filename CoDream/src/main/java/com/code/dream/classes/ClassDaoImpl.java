@@ -55,7 +55,7 @@ public class ClassDaoImpl implements IClassDao{
 	}
 
 	@Override
-	public boolean updateLinkHash(Map<Integer, String> linkhashMap) {
+	public boolean updateLinkHash(Map<String, Integer> linkhashMap) {
 		logger.info("[ClassDaoImpl] 강의 해시 등록 {}", linkhashMap);
 		int n = session.insert(NS+"updateLinkHash", linkhashMap);
 		return (n>0)?true:false;

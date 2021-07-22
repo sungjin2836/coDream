@@ -10,7 +10,7 @@ import com.code.dream.dto.StudentDto;
 public interface IClassService {
 
 	// 강의 개설
-	public boolean insertClass(ClassDto dto);
+	public boolean insertClass(ClassDto dto, String hash);
 	
 	// 해시태그별 강의 조회
 	public List<ClassDto> hashedClassList(String value);

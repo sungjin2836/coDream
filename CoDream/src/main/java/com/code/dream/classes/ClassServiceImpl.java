@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.code.dream.dto.ClassDto;
 import com.code.dream.dto.RegisterDto;
@@ -22,42 +23,62 @@ public class ClassServiceImpl implements IClassService {
 	IClassDao dao;
 	
 	@Override
-	public boolean insertClass(ClassDto dto) {
+	@Transactional
+	public boolean insertClass(ClassDto dto, String hash) {
 		logger.info("[ClassServiceImpl] insertClass 강의 개설 {}", dto);
-		return dao.insertClass(dto);
+		
+		boolean isc = dao.insertClass(dto)&&updateLinkHash(dto.getCl_seq(), hash);
+		
+		return isc;
 	}
 
+	@SuppressWarnings("unlikely-arg-type")
 	@Override
-	public boolean updateLinkHash(int cl_seq, String value) {
-		logger.info("[ClassServiceImpl] 강의 해시 등록 {} : {}", cl_seq, value);
-		Map<Integer, String> linkhashMap = new HashMap<Integer, String>(); 
+	@Transactional
+	public boolean updateLinkHash(int cl_seq, String values) {
+		logger.info("[ClassServiceImpl] 강의 해시 등록 {} : {}", cl_seq, values);
 		
-		// 해시 존재여부 검색 후
-		List<Map<Integer, String>> hashList = dao.checkHash(value);
+		String[] valueArray = (values.trim()).split(" ");
+		boolean isc = false;
 		
-		if(hashList.size() != 0) {
-			// 존재할 경우, 해당 해시의 번호를 가져와서
-			Map<Integer, String> hash = hashList.get(0);
-			linkhashMap.put(cl_seq, hash.get("hash_seq"));
+		for(String value : valueArray) {
+			Map<String, Integer> linkhashMap = new HashMap<String, Integer>(); 
 			
-			// 등록
-			dao.updateLinkHash(linkhashMap);
+			// 해시 존재여부 검색 후
+			List<Map<Integer, String>> hashList = dao.checkHash(value);
+			logger.info("[ClassServiceImpl] hashList : {}", hashList);
 			
-		} else {
-			// 존재하지 않을 경우
-			
-			//신규 해시를 등록한 뒤 
-			if(dao.insertHash(value)){
-				// 해당 seq를 받아와서
-				Map<Integer, String> hash = (dao.checkHash(value)).get(0);
-				linkhashMap.put(cl_seq, hash.get("hash_seq"));
+			if(hashList.size() != 0) {
+				
+				// 존재할 경우, 해당 해시의 번호를 가져와서
+				Map<Integer, String> hash = hashList.get(0);
+				String hash_seq = String.valueOf(hash.get("hash_seq"));
+				linkhashMap.put("cl_seq", cl_seq);
+				linkhashMap.put("hash_seq", Integer.parseInt(hash_seq));
+				logger.info("linkhashMap : {}",linkhashMap);
 				
 				// 등록
-				dao.updateLinkHash(linkhashMap);
+				isc = dao.updateLinkHash(linkhashMap);
+				
+			} else {
+				// 존재하지 않을 경우
+				
+				//신규 해시를 등록한 뒤 
+				if(dao.insertHash(value)){
+					// 해당 seq를 받아와서
+					Map<Integer, String> hash = (dao.checkHash(value)).get(0);
+					String hash_seq = String.valueOf(hash.get("hash_seq"));
+					linkhashMap.put("cl_seq", cl_seq);
+					linkhashMap.put("hash_seq", Integer.parseInt(hash_seq));
+					logger.info("linkhashMap : {}",linkhashMap);
+					
+					// 등록
+					isc = dao.updateLinkHash(linkhashMap);
+				}
 			}
 		}
 		
-		return true;
+		return isc;
 	}
 
 	@Override

@@ -25,7 +25,7 @@ public interface IClassDao {
 	public List<String> linkHashList(int cl_seq);
 	
 	// 강의 해시 등록
-	public boolean updateLinkHash(Map<Integer, String> linkhashMap);
+	public boolean updateLinkHash(Map<String, Integer> linkhashMap);
 	
 	// 강의 전체 조회
 	public List<ClassDto> classList();

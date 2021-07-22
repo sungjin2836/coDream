@@ -1,8 +1,8 @@
 package com.code.dream;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,16 +58,50 @@ public class ClassController {
 		System.out.println(roadFullAddr);
 		model.addAttribute("inputYn", "Y");
 		model.addAttribute("roadFullAddr", roadFullAddr);
-		model.addAttribute("addrDetail", addrDetail);
 		return "/board/jusoPopup";
 	}
 	
 	@RequestMapping(value = "/board/classInput", method = RequestMethod.POST)
-	public String classInput(Model model) {
+	public String classInput(/* Authentication authentication, */ClassDto cdto, @RequestParam String hash, @RequestParam String sday, @RequestParam String eday) {
 		logger.info("[ClassController] classInput 강의 개설 실행");
+//		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+//		RegisterDto rdto = usDto.getDto();
+//		String teacher = rdto.getId();
+//		cdto.setTeacher(teacher);
 		
+		cdto.setTeacher("DUMMY002"); // 임시 데이터
+		
+		// 날짜 값을 연결해줌
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			cdto.setStartday(sdf.parse(sday));
+			cdto.setEndday(sdf.parse(eday));
+			logger.info("[ClassController] classInput 개설 강의 정보 {}", cdto);
+			
+			// 문제가 없을 경우, 데이터를 삽입합니다
+			boolean isc = iClassService.insertClass(cdto, hash);
+			if(isc) { // 성공 시
+				return "redirect:/board/classDetail?cl_seq="+cdto.getCl_seq();
+			}
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
 		
 		return "redirect:/board/classList";
+	}
+	
+	@RequestMapping(value = "/board/classDetail", method = RequestMethod.GET)
+	public String classDetail(Model model, int cl_seq) {
+		logger.info("[ClassController] classDetail 강의 상세조회");
+		ClassDto cdto = iClassService.classDetail(cl_seq);
+		
+		if(cdto != null) {
+			model.addAttribute("cDto", cdto);
+			return "/board/classDetail";
+		} else {
+			return "redirect:/board/classList";
+		}
+		
 	}
 	
 	
