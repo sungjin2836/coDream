@@ -24,10 +24,14 @@
 
 <!-- 강의 개설 -->
 <insert id="insertClass" parameterType="ClassDto">
+	<selectKey keyProperty="cl_seq" resultType="java.lang.Integer" order="BEFORE">
+		SELECT NVL(MAX(CL_SEQ),0)+1 FROM CLASS
+	</selectKey>
 INSERT INTO CLASS
 	(CL_SEQ, CL_TITLE, CL_CONTENT, TEACHER, PRICE, STARTDAY, ENDDAY, TERM, ADDRESS, MAXMEMBER)
-	VALUES((SELECT NVL(MAX(CL_SEQ),0) FROM CLASS)+1, #{cl_title}, #{cl_content},
+	VALUES(#{cl_seq}, #{cl_title}, #{cl_content},
 	#{teacher}, #{price}, #{startday}, #{endday}, #{term}, #{address}, #{maxmember})
+	
 </insert>
 
 <!-- 신규 해시 등록 -->
@@ -71,9 +75,9 @@ SELECT CL_SEQ, CL_CONTENT, CL_TITLE, TEACHER, PRICE, STARTDAY, ENDDAY, ADDRESS, 
 </select>
 
 <!-- 강의 상세 조회 -->
-<select id="classDetail" parameterType="java.lang.Integer" resultType="ClassDto">
-SELECT CL_SEQ, CL_TITLE, CL_CONTENT, TEACHER, PRICE, STARTDAY, ENDDAY, TERM, ADDRESS, MAXMEMBER
-	FROM CLASS
+<select id="classDetail" parameterType="java.lang.Integer" resultMap="ClassDto">
+SELECT CL_SEQ, CL_TITLE, CL_CONTENT, TEACHER, PRICE, STARTDAY, ENDDAY, TERM, ADDRESS, MAXMEMBER, VALUE  
+	FROM CLASS LEFT OUTER JOIN LINKHASH USING(CL_SEQ) LEFT OUTER JOIN HASH USING(HASH_SEQ)
 	WHERE CL_SEQ=#{cl_seq}
 </select>
 
