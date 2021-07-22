@@ -2,5 +2,28 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="regteacher">
 
+	<insert id="insertRegteacher" parameterType="RegteacherDto">
+		<selectKey keyProperty="te_seq" order="BEFORE" resultType="java.lang.Integer">
+			SELECT NVL(MAX(TE_SEQ),0) + 1 FROM REGTEACHER
+		</selectKey>
+		INSERT INTO REGTEACHER
+			(TE_SEQ, TE_TITLE, USERID, TE_CONTENT, FILE_GID, TE_ADMIT)
+			VALUES(#{te_seq}, #{te_title}, #{userid}, #{te_content}, #{file_gid}, '대기')
+	</insert>
+	
+	<select id="selectRegteacher" resultType="RegteacherDto">
+		SELECT TE_SEQ, TE_TITLE, USERID, TE_ADMIT
+			FROM REGTEACHER
+	</select>
 
+	<select id="detailRegteacher" parameterType="java.lang.String" resultType="RegteacherDto">
+		SELECT TE_SEQ, TE_TITLE, USERID, TE_CONTENT, FILE_GID, TE_ADMIT
+			FROM REGTEACHER WHERE TE_SEQ = #{te_seq}
+	</select>
+	
+	<update id="modifyRegteacher" parameterType="java.util.Map">
+		UPDATE REGTEACHER
+			SET TE_ADMIT=#{te_admit}
+			WHERE TE_SEQ=#{te_seq}
+	</update>
 </mapper>

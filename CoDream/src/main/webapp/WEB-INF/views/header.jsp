@@ -36,7 +36,6 @@
 		headers: headers,
 		async: true,
 		success: function(msg) {
-			console.log(msg);
 			if (msg != null) {
 				$('#userName').html(msg+"님 환영합니다.");
 			} else {
@@ -55,6 +54,7 @@
 		<a href="/">로고</a>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		  <button class="btn btn-danger" onclick="location.href='/admin/memberList'">관리자 페이지</button>
+		  <button class="btn btn-danger" onclick="location.href='/regteacherList'">강사등록리스트</button>
 		</sec:authorize>
 	</h1>
 	<sec:authorize access="isAnonymous()">

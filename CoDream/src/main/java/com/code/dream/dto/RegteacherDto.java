@@ -2,16 +2,16 @@ package com.code.dream.dto;
 
 public class RegteacherDto {
 
-	private String te_seq;
-	private String te_title;
-	private String userid;
-	private String te_content;
-	private String file_gid;
-	private String te_admit;
-	public String getTe_seq() {
+	private int te_seq;		// seq
+	private String te_title;	// 제목
+	private String userid;		// 작성자
+	private String te_content;	// 내용
+	private String file_gid;	// 파일 group id
+	private String te_admit;	// 승인 여부
+	public int getTe_seq() {
 		return te_seq;
 	}
-	public void setTe_seq(String te_seq) {
+	public void setTe_seq(int te_seq) {
 		this.te_seq = te_seq;
 	}
 	public String getTe_title() {
