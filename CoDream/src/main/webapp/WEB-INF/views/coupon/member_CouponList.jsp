@@ -48,7 +48,7 @@
 		</c:forEach>
 	    </ul>
  	 </div>
-	    <div style="display: inline-block; height: 50px;"><h3 style="text-align: right;"></h3></div>
+	    <div style="display: inline-block; height: 50px;"><h3 id="couponresult" style="text-align: right;"></h3></div>
  	 
 	<table class="table">
 		<tr>
@@ -73,6 +73,8 @@
 		</c:forEach>
 		
 	</table>
+	
+	<button onclick="kakao()">kakaopay btn</button>
 </div>
 
 
@@ -99,5 +101,25 @@
 		}
 	}
 	
+	
+	function kakao(){
+		var result = document.getElementById("couponresult").innerHTML;
+		console.log(result);
+		$.ajax({
+			url:'./coupon/kakaopay',
+			method: 'POST',
+			dataType:'json',
+			data:'result='+result,
+			success:function(data){
+				var kaka = JSON.parse(data.json);
+				console.log(kaka.tid);			
+				window.open(kaka.next_redirect_pc_url);
+			},
+			error:function(error){
+				console.log(error);
+			}
+		})
+}
 </script>
+
 </html>
