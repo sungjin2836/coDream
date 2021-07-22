@@ -3,7 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
-<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%
 	request.setCharacterEncoding("UTF-8");
 	response.setContentType("text/html; charset=UTF-8;");
@@ -11,7 +11,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<security:csrfMetaTags />
+<sec:csrfMetaTags />
 <meta charset="UTF-8">
 <link rel="stylesheet"
 	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -29,28 +29,47 @@
 	var csrfHeader = $("meta[name='_csrf_header']").attr("content");
 	var headers = {};
 	headers[csrfHeader] = csrfToken;
+	
+	$.ajax({
+		type: "post",
+		url: "/getName",
+		headers: headers,
+		async: true,
+		success: function(msg) {
+			console.log(msg);
+			if (msg != null) {
+				$('#userName').html(msg+"님 환영합니다.");
+			} else {
+				
+			}
+		},
+		error: function() {
+			alert("잘못된 요청입니다.");
+		}
+	});
 </script>
 </head>
 <header>
 <div>
 	<h1 style="display: inline">
 		<a href="/">로고</a>
-		<security:authorize access="hasRole('ROLE_ADMIN')">
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		  <button class="btn btn-danger" onclick="location.href='/admin/memberList'">관리자 페이지</button>
-		</security:authorize>
+		</sec:authorize>
 	</h1>
-	<security:authorize access="isAnonymous()">
-			<div style="display: inline; float:right; margin : 8px;">
-				<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>
-				<button class="btn btn-primary" onclick="location.href='/member/agree'">Sign up</button>
-			</div>
-	</security:authorize>
-	<security:authorize access="isAuthenticated()">
-			<div style="display: inline; float:right; margin : 8px; color : white;">
-				<button class="btn btn-info" onclick="location.href='/myInfo'">내 정보</button>
-				<button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button>
-			</div>
-	</security:authorize>
+	<sec:authorize access="isAnonymous()">
+		<div style="display: inline; float:right; margin : 8px;">
+			<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>
+			<button class="btn btn-primary" onclick="location.href='/member/agree'">Sign up</button>
+		</div>
+	</sec:authorize>
+	<sec:authorize access="isAuthenticated()">
+		<div style="display: inline; float:right; margin : 8px; color : white;">
+			<div style="display: inline; color:black;" id = "userName"></div>
+			<button class="btn btn-info" onclick="location.href='/myInfo'">내 정보</button>
+			<button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button>
+		</div>
+	</sec:authorize>
 	
 </div>
 </header>

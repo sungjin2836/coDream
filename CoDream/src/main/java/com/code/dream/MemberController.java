@@ -59,6 +59,17 @@ public class MemberController {
 		return "member/login";
 	}
 	
+	@RequestMapping(value="/getName", method=RequestMethod.POST, produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getName(Authentication authentication) {
+		if(authentication != null) {
+			UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+			RegisterDto dto = usDto.getDto();
+			return dto.getName();
+		}
+		return null;
+	}
+	
 	@RequestMapping(value="/idChk", method=RequestMethod.POST)
 	@ResponseBody
 	public String idChk(String id) {

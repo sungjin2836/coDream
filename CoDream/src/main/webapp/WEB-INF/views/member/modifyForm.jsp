@@ -11,7 +11,7 @@
 <div class="container">
 	<h2>나의 정보 보기</h2>
 	<form action="/modifyInfo" method="post" onsubmit="return check()">
-	<security:csrfInput/>
+	<sec:csrfInput/>
 	<table class="table table-hover">
 		<tbody>
 			<tr>
@@ -80,7 +80,7 @@
 			</tr>
 			<tr>
 				<th></th>
-				<td><input type="checkbox" id="adrecieve" name="adrecieve"><label for="adrecive">마케팅 수신 동의</label></td>
+				<td><input type="checkbox" id="adrecieve" name="adrecieve" <c:if test="${dto.adrecieve eq 'Y'}">checked</c:if>><label for="adrecive">마케팅 수신 동의</label></td>
 			</tr>
 			<tr>
 				<td colspan="2"><input type="submit" value="수정"></td>
