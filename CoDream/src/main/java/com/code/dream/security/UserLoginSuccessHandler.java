@@ -30,7 +30,6 @@ public class UserLoginSuccessHandler implements AuthenticationSuccessHandler {
 
 		// 인증 ID
 		System.out.println("name : " + authentication.getName());
-
 		// 권한 리스트
 		@SuppressWarnings("unchecked")
 		List<GrantedAuthority> authList = (List<GrantedAuthority>) authentication.getAuthorities();

@@ -10,7 +10,7 @@
 <%@include file="../header.jsp" %>
 <div class="container">
 	<form action="/login" method="post">
-		<security:csrfInput/>
+		<sec:csrfInput/>
 		아이디 : <input type="text" name="id" autocomplete="off"><br>
 		비밀번호 : <input type="password" name="password" autocomplete="off"><br>
 		<input type="checkbox" name="remember-me" id="autoLogin">자동 로그인<br>

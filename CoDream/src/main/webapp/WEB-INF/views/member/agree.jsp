@@ -10,7 +10,7 @@
 <%@include file="../header.jsp" %>
 <div class="container">
 <form action="/member/signup" method="post" onsubmit="return chkbtn()">
-	<security:csrfInput/>
+	<sec:csrfInput/>
 	<h3>회원 약관 동의</h3>
 	<div style="width:600px; height: 200px; background-color: skyblue;">
 		쏼라쏼라<a href="/">home</a>

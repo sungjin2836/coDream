@@ -13,7 +13,7 @@
 <form action="/member/register" method="post" onsubmit="return check()">
 	<input type="hidden" id="uid" name="uid" value="${uid}">
 	<input type="hidden" id="site" name="site" value="${site}">
-	<security:csrfInput/>
+	<sec:csrfInput/>
 	<table>
 		<tr>
 			<th>
