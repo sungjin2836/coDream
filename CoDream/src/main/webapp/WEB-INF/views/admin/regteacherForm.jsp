@@ -8,10 +8,49 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
-<form method="POST" id="uploadForm">
+<form action="/regteacher" method="POST" id="uploadForm">
+	<sec:csrfInput/>
 	<input type="hidden" name="file_gid" id="file_gid">
-    <input type="file" name="profile" multiple="multiple" id="files"/>
-    <button id='btnUpload'>확인</button>
+	<table>
+		<tr>
+			<th>
+				작성자
+			</th>
+			<td>
+				${dto.name}
+			</td>
+		</tr>
+		<tr>
+			<th>
+				제목
+			</th>
+			<td>
+				<input type="text" name="te_title" required="required"/>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				내용
+			</th>
+			<td>
+				<textarea rows="10" cols="20" name="te_content"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<th>
+				첨부파일
+			</th>
+			<td>
+				<input type="file" multiple="multiple" id="files"/>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="2">
+				<button id='btnUpload'>확인</button>
+			</td>
+		</tr>
+	</table>
+    
 </form>
 </body>
 
@@ -48,6 +87,7 @@ $('#btnUpload').on('click', function(event) {
         },
         error: function (e) {
             $('#btnUpload').prop('disabled', false);
+            alert('fail');
         }
     });
 })
