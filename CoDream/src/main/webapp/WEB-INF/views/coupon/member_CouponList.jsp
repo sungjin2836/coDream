@@ -37,15 +37,16 @@
 	    <li><a onclick="couponresult('${c.discount}','${c.status}')">쿠폰명 : ${c.couponname} /
 			
 			<c:if test="${c.status eq 'P'}">
-				할인정도 : ${c.discount}% /
+				할인율 : ${c.discount}% /
 			</c:if>
 			<c:if test="${c.status eq 'D'}">
-				할인정도 : ${c.discount}원 /
+				할인금액 : ${c.discount}원 /
 			</c:if>
 			최대적용금액 : ${c.maxprice}원 /
 			쿠폰종류 : ${c.status}
 		</a></li>
 		</c:forEach>
+		<li><a onclick="nocoupon()">없음</a></li>
 	    </ul>
  	 </div>
 	    <div style="display: inline-block; height: 50px;"><h3 id="couponresult" style="text-align: right;"></h3></div>
@@ -89,13 +90,13 @@
 		if(status == 'P'){
 			var result = price *(100 - coupon) / 100;
 //			alert(result);
-			var html = result+"원";
+			var html = result;
 			$('h3').empty();
 			$('h3').append(html);
 		}else if(status == 'D'){
 			var result = price - coupon;
 	//		alert(result);
-			var html = result+"원";
+			var html = result;
 			$('h3').empty();
 			$('h3').append(html);
 		}
@@ -106,20 +107,26 @@
 		var result = document.getElementById("couponresult").innerHTML;
 		console.log(result);
 		$.ajax({
-			url:'./coupon/kakaopay',
+			url:'./kakaopay',
 			method: 'POST',
-			dataType:'json',
-			data:'result='+result,
+			headers: headers,
+			data: "result="+result,
 			success:function(data){
-				var kaka = JSON.parse(data.json);
-				console.log(kaka.tid);			
+				var kaka = JSON.parse(data);
+				console.log(kaka);			
 				window.open(kaka.next_redirect_pc_url);
 			},
 			error:function(error){
 				console.log(error);
 			}
 		})
-}
+	}
+	
+	function nocoupon(){
+		$('h3').empty();
+		$('h3').append(price);
+		
+	}
 </script>
 
 </html>

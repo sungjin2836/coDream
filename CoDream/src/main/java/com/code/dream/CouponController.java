@@ -22,6 +22,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.code.dream.coupon.ICouponService;
@@ -51,6 +52,7 @@ public class CouponController {
 	@RequestMapping(value = "/coupon/memlist", method = { RequestMethod.GET, RequestMethod.POST })
 	public String MemCouponList(Model model) {
 		List<CouponDto> lists = service.MemCoupon();
+		
 		System.out.println(lists);
 		model.addAttribute("lists", lists);
 		return "coupon/member_CouponList";
@@ -79,10 +81,26 @@ public class CouponController {
 		return "coupon/insertCoupon";
 	}
 	
-	@RequestMapping(value = "coupon/kakaopay", method = RequestMethod.POST)
+	@RequestMapping(value = "/coupon/insertcoupon", method = { RequestMethod.GET})
+	public String Couponinsertcoupon(HttpServletRequest req) {
+
+		 CouponDto dto = new CouponDto();
+		 String id = req.getParameter("id");
+		 String coupon_seq = req.getParameter("seq");
+		 System.out.println(id);
+		 System.out.println(coupon_seq);
+		 dto.setId(id);
+		 dto.setCoupon_seq(coupon_seq);
+		 System.out.println(dto);	
+		 service.insertMemCoupon(dto);
+
+		return "coupon/member_CouponList";
+	}
+	
+	@RequestMapping(value = "/coupon/kakaopay", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public Map<String, String> kakaopay(HttpSession session, String result) {
-		Map<String,String> map = new HashMap<String, String>();
+	public String kakaopay(HttpSession session, String result) {
+		Map<String,Object> map = new HashMap<String, Object>();
 		System.out.println("-----------결제 시작-----------");
 		try {
 			URL kakaourl = new URL("https://kapi.kakao.com/v1/payment/ready"); //카카오페이 단건 결제 준비에 필요한 REST API
@@ -97,7 +115,7 @@ public class CouponController {
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&"
 					+ "item_name=JAVA강의&quantity=1&total_amount="+amount+"&vat_amount=200&tax_free_amount=0&"
 							+ "approval_url=http://localhost:8099/coupon/list?&"
-					+ "fail_url=http://localhost:8099&cancel_url=http://localhost:8099";
+					+ "fail_url=http://localhost:8099/coupon/list&cancel_url=http://localhost:8099";
 			// 결제에 필요한 parameter값들을 param에 넣음
 			OutputStream outst = kakaoserver.getOutputStream();
 			DataOutputStream dataout = new DataOutputStream(outst); 
@@ -121,14 +139,16 @@ public class CouponController {
 			String str2 = (String)session.getAttribute("payinfo");
 			System.out.println("session 값"+str2);
 			System.out.println("-----------결제 시도-----------");
-			return map;
+//			return map;
+			return "{\"result\":\"NO\"}";
 		}catch (MalformedURLException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
 		map.put("json", "{\"result\":\"NO\"}");
-		return map;
+//		return map;
+		return "{\"result\":\"NO\"}";
 	}
 	
 }

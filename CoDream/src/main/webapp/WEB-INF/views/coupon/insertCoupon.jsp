@@ -11,7 +11,7 @@
 
 <div id="container">
 	<form action="/coupon/input" method="post">
-	<security:csrfInput/>
+	<sec:csrfInput/>
 		<table>
 			<tr>
 				<th>

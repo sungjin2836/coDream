@@ -45,7 +45,20 @@
 <script type="text/javascript">
 
 function giveCoupon(seq){
+	var id = "ADMIN";
 	alert(seq);
+	alert(id);
+	$.ajax({
+		type:"get",
+		url:"./insertcoupon",
+		headers: headers,
+		data : "id="+id+"&seq="+seq,
+		success: function(msg){
+			console.log("성공");
+			location.href = "./memlist";
+		}
+	})
+	
 }
 
 </script>
