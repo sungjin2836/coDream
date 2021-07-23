@@ -7,6 +7,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.code.dream.classes.IClassService;
 import com.code.dream.dto.ClassDto;
+import com.code.dream.dto.RegisterDto;
+import com.code.dream.security.UserSecurityDto;
 
 @Controller
 public class ClassController {
@@ -47,8 +50,10 @@ public class ClassController {
 	}
 	
 	@RequestMapping(value = "/board/jusoPopup", method = RequestMethod.GET)
-	public String jusoPopup() {
+	public String jusoPopup(Model model) {
 		logger.info("[ClassController] jusoPopup 도로명주소 검색 팝업");
+		model.addAttribute("inputYn", "");
+		model.addAttribute("roadFullAddr", "");
 		return "/board/jusoPopup";
 	}
 	
@@ -62,14 +67,12 @@ public class ClassController {
 	}
 	
 	@RequestMapping(value = "/board/classInput", method = RequestMethod.POST)
-	public String classInput(/* Authentication authentication, */ClassDto cdto, @RequestParam String hash, @RequestParam String sday, @RequestParam String eday) {
+	public String classInput(Authentication authentication, ClassDto cdto, @RequestParam String hash, @RequestParam String sday, @RequestParam String eday) {
 		logger.info("[ClassController] classInput 강의 개설 실행");
-//		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
-//		RegisterDto rdto = usDto.getDto();
-//		String teacher = rdto.getId();
-//		cdto.setTeacher(teacher);
-		
-		cdto.setTeacher("DUMMY002"); // 임시 데이터
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto rdto = usDto.getDto();
+		String teacher = rdto.getId();
+		cdto.setTeacher(teacher);
 		
 		// 날짜 값을 연결해줌
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");

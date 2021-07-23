@@ -19,11 +19,16 @@
 
 		<!-- 로그인된 상태에서는 로그인이나 회원가입 화면에 접근 못하도록 함 -->
 		<security:intercept-url pattern="/member/**" access="isAnonymous()" />
+		<security:intercept-url pattern="/coupon/insertCoupon" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/coupon/**" access="isAuthenticated()" />
 
 		<!-- 관리자페이지는 관리자만 접근 허용 -->
 		<security:intercept-url pattern="/admin/**" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/userManage/**" access="hasRole('ROLE_ADMIN')" />
 		<security:intercept-url pattern="/boardManage/**" access="hasRole('ROLE_ADMIN')" />
+		<security:intercept-url pattern="/board/classInput" access="hasRole('ROLE_TEACHER')" />
+
+		<!-- 로그인 된 상태에서만 볼 수 있는 것 -->
 
 		<!-- 로그인 설정 -->
 		<security:form-login	

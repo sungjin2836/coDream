@@ -63,6 +63,7 @@ public class UserLoginAuthenticationProvider implements AuthenticationProvider {
 				|| !pwEncoding.matches(userPw, userDetails.getPassword())) {
 
 			throw new BadCredentialsException(userId);
+//			throw new DisabledException(userId);
 
 		// 계정 정보 맞으면 나머지 부가 메소드 체크 (이부분도 필요한 부분만 커스터마이징 하면 됨)
 		// 잠긴 계정일 경우

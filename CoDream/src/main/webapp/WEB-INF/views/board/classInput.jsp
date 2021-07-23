@@ -12,8 +12,7 @@
 <div class="container">
 <h2>신규 강의 개설</h2>
 <form action="/board/classInput" method="post" name="classform">
-	<security:csrfInput/>
-
+	<sec:csrfInput/>
 	<div>강의 제목</div>
 	<div><input type="text" class="form-control" name="cl_title" placeholder="20글자 이하로 작성해주세요"></div>
 

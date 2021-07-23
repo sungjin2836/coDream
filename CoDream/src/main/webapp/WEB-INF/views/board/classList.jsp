@@ -11,7 +11,9 @@
 <%@include file="../header.jsp"%>
 <div class="container">
 	<h2>전체 개설 강의</h2>
+	<sec:authorize access="hasRole('ROLE_TEACHER')">
 	<button class="btn btn-success" onclick="javascript:location.href='./classInput'">강의 개설</button>
+	</sec:authorize>
 	<c:forEach var="cl" items="${cList}">
 		<div class="row">
 			<h3><a href="./classDetail?cl_seq=${cl.cl_seq}">${cl.cl_title}</a></h3>

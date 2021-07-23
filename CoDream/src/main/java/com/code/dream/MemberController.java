@@ -70,7 +70,7 @@ public class MemberController {
 		return null;
 	}
 	
-	@RequestMapping(value="/idChk", method=RequestMethod.POST)
+	@RequestMapping(value="/member/idChk", method=RequestMethod.POST)
 	@ResponseBody
 	public String idChk(String id) {
 		boolean isc = false;
