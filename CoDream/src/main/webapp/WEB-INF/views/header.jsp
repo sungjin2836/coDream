@@ -57,6 +57,12 @@
 		  <button class="btn btn-danger" onclick="location.href='/regteacherList'">강사등록리스트</button>
 		</sec:authorize>
 	</h1>
+	<%-- <c:if test="${requestScope.loginFailMsg ne null }">
+		<div style="display: inline; float:right; margin : 8px;">
+			<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>
+			<button class="btn btn-primary" onclick="location.href='/member/agree'">Sign up</button>
+		</div>
+	</c:if> --%>
 	<sec:authorize access="isAnonymous()">
 		<div style="display: inline; float:right; margin : 8px;">
 			<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>

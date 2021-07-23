@@ -44,6 +44,7 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 			service = "naver";
 			userDetails.setService(service);
 			String oauth = auth.selectOAuthById(service, inputUserId);
+			System.out.println(service + inputUserId + oauth);
 			userInfo = loadUserByOAuth(service, inputUserId, oauth);
 			userInfo.setPassword(passwordEncoding.encode(oauth));
 		} else if(StringUtils.substring(inputUserId, 0, google.length()).equals(google)) {
@@ -115,6 +116,8 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 
 	@Override
 	public boolean modifyUser(RegisterDto dto) {
+		String enPassword = passwordEncoding.encode(dto.getPassword());
+		dto.setPassword(enPassword);
 		return dao.modifyUser(dto);
 	}
 
@@ -138,8 +141,12 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 		return dao.addRole(id, role);
 	}
 
-	
-	
-	
+	@Override
+	public RegisterDto selectInfo(String id) {
+		RegisterDto dto = dao.login(id);
+		dto.setPassword(null);
+		return dto;
+	}
+
 
 }

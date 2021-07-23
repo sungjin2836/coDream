@@ -19,4 +19,5 @@ public interface IUserSecurityService extends UserDetailsService  {
 	public boolean addRole(String id, String role);
 	public boolean deleteRole(String id, String role);
 	public boolean idChk(String id);
+	public RegisterDto selectInfo(String id);
 }

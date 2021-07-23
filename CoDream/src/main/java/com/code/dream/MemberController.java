@@ -81,8 +81,8 @@ public class MemberController {
 	@RequestMapping(value="/myInfo", method=RequestMethod.GET)
 	public String myInfo(Model model, Authentication authentication) {
 		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
-		RegisterDto dto = usDto.getDto();
-		dto.setPassword(null);
+		RegisterDto rdto = usDto.getDto();
+		RegisterDto dto = service.selectInfo(rdto.getId());
 		model.addAttribute("dto", dto);
 		return "member/myInfo";
 	}
@@ -105,7 +105,7 @@ public class MemberController {
 		} else {
 			dto.setAdrecieve("N");
 		}
-		
+		service.modifyUser(dto);
 		return "redirect:/myInfo";
 	}
 	
