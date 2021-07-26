@@ -9,8 +9,13 @@
 <body>
 
 <%@include file="../header.jsp"%>
+
+
 <div class="container">
-	<h2>전체 개설 강의</h2>
+	<h2><a href="./classList">전체 개설 강의</a></h2>
+	<c:forEach var="h" begin="0" end="10" step="1" items="${hList}">
+	<button class="btn" onclick="location.href='/board/classList?hash='+'${h.value}'">#${h.value}</button>
+	</c:forEach>
 	<sec:authorize access="hasRole('ROLE_TEACHER')">
 	<button class="btn btn-success" onclick="javascript:location.href='./classInput'">강의 개설</button>
 	</sec:authorize>
@@ -24,7 +29,7 @@
 			</p>
 			<p>${fn:substring(cl.cl_content,0,40)}...</p>
 			<p>${cl.teacher}</p>
-			<p>${cl.startday} ~ ${cl.endday}</p>
+			<p><fmt:formatDate value="${cl.startday}" pattern="yyyy년 MM월 dd일"/> ~ <fmt:formatDate value="${cl.endday}" pattern="yyyy년 MM월 dd일"/></p>
 			<p>${cl.price}￦</p>
 		</div>
 	</c:forEach>
