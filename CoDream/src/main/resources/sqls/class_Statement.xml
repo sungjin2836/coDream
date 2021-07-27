@@ -44,14 +44,23 @@ INSERT INTO HASH (HASH_SEQ, VALUE)
 <select id="checkHash" parameterType="java.lang.String" resultMap="HashMap">
 SELECT HASH_SEQ, VALUE
 	FROM HASH
-	WHERE VALUE = #{value}
+	<where>
+		<choose>
+			<when test ="value != null">
+				VALUE = #{value}
+			</when>
+			<otherwise>
+			</otherwise>
+		</choose>
+	</where>
 </select>
 
 <!-- 해시태그별 강의 조회 -->
-<select id="hashedClassList" parameterType="java.lang.String" resultType="ClassDto">
-SELECT CL_SEQ, CL_TITLE, TEACHER
-	FROM LINKHASH l JOIN HASH h USING(HASH_SEQ)
+<select id="hashedClassList" parameterType="java.lang.String" resultMap="ClassDto">
+SELECT CL_SEQ, CL_CONTENT, CL_TITLE, TEACHER, PRICE, STARTDAY, ENDDAY, ADDRESS
+	FROM HASH JOIN LINKHASH USING(HASH_SEQ) JOIN CLASS c USING(CL_SEQ)
 	WHERE VALUE = #{value}
+	ORDER BY CL_SEQ DESC
 </select>
 
 <!-- 강의 해시 조회 -->
@@ -69,15 +78,17 @@ INSERT INTO LINKHASH (CL_SEQ, HASH_SEQ)
 
 <!-- 강의 전체 조회 -->
 <select id="classList" resultMap="ClassDto">
-SELECT CL_SEQ, CL_CONTENT, CL_TITLE, TEACHER, PRICE, STARTDAY, ENDDAY, ADDRESS, VALUE  
-	FROM CLASS LEFT OUTER JOIN LINKHASH USING(CL_SEQ) LEFT OUTER JOIN HASH USING(HASH_SEQ)
+SELECT CL_SEQ, CL_TITLE, CL_CONTENT, r.NAME AS TEACHER, PRICE, STARTDAY, ENDDAY, c.ADDRESS, VALUE  
+	FROM CLASS c LEFT OUTER JOIN LINKHASH USING(CL_SEQ) LEFT OUTER JOIN HASH USING(HASH_SEQ)
+		JOIN REGISTER r ON c.TEACHER = r.ID 
 	ORDER BY CL_SEQ DESC
 </select>
 
 <!-- 강의 상세 조회 -->
 <select id="classDetail" parameterType="java.lang.Integer" resultMap="ClassDto">
-SELECT CL_SEQ, CL_TITLE, CL_CONTENT, TEACHER, PRICE, STARTDAY, ENDDAY, TERM, ADDRESS, MAXMEMBER, VALUE  
-	FROM CLASS LEFT OUTER JOIN LINKHASH USING(CL_SEQ) LEFT OUTER JOIN HASH USING(HASH_SEQ)
+SELECT CL_SEQ, CL_TITLE, CL_CONTENT, r.NAME AS TEACHER, PRICE, STARTDAY, ENDDAY, TERM, c.ADDRESS, MAXMEMBER, VALUE  
+	FROM CLASS c LEFT OUTER JOIN LINKHASH USING(CL_SEQ) LEFT OUTER JOIN HASH USING(HASH_SEQ)
+		JOIN REGISTER r ON c.TEACHER = r.ID 
 	WHERE CL_SEQ=#{cl_seq}
 </select>
 

@@ -3,6 +3,7 @@ package com.code.dream;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,11 +29,21 @@ public class ClassController {
 	IClassService iClassService;
 	
 	@RequestMapping(value = "/board/classList", method = RequestMethod.GET)
-	public String classList(Model model) {
-		logger.info("[ClassController] classList 강의 전체 조회 페이지");
+	public String classList(Model model, String hash) {
+		logger.info("[ClassController] classList 강의 전체 조회 페이지 {}", hash);
 		
-		// ClassDto에 조회 결과값을 받아 Model에 넘겨줌 
-		List<ClassDto> cList = iClassService.classList();
+		// Hash 리스트를 받아서 Model로 넘겨줌
+		List<Map<Integer, String>> hList = iClassService.checkHash(null);
+		model.addAttribute("hList", hList);
+		
+		List<ClassDto> cList = null;
+		
+		if(hash == null) { // 아무 값도 검색하지 않았을 경우, 전체 조회
+			// ClassDto에 조회 결과값을 받아 Model에 넘겨줌 
+			cList = iClassService.classList();
+		} else {
+			cList = iClassService.hashedClassList(hash);
+		}
 		
 		model.addAttribute("cList",cList);
 		
