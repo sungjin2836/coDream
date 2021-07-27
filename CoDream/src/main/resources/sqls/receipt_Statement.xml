@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="receipt">
+
+	
+	<insert id="insertpayment" parameterType="receiptDto">
+		INSERT INTO PAYMENT
+			(PAY_SEQ, TID, PAYDATE)
+			VALUES((SELECT NVL(MAX(PAY_SEQ),0)+1 FROM PAYMENT), #{tid}, SYSDATE)
+	</insert>
+	
+	<insert id="insertReceipt" parameterType="receiptDto">
+		INSERT INTO RECEIPT
+(RE_SEQ, BUYER, PRODUCT_SEQ, PRICE, STATUS, PAY_SEQ)
+VALUES((SELECT NVL(MAX(RE_SEQ),0)+1 FROM RECEIPT), #{id}, #{product_seq}, #{price}, 'B', (SELECT NVL(MAX(PAY_SEQ),0) FROM PAYMENT))
+</insert>
+	
+	
+
+</mapper>

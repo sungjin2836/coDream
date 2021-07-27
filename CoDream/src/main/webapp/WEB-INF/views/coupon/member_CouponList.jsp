@@ -16,25 +16,25 @@
 <table class="table" id="order">
 	<tr>
 		<th>구매 상품명</th>
-		<td>CL_TITLE</td>
+		<td>${cdto.cl_title}</td>
 	</tr>
 	<tr>
 		<th>구매자명</th>
-		<td>ADMIN</td>
+		<td>${dto.id}</td>
 	</tr>
 	<tr>
 		<th>금액</th>
-		<td>20000</td>
+		<td>${cdto.price}</td>
 	</tr>
 </table>
 
 
 	<div class="dropdown" style="width: 900px; height: 50px; display: inline-block;">
-    <button style="width:700px; text-align:right;" class="btn btn-default dropdown-toggle" type="button" data-toggle="dropdown">20퍼할인쿠폰
+    <button style="width:700px; text-align:right;" class="btn btn-default dropdown-toggle" type="button" id="coupontagname" data-toggle="dropdown">20퍼할인쿠폰
     <span class="caret"></span></button>
 	    <ul style="width:700px; text-align:middle" class="dropdown-menu">
 	    <c:forEach var="c" items="${lists}">
-	    <li><a onclick="couponresult('${c.discount}','${c.status}')">쿠폰명 : ${c.couponname} /
+	    <li><a onclick="couponresult('${c.discount}','${c.status}','${c.couponname}')">쿠폰명 : ${c.couponname} /
 			
 			<c:if test="${c.status eq 'P'}">
 				할인율 : ${c.discount}% /
@@ -85,20 +85,31 @@
 	var status = document.getElementById("order").rows[2].cells[1].innerHTML;
 	console.log(price);
 	
-	function couponresult(coupon, status){
+	
+	
+	function couponresult(coupon, status, name){
 		console.log(status);
 		if(status == 'P'){
 			var result = price *(100 - coupon) / 100;
 //			alert(result);
 			var html = result;
+			$('#coupontagname').empty();
+			$('#coupontagname').append(name);			
 			$('h3').empty();
+			/* $('h3').append(price+" -> "+html); */
 			$('h3').append(html);
 		}else if(status == 'D'){
 			var result = price - coupon;
-	//		alert(result);
-			var html = result;
-			$('h3').empty();
-			$('h3').append(html);
+			if(result < 0){
+				alert('맞지 않는 쿠폰입니다.');
+			}else{
+				var html = result;
+				$('#coupontagname').empty();
+				$('#coupontagname').append(name);
+				$('h3').empty();
+				/* $('h3').append(price+" -> "+html); */
+				$('h3').append(html);
+			}
 		}
 	}
 	
