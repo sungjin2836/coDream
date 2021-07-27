@@ -16,23 +16,37 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.code.dream.classes.IClassService;
 import com.code.dream.coupon.ICouponService;
+import com.code.dream.dto.ClassDto;
 import com.code.dream.dto.CouponDto;
+import com.code.dream.dto.RegisterDto;
+import com.code.dream.security.UserSecurityDto;
 
 @Controller
 public class CouponController {
 
 	@Autowired
 	private ICouponService service;
+	
+	@Autowired
+	private IClassService cservice;
+	
+	private Logger logger = LoggerFactory.getLogger(this.getClass());
+	
 
 	@RequestMapping(value = "/coupon/insertpage", method = { RequestMethod.GET, RequestMethod.POST })
 	public String CouponPage() {
@@ -50,11 +64,16 @@ public class CouponController {
 	}
 	
 	@RequestMapping(value = "/coupon/memlist", method = { RequestMethod.GET, RequestMethod.POST })
-	public String MemCouponList(Model model) {
+	public String MemCouponList(Model model, Authentication authentication, int cl_seq) {
+		logger.info("[CouponController] 멤버 쿠폰 리스트 {}", cl_seq);
 		List<CouponDto> lists = service.MemCoupon();
-		
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		ClassDto cdto = cservice.classDetail(cl_seq);
+		RegisterDto dto = usDto.getDto();
+		model.addAttribute("dto", dto);
 		System.out.println(lists);
 		model.addAttribute("lists", lists);
+		model.addAttribute("cdto", cdto);
 		return "coupon/member_CouponList";
 	}
 
@@ -140,15 +159,74 @@ public class CouponController {
 			System.out.println("session 값"+str2);
 			System.out.println("-----------결제 시도-----------");
 //			return map;
-			return "{\"result\":\"NO\"}";
+//			return "{\"result\":\"NO\"}";
+			return str2;
 		}catch (MalformedURLException e) {
 			e.printStackTrace();
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
 		map.put("json", "{\"result\":\"NO\"}");
-//		return map;
-		return "{\"result\":\"NO\"}";
+		String str2 = (String)session.getAttribute("payinfo");
+		return str2;
+//		return "{\"result\":\"NO\"}";
+	}
+	
+	@RequestMapping(value = "/coupon/kakaoapprove", method = RequestMethod.GET)
+	@ResponseBody
+	public String kakaopayment(String pg_token, HttpSession session) {
+		Map<String,String> map = new HashMap<String, String>();
+		System.out.println("-----------승인 시작-----------");
+		try {
+			URL kakaourl = new URL("https://kapi.kakao.com/v1/payment/approve");
+			HttpURLConnection kakaoserver = (HttpURLConnection) kakaourl.openConnection();
+			String str2 = (String)session.getAttribute("payinfo");
+			JSONParser parser = new JSONParser();
+			try {
+				JSONObject jsonObj = (JSONObject) parser.parse(str2);
+				String tid = (String) jsonObj.get("tid");
+				System.out.println("session 값"+str2);
+				System.out.println("tid 값"+tid);
+			kakaoserver.setRequestMethod("POST");
+			kakaoserver.setRequestProperty("Authorization", "KakaoAK da2e0e25242d6645fdabd978c6a02c92");
+			kakaoserver.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			kakaoserver.setDoOutput(true);
+			String param = "cid=TC0ONETIME&tid="+tid+"&partner_order_id=partner_order_id&partner_user_id=partner_user_id&pg_token="+ pg_token;
+			OutputStream outst = kakaoserver.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(outst);
+			dataout.writeBytes(param);
+			dataout.close();
+			
+			int resultcode = kakaoserver.getResponseCode(); 
+			
+			InputStream inst;
+			if(resultcode == 200) {
+				inst = kakaoserver.getInputStream();
+			}else {
+				inst = kakaoserver.getErrorStream();
+			}
+			InputStreamReader readst = new InputStreamReader(inst);
+			BufferedReader br = new BufferedReader(readst);
+			String str = br.readLine();
+			System.out.println(str);
+			session.removeAttribute("payinfo");
+			session.setAttribute("payinfo", str);
+			String str3 = (String)session.getAttribute("payinfo");
+			System.out.println("결제 성공 정보"+str3);
+			System.out.println("-----------결제 승인 완료-----------");
+			map.put("json", str);
+			return str3;
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
+		}catch (MalformedURLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		map.put("json", "{\"result\":\"NO\"}");
+		String str3 = (String)session.getAttribute("payinfo");
+		return str3;
 	}
 	
 }
