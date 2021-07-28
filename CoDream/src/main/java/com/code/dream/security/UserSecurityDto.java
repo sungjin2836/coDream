@@ -97,8 +97,8 @@ public class UserSecurityDto implements UserDetails {
 	@Override
 	// 계정이 활성화 되었는가?
 	public boolean isEnabled() {
-
-		return true;
+		
+		return this.dto.getDelflag().equalsIgnoreCase("N");
 	}
 
 	public String getService() {

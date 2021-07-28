@@ -40,8 +40,8 @@
 	</insert>
 	
 	<select id="login" parameterType="java.util.Map" resultType="RegisterDto">
-		SELECT ID, NAME, PASSWORD, PHONE, EMAIL, ADDRESS, RESUME, REGDATE
-			FROM REGISTER WHERE ID = #{id} AND DELFLAG = 'N'
+		SELECT ID, NAME, PASSWORD, PHONE, EMAIL, ADDRESS, RESUME, REGDATE, DELFLAG
+			FROM REGISTER WHERE ID = #{id}
 	</select>
 	
 	<select id="idDuplicateCheck" parameterType="java.lang.String" resultType="java.lang.Integer">

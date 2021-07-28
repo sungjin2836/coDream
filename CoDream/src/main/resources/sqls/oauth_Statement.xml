@@ -15,7 +15,7 @@
 	</select>
 	
 	<select id="emailOAuth" parameterType="java.lang.String" resultType="java.lang.String">
-		SELECT ID FROM REGISTER WHERE EMAIL = #{email} AND DELFLAG='N'
+		SELECT ID FROM REGISTER WHERE EMAIL = #{email}
 	</select>
 	
 	<insert id="registOAuth" parameterType="java.util.Map">
@@ -27,9 +27,9 @@
 	</update>
 	
 	<select id="loginOAuth" parameterType="java.util.Map" resultType="RegisterDto">
-		SELECT r.ID, NAME, PASSWORD, PHONE, EMAIL, ADDRESS, RESUME, REGDATE, ADRECIEVE
+		SELECT r.ID, NAME, PASSWORD, PHONE, EMAIL, ADDRESS, RESUME, REGDATE, ADRECIEVE, DELFLAG
 			FROM REGISTER r JOIN OAUTH o ON r.ID = o.ID
-			WHERE r.ID = #{id} AND DELFLAG = 'N' AND ${service} = #{oauth}
+			WHERE r.ID = #{id} AND ${service} = #{oauth}
 	</select>
 	
 </mapper>
