@@ -13,6 +13,9 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
+<%
+String pg_token = request.getParameter("pg_token");
+%>
 
 <div class="container">
 	<table class="table">
@@ -58,8 +61,25 @@ function giveCoupon(seq){
 			location.href = "./memlist";
 		}
 	})
-	
 }
+window.onload = function(){
+	$.ajax({
+		url:'./kakaoapprove',
+		method: 'GET',
+		headers: headers,
+		data: "pg_token=<%=pg_token%>",
+		success:function(data){
+			console.log("성공");
+			console.log(data);
+			
+		}, 
+		error:function(error){
+			console.log(error);
+		}
+	})
+}
+	
+
 
 </script>
 
