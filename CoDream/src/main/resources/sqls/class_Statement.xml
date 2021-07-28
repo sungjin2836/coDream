@@ -105,4 +105,21 @@ SELECT ID, EMAIL
         WHERE ADRECIEVE = 'Y'
 </select>
 
+<!-- 유사 과목 가격 비교 -->
+<!-- 넣을 때, "hashList":List<String> 형식으로 넣는다 - List에는 hash의 value가 들어가야 함 -->
+<select id="cheapestClass" parameterType="java.util.Map" resultType="ClassDto">
+SELECT CL_SEQ, CL_TITLE, PRICE
+FROM (SELECT CL_SEQ, CL_TITLE, PRICE, ROW_NUMBER() OVER(ORDER BY PRICE) AS RN
+		FROM CLASS c 
+		WHERE EXISTS (SELECT 1
+						FROM CLASS JOIN LINKHASH l USING(CL_SEQ) JOIN HASH USING(HASH_SEQ)
+						WHERE VALUE IN
+						 <foreach item="hash" index="index" collection="hashList" open="(" close=")" separator=",">
+					            #{hash}
+					    </foreach>
+						)
+		ORDER BY RN)
+<![CDATA[WHERE RN < 5]]>
+</select>
+
 </mapper>
