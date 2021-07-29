@@ -87,4 +87,10 @@ public class ClassDaoImpl implements IClassDao{
 		return session.selectList(NS+"emailList");
 	}
 
+	@Override
+	public List<ClassDto> cheapestClass(Map<String, String[]> map) {
+		logger.info("[ClassDaoImpl] cheapestClass 해시 최저가 강의 조회");
+		return session.selectList(NS+"cheapestClass", map);
+	}
+
 }

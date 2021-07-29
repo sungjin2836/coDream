@@ -128,4 +128,12 @@ public class ClassServiceImpl implements IClassService {
 		logger.info("[ClassServiceImpl] checkHash 해시 조회");
 		return dao.checkHash(value);
 	}
+
+	@Override
+	public List<ClassDto> cheapestClass(Map<String, String[]> map) {
+		logger.info("[ClassServiceImpl] cheapestClass 해시 최저가 강의 조회");
+		return dao.cheapestClass(map);
+	}
+	
+	
 }

@@ -12,7 +12,7 @@
 
 
 <div class="container">
-	<h2><a href="./classList">전체 개설 강의</a></h2>
+	<h2><a href="./classList">개설 강의</a></h2>
 	<c:forEach var="h" begin="0" end="10" step="1" items="${hList}">
 	<button class="btn" onclick="location.href='/board/classList?hash='+'${h.value}'">#${h.value}</button>
 	</c:forEach>
