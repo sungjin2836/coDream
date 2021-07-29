@@ -11,7 +11,6 @@
 <body>
 <%@include file="../header.jsp"%>
 <div class="container">
-${cDto}
 	<div>
 		<h2>${cDto.cl_title}</h2>
 		<c:forEach var="hash" items="${cDto.hashList}">
@@ -74,13 +73,23 @@ ${cDto}
 		<p>${cDto.address}</p>
 		<div id="map" style="width: 400px; height: 300px;"></div>
 	</div>
-	
+
 	<div>
 		<h3>수강료 비교</h3>
-		<p>유사한 강의의 수강료입니다.</p>
-		<div id="chart_div" style="width:500px; height:250px;"></div>
+		<c:choose>
+		<c:when test="${not empty pList}">
+			<p>유사한 강의의 수강료입니다.</p>
+			<div id="chart_div" style="width: 800px; height: 400px;"></div>
+		</c:when>
+		<c:otherwise>
+			<p>같은 해시태그의 강의가 존재하지 않습니다.</p>
+			<div id="chart_div" style="display:none;"></div>
+		</c:otherwise>
+		</c:choose>
 	</div>
 	
+	<button class="btn btn-success" onclick="location.href='./classList'">강의 목록</button>
+
 </div>
 </body>
 <script>
@@ -170,20 +179,17 @@ function googleChart() {
 
 //차트를 그림 : 강의명은 AJAX로 조회 및 현재 강의 이름을 불러와서 사용한다
 function drawChart() {
+	
 	var data = google.visualization.arrayToDataTable([
-	['강의명', '가격'],
-	['빅데이터UI구현'.substr(0,4)+'...', 200000],
-	['응용SW기반프로그래밍'.substr(0,4)+'...', 180000],
-	['기초부터 시작하는 C#'.substr(0,4)+'...', 250000],
-	['모바일 웹&앱 제작'.substr(0,4)+'...', 15000]
+		['강의명', '수강료'],
+		['${cDto.cl_title}', parseInt('${cDto.price}')]
 	]);
+	
+	<c:forEach items="${pList}" var="pDto">
+		data.addRow(['${pDto.cl_title}'.substr(0,8)+'...', parseInt('${pDto.price}')]);
+	</c:forEach>
 
-	var options = {
-		chart: {
-			title: '가격 비교',
-			subtitle: '같은 해시태그의 강의 비교',
-		}
-	 };
+	var options = {};
 
 	var chart = new google.charts.Bar(document.getElementById('chart_div'));
 	chart.draw(data, google.charts.Bar.convertOptions(options));

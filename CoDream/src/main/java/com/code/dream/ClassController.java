@@ -2,6 +2,7 @@ package com.code.dream;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -108,9 +109,29 @@ public class ClassController {
 	public String classDetail(Model model, int cl_seq) {
 		logger.info("[ClassController] classDetail 강의 상세조회");
 		ClassDto cdto = iClassService.classDetail(cl_seq);
-		
 		if(cdto != null) {
 			model.addAttribute("cDto", cdto);
+			List<Map<Integer, String>> hashMaps = cdto.getHashList(); // 해시
+
+			if (hashMaps.size() != 0) { // hashMaps의 사이즈가 0이 아닐 경우
+				String[] hashList = new String[cdto.getHashList().size()]; // 해시 내용만 받을 배열
+
+				// List<Map<Integer, String>> 형식의 HashList를 풀어서 Value만 넣어야 함
+				for (int i = 0; i < hashMaps.size(); i++) {
+					hashList[i] = (hashMaps.get(i)).get("value"); // value만 뽑는다
+				}
+
+				logger.info("[ClassController] classDetail 해시리스트 : {}", hashList);
+
+				Map<String, String[]> hmap = new HashMap<String, String[]>(); // dao로 보낼 해시맵
+				hmap.put("hashList", hashList);
+
+				// service 실행
+				List<ClassDto> pList = iClassService.cheapestClass(hmap);
+				logger.info("[ClassController] classDetail 가격비교 리스트 : {}", pList);
+				model.addAttribute("pList", pList); // 가격 비교 강의 리스트 전송(cl_seq, cl_ttile, price)
+			}
+			
 			return "/board/classDetail";
 		} else {
 			return "redirect:/board/classList";

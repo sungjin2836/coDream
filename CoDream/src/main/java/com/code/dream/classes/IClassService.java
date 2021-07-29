@@ -38,4 +38,7 @@ public interface IClassService {
 	
 	// 알림서비스 대상 조회
 	public List<RegisterDto> emailList();
+	
+	// 같은 해시태그의 저렴한 강의
+	public List<ClassDto> cheapestClass(Map<String, String[]> map);
 }
