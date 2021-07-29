@@ -6,6 +6,8 @@
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+<script type="text/javascript" src="http://dapi.kakao.com/v2/maps/sdk.js?appkey=87bd052bea45d46f442aeb837542ff12&libraries=services,clusterer"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 <body>
 <%@include file="../header.jsp"%>
 <div class="container">
@@ -66,13 +68,33 @@ ${cDto}
 			</tr>
 		</tbody>
 	</table>
+	
+	<div>
+		<h3>강의장 위치</h3>
+		<p>${cDto.address}</p>
+		<div id="map" style="width: 400px; height: 300px;"></div>
+	</div>
+	
+	<div>
+		<h3>수강료 비교</h3>
+		<p>유사한 강의의 수강료입니다.</p>
+		<div id="chart_div" style="width:500px; height:250px;"></div>
+	</div>
+	
 </div>
 </body>
 <script>
 //
 window.onload = function() {
-	console.log("타임테이블 작성");
+	
+	// 시간표 작성
 	timetable('${cDto.term}');
+	
+	// 강의장 지도 작성
+	openmap('${cDto.cl_title}','${cDto.address}');
+	
+	// 강의 가격 비교 차트
+	googleChart();
 }
 
 function timetable(term) {
@@ -81,13 +103,90 @@ function timetable(term) {
 	var endtimes = document.getElementById("endtime").children;
 
 	var days = ["일", "월", "화", "수", "목", "금", "토"];
-	
-	// json 먼저 정렬하고 시작
-	
-	for(var i = 1; i < starttimes.length; i ++) {
-		starttimes[i].textContent = term.days[i-1];
-		endtimes[i].textContent = days[i-1];
+
+	for(var i = 0; i < days.length; i ++) {
+		var starttime = term[days[i]]['시작시간'];
+		var endtime = term[days[i]]['종료시간'];
+		starttimes[i+1].textContent = (starttime == '')?'-':starttime;
+		endtimes[i+1].textContent = (endtime == '')?'-':endtime;;
 	}
+}
+
+function openmap(cl_title, address) {
+	console.log(cl_title);
+	console.log(address);
+	
+	var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+	mapOption = {
+		center : new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+		level : 3
+		// 지도의 확대 레벨
+	};
+
+	// 지도를 생성합니다    
+	var map = new kakao.maps.Map(mapContainer, mapOption);
+
+	// 주소-좌표 변환 객체를 생성합니다
+	var geocoder = new kakao.maps.services.Geocoder();
+
+	// 주소로 좌표를 검색합니다
+	geocoder.addressSearch(address,
+			function(result, status) {
+
+			// 정상적으로 검색이 완료됐으면 
+			if (status === kakao.maps.services.Status.OK) {
+	
+				var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+				// 결과값으로 받은 위치를 마커로 표시합니다
+				var marker = new kakao.maps.Marker({
+					map : map,
+					position : coords
+				});
+	
+				// 인포윈도우로 장소에 대한 설명을 표시합니다
+				var infowindow = new kakao.maps.InfoWindow(
+				{
+					content : '<div style="width:150px;text-align:center;padding:6px 0;">'+cl_title+'</div>'
+				});
+					
+				infowindow.open(map, marker);
+	
+				// 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+					map.setCenter(coords);
+				}
+			});
+}
+
+function googleChart() {
+	// 구글 chart
+	// Load the AJAX API
+	// 구글 차트 API 로드 : bar 형태로
+	google.charts.load('current', {'packages':['bar']});
+
+	// 차트 그리기 실행
+	google.charts.setOnLoadCallback(drawChart);
+}
+
+//차트를 그림 : 강의명은 AJAX로 조회 및 현재 강의 이름을 불러와서 사용한다
+function drawChart() {
+	var data = google.visualization.arrayToDataTable([
+	['강의명', '가격'],
+	['빅데이터UI구현'.substr(0,4)+'...', 200000],
+	['응용SW기반프로그래밍'.substr(0,4)+'...', 180000],
+	['기초부터 시작하는 C#'.substr(0,4)+'...', 250000],
+	['모바일 웹&앱 제작'.substr(0,4)+'...', 15000]
+	]);
+
+	var options = {
+		chart: {
+			title: '가격 비교',
+			subtitle: '같은 해시태그의 강의 비교',
+		}
+	 };
+
+	var chart = new google.charts.Bar(document.getElementById('chart_div'));
+	chart.draw(data, google.charts.Bar.convertOptions(options));
 }
 </script>
 </html>
