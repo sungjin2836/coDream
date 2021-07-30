@@ -106,12 +106,6 @@ public class ClassServiceImpl implements IClassService {
 	}
 
 	@Override
-	public boolean insertStudent(StudentDto dto) {
-		logger.info("[ClassServiceImpl] insertStudent 수강신청 {}", dto);
-		return dao.insertStudent(dto);
-	}
-
-	@Override
 	public List<RegisterDto> emailList() {
 		logger.info("[ClassServiceImpl] emailList 수신동의 리스트 조회");
 		return dao.emailList();
@@ -133,6 +127,18 @@ public class ClassServiceImpl implements IClassService {
 	public List<ClassDto> cheapestClass(Map<String, String[]> map) {
 		logger.info("[ClassServiceImpl] cheapestClass 해시 최저가 강의 조회");
 		return dao.cheapestClass(map);
+	}
+
+	@Override
+	public List<ClassDto> newestClass() {
+		logger.info("[ClassDaoImpl] newestClass 최근 개설 강의 조회");
+		return dao.newestClass();
+	}
+
+	@Override
+	public List<ClassDto> deadlineClass() {
+		logger.info("[ClassDaoImpl] deadlineClass 개강 임박 강의 조회");
+		return dao.deadlineClass();
 	}
 	
 	

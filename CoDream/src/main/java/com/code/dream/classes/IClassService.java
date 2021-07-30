@@ -33,12 +33,15 @@ public interface IClassService {
 	// 강의 상세 조회
 	public ClassDto classDetail(int cl_seq);
 	
-	// 수강 신청
-	public boolean insertStudent(StudentDto dto);
-	
 	// 알림서비스 대상 조회
 	public List<RegisterDto> emailList();
 	
 	// 같은 해시태그의 저렴한 강의
 	public List<ClassDto> cheapestClass(Map<String, String[]> map);
+	
+	// 최근 개설 강의 검색
+	public List<ClassDto> newestClass();
+	
+	// 개강 임박 강의 검색
+	public List<ClassDto> deadlineClass();
 }

@@ -92,12 +92,6 @@ SELECT CL_SEQ, CL_TITLE, CL_CONTENT, r.NAME AS TEACHER, PRICE, STARTDAY, ENDDAY,
 	WHERE CL_SEQ=#{cl_seq}
 </select>
 
-<!-- 수강 신청 -->
-<insert id="insertStudent" parameterType="StudentDto">
-INSERT INTO STUDENT (STUDENT, CL_SEQ, REGDATE, VISIT, STATUS)
-VALUES(#{student}, #{cl_seq}, SYSDATE, #{visit}, #{status})
-</insert>
-
 <!-- 알림 서비스 대상 조회 -->
 <select id="emailList" resultType="RegisterDto">
 SELECT ID, EMAIL
@@ -122,4 +116,25 @@ FROM (SELECT CL_SEQ, CL_TITLE, PRICE, ROW_NUMBER() OVER(ORDER BY PRICE) AS RN
 <![CDATA[WHERE RN < 5]]>
 </select>
 
+<!-- 최근 강의 검색 -->
+<select id="newestClass" resultType="ClassDto">
+SELECT CL_SEQ, CL_TITLE, TEACHER, PRICE
+FROM (
+	SELECT CL_SEQ, CL_TITLE, TEACHER, PRICE, ROWNUM
+	FROM CLASS
+	<![CDATA[WHERE STARTDAY > SYSDATE]]>
+	ORDER BY CL_SEQ DESC)
+<![CDATA[WHERE ROWNUM <= 5]]>
+</select>
+
+<!-- 개강 임박 강의 검색 -->
+<select id="deadlineClass" resultType="ClassDto">
+SELECT CL_SEQ, CL_TITLE, TEACHER, STARTDAY, PRICE
+FROM (
+	SELECT CL_SEQ, CL_TITLE, TEACHER, PRICE, STARTDAY, ROWNUM
+	FROM CLASS
+	<![CDATA[WHERE STARTDAY > SYSDATE AND STARTDAY < SYSDATE + 7]]>
+	ORDER BY STARTDAY DESC)
+<![CDATA[WHERE ROWNUM <= 5]]>
+</select>
 </mapper>

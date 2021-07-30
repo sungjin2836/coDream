@@ -75,13 +75,6 @@ public class ClassDaoImpl implements IClassDao{
 	}
 
 	@Override
-	public boolean insertStudent(StudentDto dto) {
-		logger.info("[ClassDaoImpl] insertStudent 수강신청 {}", dto);
-		int n = session.insert(NS+"insertStudent", dto);
-		return (n>0)?true:false;
-	}
-
-	@Override
 	public List<RegisterDto> emailList() {
 		logger.info("[ClassDaoImpl] emailList 수신동의 리스트 조회");
 		return session.selectList(NS+"emailList");
@@ -91,6 +84,18 @@ public class ClassDaoImpl implements IClassDao{
 	public List<ClassDto> cheapestClass(Map<String, String[]> map) {
 		logger.info("[ClassDaoImpl] cheapestClass 해시 최저가 강의 조회");
 		return session.selectList(NS+"cheapestClass", map);
+	}
+
+	@Override
+	public List<ClassDto> newestClass() {
+		logger.info("[ClassDaoImpl] newestClass 최근 개설 강의 조회");
+		return session.selectList(NS+"newestClass");
+	}
+
+	@Override
+	public List<ClassDto> deadlineClass() {
+		logger.info("[ClassDaoImpl] deadlineClass 개강 임박 강의 조회");
+		return session.selectList(NS+"deadlineClass");
 	}
 
 }

@@ -11,6 +11,7 @@
 <body>
 <%@include file="../header.jsp"%>
 <div class="container">
+	<h2><a href="./classList">강의 상세</a></h2>
 	<div>
 		<h2>${cDto.cl_title}</h2>
 		<c:forEach var="hash" items="${cDto.hashList}">
@@ -189,7 +190,9 @@ function drawChart() {
 		data.addRow(['${pDto.cl_title}'.substr(0,8)+'...', parseInt('${pDto.price}')]);
 	</c:forEach>
 
-	var options = {};
+	var options = {
+		  colors: ['#aaaaf6']
+	};
 
 	var chart = new google.charts.Bar(document.getElementById('chart_div'));
 	chart.draw(data, google.charts.Bar.convertOptions(options));
