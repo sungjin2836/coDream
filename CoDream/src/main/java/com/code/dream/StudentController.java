@@ -21,17 +21,8 @@ public class StudentController {
 	@Autowired
 	IStudentService iStudentService;
 	
-	@RequestMapping(value = "/class/classMain", method = RequestMethod.POST)
-	public String checkStudent(Authentication authentication, int cl_seq) {
-		logger.info("[ClassController] classMain");
-		
-		// 학생 아이디를 조회하여 학생이 해당 강의에 실등록한 학생인지 확인한다
-		
-		return "/board/classMain";
-	}
-	
 	@RequestMapping(value = "/class/studentTest", method = RequestMethod.GET)
-	public String insertStudent(Authentication authentication, int cl_seq) {
+	public String studentTest(Authentication authentication, int cl_seq) {
 		logger.info("[ClassController] classMain");
 		
 		StudentDto sDto = new StudentDto();
@@ -51,5 +42,15 @@ public class StudentController {
 		
 		return isc?"/class/classMain":"redirect:/";
 	}
+	
+	@RequestMapping(value = "/class/classMain", method = RequestMethod.POST)
+	public String checkStudent(Authentication authentication, int cl_seq) {
+		logger.info("[ClassController] classMain");
+		
+		// 학생 아이디를 조회하여 학생이 해당 강의에 실등록한 학생인지 확인한다
+		
+		return "/board/classMain";
+	}
+	
 	
 }
