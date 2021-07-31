@@ -9,8 +9,6 @@
 <body>
 
 <%@include file="../header.jsp"%>
-
-
 <div class="container">
 	<h2><a href="./classList">개설 강의</a></h2>
 	<c:forEach var="h" begin="0" end="10" step="1" items="${hList}">

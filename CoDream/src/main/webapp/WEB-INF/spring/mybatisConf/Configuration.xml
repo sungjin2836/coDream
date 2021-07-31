@@ -11,6 +11,7 @@
 	<typeAlias type="com.code.dream.dto.RegteacherDto" alias="RegteacherDto"/>
 	<typeAlias type="com.code.dream.dto.QaDto" alias="QaDto"/>
 	<typeAlias type="com.code.dream.dto.ReceiptDto" alias="ReceiptDto"/>
+	<typeAlias type="com.code.dream.dto.StudentDto" alias="StudentDto"/>
 </typeAliases>
 
 <mappers>
@@ -22,6 +23,7 @@
 	<mapper resource="sqls/regteacher_Statement.xml"/>
 	<mapper resource="sqls/qa_Statement.xml"/>
 	<mapper resource="sqls/receipt_Statement.xml"/>
+	<mapper resource="sqls/student_Statement.xml"/>
 </mappers>
 
 </configuration>

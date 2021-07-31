@@ -13,16 +13,12 @@
 <head>
 <sec:csrfMetaTags />
 <meta charset="UTF-8">
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-<link rel="stylesheet"
-	href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-<script type="text/javascript"
-	src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.css">
+<link rel="stylesheet" href="/css/header.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/1.1.3/sweetalert.min.js"></script>
 <script type="text/javascript">
 	var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
 	var csrfToken = $("meta[name='_csrf']").attr("content");
@@ -37,7 +33,7 @@
 		async: true,
 		success: function(msg) {
 			if (msg != null) {
-				$('#userName').html(msg+"님 환영합니다.");
+				$('#userName').html(msg+"님");
 			} else {
 				
 			}
@@ -50,30 +46,36 @@
 </head>
 <header>
 <div>
-	<h1 style="display: inline">
-		<a href="/">로고</a>
-		<sec:authorize access="hasRole('ROLE_ADMIN')">
-		  <button class="btn btn-danger" onclick="location.href='/admin/memberList'">관리자 페이지</button>
-		  <button class="btn btn-danger" onclick="location.href='/regteacherList'">강사등록리스트</button>
-		</sec:authorize>
-	</h1>
 	<%-- <c:if test="${requestScope.loginFailMsg ne null }">
 		<div style="display: inline; float:right; margin : 8px;">
 			<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>
 			<button class="btn btn-primary" onclick="location.href='/member/agree'">Sign up</button>
 		</div>
 	</c:if> --%>
-	<sec:authorize access="isAnonymous()">
-		<div style="display: inline; float:right; margin : 8px;">
-			<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>
-			<button class="btn btn-primary" onclick="location.href='/member/agree'">Sign up</button>
-		</div>
-	</sec:authorize>
+	<div style="display: inline; margin : 8px;">
+	<a href="/"><img alt="logo" src="/images/codream.jpg" style="width:120px;height:62px;"></a>
+		<button class="btn btn-default" onclick="location.href='/board/classList'">강의</button>
+		<button class="btn btn-default" onclick="location.href='#'">마이페이지</button>
+		<button class="btn btn-default" onclick="location.href='#'">고객센터</button>
+		<sec:authorize access="hasRole('ROLE_ADMIN')">
+		  <button class="btn btn-default" onclick="location.href='/admin/memberList'">관리자 페이지</button>
+		  <button class="btn btn-default" onclick="location.href='/regteacherList'">강사등록리스트</button>
+		</sec:authorize>
+	</div>
+
+	<div style="display: inline; float:right; margin : 8px;">
+		<sec:authorize access="isAnonymous()">
+				<button class="btn" onclick="location.href='/member/login'">로그인</button>
+				<button class="btn" onclick="location.href='/member/agree'">회원가입</button>
+		</sec:authorize>
+	</div>
+	
 	<sec:authorize access="isAuthenticated()">
 		<div style="display: inline; float:right; margin : 8px; color : white;">
 			<div style="display: inline; color:black;" id = "userName"></div>
-			<button class="btn btn-info" onclick="location.href='/myInfo'">내 정보</button>
-			<button class="btn btn-danger" onclick="location.href='/logout'">로그아웃</button>
+			<button class="btn btn-default" onclick="location.href='#'">내 강의</button>
+			<button class="btn btn-default" onclick="location.href='/myInfo'">내 정보</button>
+			<button class="btn btn-default" onclick="location.href='/logout'">로그아웃</button>
 		</div>
 	</sec:authorize>
 	
