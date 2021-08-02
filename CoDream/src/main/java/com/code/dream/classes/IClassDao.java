@@ -44,5 +44,8 @@ public interface IClassDao {
 	
 	// 개강 임박 강의 검색
 	public List<ClassDto> deadlineClass();
+
+	// 강사 확인
+	boolean checkTeacher(Map<String, String> map);
 	
 }
