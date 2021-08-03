@@ -4,12 +4,21 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>회원 조회</title>
+<title>강사 신청자 조회</title>
 </head>
 <body>
 	<%@include file="../header.jsp"%>
 	<div class="container">
-		<h2>회원 정보 보기</h2>
+	
+	<div style="width:300px;display:inline;float:left;">
+	<h3><a href="/admin/memberList">관리자 게시판</a></h3>
+		<ul>
+			<li><a href="/admin/memberList">회원 관리</a></li>
+			<li><a href="/admin/regteacherList">강사 신청 대기</a></li>
+		</ul>
+	</div>
+	<div style="width:800px;display:inline;float:right;">
+		<h2><a href="/admin/regteacherList">강사 신청 대기</a></h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr>
@@ -26,11 +35,12 @@
 				</c:forEach>
 				<tr>
 					<td colspan="3">
-						<button onclick="location.href='/regteacherForm'">강사 신청</button>
+						<button class="btn" onclick="location.href='/regteacherForm'">강사 신청</button>
 					</td>
 				</tr>
 			</tbody>
 		</table>
+		</div>
 	</div>
 </body>
 </html>

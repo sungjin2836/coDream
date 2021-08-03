@@ -7,7 +7,7 @@
 <body>
 <%@include file="./header.jsp" %>
 
-<div><img alt="광고용 슬라이드" src=""/></div>
+<!-- <div><img alt="광고용 슬라이드" src="/images/banner.PNG" style="margin:auto;"/></div> -->
 <div class="container">
 	<div>
 		<h3>신규 개설 강의</h3>

@@ -8,50 +8,52 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
-<form action="/regteacher" method="POST" id="uploadForm">
-	<sec:csrfInput/>
-	<input type="hidden" name="file_gid" id="file_gid">
-	<table>
-		<tr>
-			<th>
-				작성자
-			</th>
-			<td>
-				${dto.name}
-			</td>
-		</tr>
-		<tr>
-			<th>
-				제목
-			</th>
-			<td>
-				<input type="text" name="te_title" required="required"/>
-			</td>
-		</tr>
-		<tr>
-			<th>
-				내용
-			</th>
-			<td>
-				<textarea rows="10" cols="20" name="te_content"></textarea>
-			</td>
-		</tr>
-		<tr>
-			<th>
-				첨부파일
-			</th>
-			<td>
-				<input type="file" multiple="multiple" id="files"/>
-			</td>
-		</tr>
-		<tr>
-			<td colspan="2">
-				<button id='btnUpload'>확인</button>
-			</td>
-		</tr>
-	</table>
-    
-</form>
+<div class="container">
+	<form action="/regteacher" method="POST" id="uploadForm">
+		<sec:csrfInput/>
+		<input type="hidden" name="file_gid" id="file_gid">
+		<table class="table">
+			<tr>
+				<th>
+					작성자
+				</th>
+				<td>
+					${dto.name}
+				</td>
+			</tr>
+			<tr>
+				<th>
+					제목
+				</th>
+				<td>
+					<input class="form-control" type="text" name="te_title" required="required"/>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					내용
+				</th>
+				<td>
+					<textarea class="form-control" rows="10" cols="20" name="te_content" style="resize:vertical;"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<th>
+					첨부파일
+				</th>
+				<td>
+					<input type="file" multiple="multiple" id="files"/>
+				</td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<button class="btn" id='btnUpload'>확인</button>
+				</td>
+			</tr>
+		</table>
+	    
+	</form>
+</div>
 </body>
 
 <script type="text/javascript">
