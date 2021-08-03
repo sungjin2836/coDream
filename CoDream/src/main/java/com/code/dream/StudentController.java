@@ -1,13 +1,19 @@
 package com.code.dream;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.code.dream.classes.IClassService;
+import com.code.dream.dto.ClassDto;
 import com.code.dream.dto.RegisterDto;
 import com.code.dream.dto.StudentDto;
 import com.code.dream.security.UserSecurityDto;
@@ -20,6 +26,9 @@ public class StudentController {
 	
 	@Autowired
 	IStudentService iStudentService;
+	
+	@Autowired
+	IClassService iClassService;
 	
 	@RequestMapping(value = "/class/studentTest", method = RequestMethod.GET)
 	public String studentTest(Authentication authentication, int cl_seq) {
@@ -43,14 +52,39 @@ public class StudentController {
 		return isc?"/class/classMain":"redirect:/";
 	}
 	
-	@RequestMapping(value = "/class/classMain", method = RequestMethod.POST)
-	public String checkStudent(Authentication authentication, int cl_seq) {
+	@RequestMapping(value = "/class/classMain", method = RequestMethod.GET)
+	public String classMain(Authentication authentication, int cl_seq, Model model) {
 		logger.info("[ClassController] classMain");
 		
-		// 학생 아이디를 조회하여 학생이 해당 강의에 실등록한 학생인지 확인한다
+		Map<String, String> map = new HashMap<String, String>();
 		
-		return "/board/classMain";
+		// 학생 아이디(로그인한 사람의 아이디)와 강의 번호를 받아서
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto rdto = usDto.getDto();
+		String id = rdto.getId();
+		
+		map.put("id", id);
+		map.put("cl_seq", String.valueOf(cl_seq));
+		
+		// 강의에 실제로 등록한 사람인가? 혹은, 해당 강의의 강사인가?
+		boolean isc = iStudentService.checkStudent(map)||iClassService.checkTeacher(map);
+		
+		if(isc) { // 만약, 해당 강의에 등록한 학생이라면
+			// 강의에 대한 데이터를 받아와서 화면에 뿌려줌	
+			ClassDto cDto = iClassService.classDetail(cl_seq); // 강의 정보를 가져옴		
+			model.addAttribute("cDto", cDto); // 강의 번호
+			
+			// 강의자료와 필기자료 조회
+			model.addAttribute("dList",iStudentService.recentDocList(cl_seq));
+			model.addAttribute("mList",iStudentService.recentMemoList(cl_seq));
+			
+			return "/class/classMain";
+		} else { // 아니라면, 잘못된 접근으로 처리함
+			return "redirect:/";
+		}
 	}
+	
+	
 	
 	
 }

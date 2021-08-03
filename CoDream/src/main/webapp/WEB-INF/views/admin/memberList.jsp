@@ -9,7 +9,16 @@
 <body>
 	<%@include file="../header.jsp"%>
 	<div class="container">
-		<h2>회원 정보 보기</h2>
+	<div style="width:300px;display:inline;float:left;">
+		<h3><a href="/admin/memberList">관리자 게시판</a></h3>
+		<ul>
+			<li><a href="/admin/memberList">회원 관리</a></li>
+			<li><a href="/admin/regteacherList">강사 신청 대기</a></li>
+		</ul>
+	</div>
+	
+	<div style="width:800px;display:inline;float:right;">
+		<h2><a href="/admin/memberList">회원 정보 보기</a></h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr>
@@ -58,6 +67,7 @@
 				</c:forEach>
 			</tbody>
 		</table>
+		</div>
 	</div>
 </body>
 <script type="text/javascript">

@@ -30,7 +30,7 @@ public class AdminController {
 //		return "admin/myInfo";
 //	}
 	
-	@RequestMapping(value="memberList", method=RequestMethod.GET)
+	@RequestMapping(value="/admin/memberList", method=RequestMethod.GET)
 	public String memberList(Model model) {
 		List<UserSecurityDto> list = service.selectUserList();
 		

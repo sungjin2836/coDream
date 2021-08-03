@@ -131,14 +131,20 @@ public class ClassServiceImpl implements IClassService {
 
 	@Override
 	public List<ClassDto> newestClass() {
-		logger.info("[ClassDaoImpl] newestClass 최근 개설 강의 조회");
+		logger.info("[ClassServiceImpl] newestClass 최근 개설 강의 조회");
 		return dao.newestClass();
 	}
 
 	@Override
 	public List<ClassDto> deadlineClass() {
-		logger.info("[ClassDaoImpl] deadlineClass 개강 임박 강의 조회");
+		logger.info("[ClassServiceImpl] deadlineClass 개강 임박 강의 조회");
 		return dao.deadlineClass();
+	}
+
+	@Override
+	public boolean checkTeacher(Map<String, String> map) {
+		logger.info("[ClassServiceImpl] checkTeacher 강사 확인 {}", map);
+		return dao.checkTeacher(map);
 	}
 	
 	

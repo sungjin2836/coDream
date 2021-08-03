@@ -137,4 +137,12 @@ FROM (
 	ORDER BY STARTDAY DESC)
 <![CDATA[WHERE ROWNUM <= 5]]>
 </select>
+
+<!-- 강사 본인 확인 -->
+<select id="checkTeacher" parameterType="java.util.Map" resultType="ClassDto">
+SELECT CL_SEQ
+	FROM CLASS
+	WHERE CL_SEQ = #{cl_seq} AND TEACHER = #{id}
+</select>
+
 </mapper>

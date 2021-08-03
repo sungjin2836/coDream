@@ -62,14 +62,14 @@ public class HomeController {
 		RegisterDto rdto = usDto.getDto();
 		dto.setUserid(rdto.getId());
 		service.insertRegteacher(dto);
-		return "redirect:/regteacherList";
+		return "redirect:/admin/regteacherList";
 	}
 	
-	@RequestMapping(value = "/regteacherList", method = RequestMethod.GET)
+	@RequestMapping(value = "/admin/regteacherList", method = RequestMethod.GET)
 	public String regteacherList(Model model) {
 		List<RegteacherDto> list = service.selectRegteacher();
 		model.addAttribute("list", list);
-		return "admin/regteacherList";
+		return "/admin/regteacherList";
 	}
 	
 	@RequestMapping(value = "/regteacherDetail", method = RequestMethod.GET)
@@ -84,6 +84,6 @@ public class HomeController {
 	@RequestMapping(value = "/regteacherModify", method = RequestMethod.GET)
 	public String regteacherModify(String te_seq, String te_admit) {
 		service.modifyRegteacher(te_admit, te_seq);
-		return "redirect:/regteacherList";
+		return "redirect:/admin/regteacherList";
 	}
 }

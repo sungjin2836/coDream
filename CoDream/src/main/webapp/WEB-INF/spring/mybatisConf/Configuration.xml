@@ -12,6 +12,8 @@
 	<typeAlias type="com.code.dream.dto.QaDto" alias="QaDto"/>
 	<typeAlias type="com.code.dream.dto.ReceiptDto" alias="ReceiptDto"/>
 	<typeAlias type="com.code.dream.dto.StudentDto" alias="StudentDto"/>
+	<typeAlias type="com.code.dream.dto.MemoDto" alias="MemoDto"/>
+	<typeAlias type="com.code.dream.dto.DocumentDto" alias="DocumentDto"/>
 </typeAliases>
 
 <mappers>

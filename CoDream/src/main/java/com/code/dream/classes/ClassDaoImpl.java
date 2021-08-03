@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.code.dream.dto.ClassDto;
 import com.code.dream.dto.RegisterDto;
-import com.code.dream.dto.StudentDto;
 
 @Repository
 public class ClassDaoImpl implements IClassDao{
@@ -96,6 +95,14 @@ public class ClassDaoImpl implements IClassDao{
 	public List<ClassDto> deadlineClass() {
 		logger.info("[ClassDaoImpl] deadlineClass 개강 임박 강의 조회");
 		return session.selectList(NS+"deadlineClass");
+	}
+	
+	@Override
+	public boolean checkTeacher(Map<String, String> map) {
+		logger.info("[ClassDaoImpl] checkTeacher 강사 확인 {}", map);
+		List<ClassDto> list = session.selectList(NS+"checkTeacher", map);
+		int n = list.size();
+		return (n>0)?true:false;
 	}
 
 }
