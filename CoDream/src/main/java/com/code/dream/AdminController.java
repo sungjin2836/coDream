@@ -3,13 +3,17 @@ package com.code.dream;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.code.dream.dto.AttachFileDto;
 import com.code.dream.dto.RegisterDto;
+import com.code.dream.dto.RegteacherDto;
+import com.code.dream.regteacher.IRegteacherService;
 import com.code.dream.security.IUserSecurityService;
 import com.code.dream.security.UserSecurityDto;
 
@@ -19,7 +23,10 @@ import com.code.dream.security.UserSecurityDto;
 public class AdminController {
 	
 	@Autowired
-	private IUserSecurityService service;
+	private IUserSecurityService uService;
+	
+	@Autowired
+	private IRegteacherService rService;
 	
 //	@RequestMapping(value="/myInfo", method=RequestMethod.GET)
 //	public String myInfo(Model model, Authentication authentication) {
@@ -32,7 +39,7 @@ public class AdminController {
 	
 	@RequestMapping(value="memberList", method=RequestMethod.GET)
 	public String memberList(Model model) {
-		List<UserSecurityDto> list = service.selectUserList();
+		List<UserSecurityDto> list = uService.selectUserList();
 		
 		model.addAttribute("list", list);
 		
@@ -43,14 +50,14 @@ public class AdminController {
 	@ResponseBody
 	public String deleteUser(String id) {
 		boolean isc = false;
-		isc = service.deleteUser(id);
+		isc = uService.deleteUser(id);
 		return String.valueOf(isc);
 	}
 	
 	@RequestMapping(value="changeRole", method=RequestMethod.POST)
 	@ResponseBody
 	public String changeRole(String id, String role) {
-		int nowLevel = service.selectRole(id).size();
+		int nowLevel = uService.selectRole(id).size();
 		String[] roleList = {"ROLE_USER", "ROLE_TEACHER", "ROLE_ADMIN"};
 		System.out.println(id + "//" + role);
 		int goalLevel = 0;
@@ -62,9 +69,9 @@ public class AdminController {
 		boolean isc = false;
 		while(nowLevel != goalLevel) {
 			if(nowLevel > goalLevel) {
-				isc = service.deleteRole(id, roleList[--nowLevel]);
+				isc = uService.deleteRole(id, roleList[--nowLevel]);
 			} else {
-				isc = service.addRole(id, roleList[nowLevel++]);
+				isc = uService.addRole(id, roleList[nowLevel++]);
 			}
 			if(!isc) {
 				break;
@@ -72,5 +79,45 @@ public class AdminController {
 		}
 		
 		return String.valueOf(isc);
+	}
+	
+	@RequestMapping(value = "/regteacherForm", method = RequestMethod.GET)
+	public String regteacherForm(Model model, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto dto = usDto.getDto();
+		dto.setPassword(null);
+		model.addAttribute("dto", dto);
+		return "admin/regteacherForm";
+	}
+	
+	@RequestMapping(value = "/regteacher", method = RequestMethod.POST)
+	public String regteacher(RegteacherDto dto, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto rdto = usDto.getDto();
+		dto.setUserid(rdto.getId());
+		rService.insertRegteacher(dto);
+		return "redirect:/admin/regteacherList";
+	}
+	
+	@RequestMapping(value = "regteacherList", method = RequestMethod.GET)
+	public String regteacherList(Model model) {
+		List<RegteacherDto> list = rService.selectRegteacher();
+		model.addAttribute("list", list);
+		return "admin/regteacherList";
+	}
+	
+	@RequestMapping(value = "regteacherDetail", method = RequestMethod.GET)
+	public String regteacherDetail(Model model, String te_seq) {
+		RegteacherDto dto = rService.detailRegteacher(te_seq);
+		List<AttachFileDto> list = rService.selectFiles(te_seq);
+		model.addAttribute("dto", dto);
+		model.addAttribute("list", list);
+		return "admin/regteacherDetail";
+	}
+	
+	@RequestMapping(value = "regteacherModify", method = RequestMethod.GET)
+	public String regteacherModify(String te_seq, String te_admit) {
+		rService.modifyRegteacher(te_admit, te_seq);
+		return "redirect:/admin/regteacherList";
 	}
 }
