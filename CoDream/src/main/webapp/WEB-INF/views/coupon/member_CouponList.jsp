@@ -75,6 +75,7 @@
 		
 	</table>
 	
+	
 	<button onclick="kakao()">kakaopay btn</button>
 </div>
 
@@ -116,15 +117,20 @@
 	
 	function kakao(){
 		var result = document.getElementById("couponresult").innerHTML;
+		var seq = '${cdto.cl_seq}';
+		var title = '${cdto.cl_title}';
 		console.log(result);
+		console.log(seq);
+		console.log(title);
 		$.ajax({
 			url:'./kakaopay',
 			method: 'POST',
 			headers: headers,
-			data: "result="+result,
+			data: "result="+result+"&title="+title+"&seq="+seq,
 			success:function(data){
 				var kaka = JSON.parse(data);
-				console.log(kaka);			
+				console.log(kaka);
+				
 				window.open(kaka.next_redirect_pc_url);
 			},
 			error:function(error){
