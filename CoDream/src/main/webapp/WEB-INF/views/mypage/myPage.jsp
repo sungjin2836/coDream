@@ -13,7 +13,7 @@
 	<table class="table">
 		<tr>
 			<th></th>
-			<th>강으</th>
+			<th>강의</th>
 			<th>할인</th>
 			<th>최대적용금액</th>
 		</tr>

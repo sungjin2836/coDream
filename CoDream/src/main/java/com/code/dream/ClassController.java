@@ -139,9 +139,29 @@ public class ClassController {
 		
 	}
 	
-
-/*
-알림 서비스
- * */
+	@RequestMapping(value = "/mypage/regClassList", method = RequestMethod.GET)
+	public String regClassList(Authentication authentication, Model model) {
+		logger.info("[ClassController] regClassList 수강 중인 강의 조회");
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto rdto = usDto.getDto();
+		String id = rdto.getId();
+		
+		List<ClassDto> list = iClassService.regClassList(id);
+		model.addAttribute("clist", list);
+		
+		return "/mypage/regClassList";
+	}
 	
+	@RequestMapping(value = "/mypage/teachClassList", method = RequestMethod.GET)
+	public String teachClassList(Authentication authentication, Model model) {
+		logger.info("[ClassController] teachClassList 나의 개설 강의 조회");
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto rdto = usDto.getDto();
+		String id = rdto.getId();
+		
+		List<ClassDto> list = iClassService.teachClassList(id);
+		model.addAttribute("clist", list);
+		
+		return "/mypage/teachClassList";
+	}
 }

@@ -47,4 +47,10 @@ public interface IClassService {
 
 	// 강사 확인
 	public boolean checkTeacher(Map<String, String> map);
+	
+	// 수강 중인 강의 조회
+	public List<ClassDto> regClassList(String id);
+	
+	// 나의 개설 강의 조회
+	public List<ClassDto> teachClassList(String id);
 }

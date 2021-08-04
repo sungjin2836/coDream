@@ -146,6 +146,18 @@ public class ClassServiceImpl implements IClassService {
 		logger.info("[ClassServiceImpl] checkTeacher 강사 확인 {}", map);
 		return dao.checkTeacher(map);
 	}
+
+	@Override
+	public List<ClassDto> regClassList(String id) {
+		logger.info("[ClassServiceImpl] regClassList 수강 중인 강의 조회 {}", id);
+		return dao.regClassList(id);
+	}
+
+	@Override
+	public List<ClassDto> teachClassList(String id) {
+		logger.info("[ClassServiceImpl] teachClassList 나의 개설 강의 조회 {}", id);
+		return dao.teachClassList(id);
+	}
 	
 	
 }

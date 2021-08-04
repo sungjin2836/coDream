@@ -36,6 +36,7 @@ import com.code.dream.dto.ClassDto;
 import com.code.dream.dto.CouponDto;
 import com.code.dream.dto.ReceiptDto;
 import com.code.dream.dto.RegisterDto;
+import com.code.dream.dto.StudentDto;
 import com.code.dream.security.UserSecurityDto;
 import com.code.dream.student.IStudentService;
 
@@ -146,12 +147,12 @@ public class CouponController {
 			System.out.println(amount);
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&"
 					+ "item_name="+ctitle+"&quantity=1&total_amount="+amount+"&vat_amount=200&tax_free_amount=0&"
-							+ "approval_url=http://localhost:8099/coupon/PayResult?seq="+seq+"&"
-					+ "fail_url=http://localhost:8099/coupon/list&cancel_url=http://localhost:8099";
+							+ "approval_url=http://localhost:8091/coupon/PayResult?seq="+seq+"&"
+					+ "fail_url=http://localhost:8091/coupon/list&cancel_url=http://localhost:8091";
 			// 결제에 필요한 parameter값들을 param에 넣음
 			OutputStream outst = kakaoserver.getOutputStream();
 			DataOutputStream dataout = new DataOutputStream(outst); 
-			dataout.writeBytes(param);
+			dataout.write(param.getBytes("UTF-8"));
 			dataout.close();	
 			
 			int resultcode = kakaoserver.getResponseCode(); //http 응답 상태 코드
@@ -185,10 +186,9 @@ public class CouponController {
 //		return "{\"result\":\"NO\"}";
 	}
 	
-	@RequestMapping(value = "/coupon/kakaoapprove", method = RequestMethod.GET)
+	@RequestMapping(value = "/coupon/kakaoapprove", method = RequestMethod.GET, produces = "application/text;charset=utf-8")
 	@ResponseBody
 	public String kakaopayment(Authentication authentication, String pg_token, HttpSession session, String seq) {
-		Map<String,String> map = new HashMap<String, String>();
 		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
 		RegisterDto udto = usDto.getDto();
 		System.out.println("-----------승인 시작-----------");
@@ -200,7 +200,6 @@ public class CouponController {
 			try {
 				JSONObject jsonObj = (JSONObject) parser.parse(str2);
 				String tid = (String) jsonObj.get("tid");
-				String productseq = seq;
 				System.out.println("session 값"+str2);
 				
 				// id, product_seq, price, pay_Seq
@@ -212,7 +211,7 @@ public class CouponController {
 			String param = "cid=TC0ONETIME&tid="+tid+"&partner_order_id=partner_order_id&partner_user_id=partner_user_id&pg_token="+ pg_token;
 			OutputStream outst = kakaoserver.getOutputStream();
 			DataOutputStream dataout = new DataOutputStream(outst);
-			dataout.writeBytes(param);			
+			dataout.write(param.getBytes("UTF-8"));	
 			dataout.close();
 			
 			int resultcode = kakaoserver.getResponseCode(); 
@@ -238,9 +237,21 @@ public class CouponController {
             System.out.println(jsonObj1);
             JSONObject amount = (JSONObject) jsonObj1.get("amount");
             String amount1 = String.valueOf(amount.get("total"));
-            String buyer = String.valueOf(jsonObj1.get("item_name"));
             System.out.println(amount1);
 			
+            StudentDto sDto = new StudentDto();
+         // 학생 아이디(로그인한 사람의 아이디)와 강의 번호를 받아 넘겨준다
+    		RegisterDto rdto = usDto.getDto();
+    		String student = rdto.getId();
+    		
+    		sDto.setStudent(student);
+    		sDto.setCl_seq(Integer.parseInt(seq));
+    		//{"날짜":"출석여부", "날짜":"출석여부", ...}
+    		sDto.setVisit("{}");
+    		sDto.setStatus("수강중");
+    		
+    		iStudentService.insertStudent(sDto);
+            
 			
 			// dto 생성 및 값 세팅
 			ReceiptDto dto = new ReceiptDto();
@@ -250,7 +261,6 @@ public class CouponController {
 			dto.setPrice(amount1);
 			System.out.println(dto);
 			service.insertPay(dto);
-			map.put("json", str);
 			return str3;
 			} catch (ParseException e) {
 				e.printStackTrace();
@@ -260,7 +270,6 @@ public class CouponController {
 		}catch (IOException e) {
 			e.printStackTrace();
 		}
-		map.put("json", "{\"result\":\"NO\"}");
 		String str3 = (String)session.getAttribute("payinfo");
 		return str3;
 	}
