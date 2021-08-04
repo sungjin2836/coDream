@@ -32,7 +32,7 @@ String seq = request.getParameter("seq");
 		</tr>
 	</table>
 	<h1 id="tid"></h1>
-	<h1>${cdto.cl_seq}</h1>
+<%-- 	<h1>${cdto.cl_seq}</h1> --%>
 	<h1><%=seq %></h1>
 	<input type="hidden" id="tid">
 </div>
@@ -62,6 +62,7 @@ window.onload = function(){
 		}, 
 		error:function(error){
 			console.log(error);
+			location.href='/';
 		}
 	})
 }

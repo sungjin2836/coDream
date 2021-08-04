@@ -105,4 +105,16 @@ public class ClassDaoImpl implements IClassDao{
 		return (n>0)?true:false;
 	}
 
+	@Override
+	public List<ClassDto> regClassList(String id) {
+		logger.info("[ClassDaoImpl] regClassList 수강 중인 강의 조회 {}", id);
+		return session.selectList(NS+"regClassList",id);
+	}
+
+	@Override
+	public List<ClassDto> teachClassList(String id) {
+		logger.info("[ClassDaoImpl] teachClassList 나의 개설 강의 조회 {}", id);
+		return session.selectList(NS+"teachClassList",id);
+	}
+
 }

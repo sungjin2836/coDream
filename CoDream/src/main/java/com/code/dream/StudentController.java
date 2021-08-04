@@ -84,6 +84,13 @@ public class StudentController {
 		}
 	}
 	
+//	@RequestMapping(value = "/class/memoList", method = RequestMethod.GET)
+//	public String classMain(Authentication authentication, int cl_seq, Model model) {
+//		logger.info("[ClassController] memoList");
+//
+//		return "redirect:/";
+//	}
+	
 	
 	
 	

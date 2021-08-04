@@ -55,8 +55,7 @@
 	<div style="display: inline; margin : 8px;">
 	<a href="/"><img alt="logo" src="/images/codream.jpg" style="width:120px;height:62px;"></a>
 		<button class="btn btn-default" onclick="location.href='/board/classList'">강의</button>
-		<button class="btn btn-default" onclick="location.href='#'">마이페이지</button>
-		<button class="btn btn-default" onclick="location.href='#'">고객센터</button>
+<!-- 		<button class="btn btn-default" onclick="location.href='#'">고객센터</button> -->
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		  <button class="btn btn-default" onclick="location.href='/admin/memberList'">관리자 페이지</button>
 		  <button class="btn btn-default" onclick="location.href='/admin/regteacherList'">강사등록리스트</button>
@@ -69,12 +68,14 @@
 				<button class="btn" onclick="location.href='/member/agree'">회원가입</button>
 		</sec:authorize>
 	</div>
-	
 	<sec:authorize access="isAuthenticated()">
 		<div style="display: inline; float:right; margin : 8px; color : white;">
-			<div style="display: inline; color:black;" id = "userName"></div>
-			<button class="btn btn-default" onclick="location.href='#'">내 강의</button>
-			<button class="btn btn-default" onclick="location.href='/myInfo'">내 정보</button>
+<!-- 			<div style="display: inline; color:black;" id = "userName"></div> -->
+				<div class="btn btn-success" id="userName" onclick="location.href='/myInfo'"></div>
+			<sec:authorize access="hasRole('ROLE_ADMIN')">
+				  <button class="btn btn-default" onclick="location.href='/admin/memberList'">관리자 페이지</button>
+			</sec:authorize>
+			<button class="btn btn-default" onclick="location.href='/mypage/regClassList'">내 강의</button>
 			<button class="btn btn-default" onclick="location.href='/logout'">로그아웃</button>
 		</div>
 	</sec:authorize>

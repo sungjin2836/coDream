@@ -8,6 +8,8 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
+
+<!-- 필요없으면 삭제 예정인 파일 -->
 <div class="container">
 	<h2>나의 정보 보기</h2>
 	<table class="table table-hover">
