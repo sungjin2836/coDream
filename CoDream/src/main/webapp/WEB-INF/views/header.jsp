@@ -59,7 +59,7 @@
 		<button class="btn btn-default" onclick="location.href='#'">고객센터</button>
 		<sec:authorize access="hasRole('ROLE_ADMIN')">
 		  <button class="btn btn-default" onclick="location.href='/admin/memberList'">관리자 페이지</button>
-		  <button class="btn btn-default" onclick="location.href='/regteacherList'">강사등록리스트</button>
+		  <button class="btn btn-default" onclick="location.href='/admin/regteacherList'">강사등록리스트</button>
 		</sec:authorize>
 	</div>
 
