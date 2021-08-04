@@ -15,61 +15,49 @@
 <%@include file="../header.jsp" %>
 <%
 String pg_token = request.getParameter("pg_token");
+String str = (String)session.getAttribute("payinfo");
+String seq = request.getParameter("seq");
 %>
 
 <div class="container">
 	<table class="table">
 		<tr>
-			<th>쿠폰번호</th>
-			<th>쿠폰명</th>
-			<th>할인</th>
-			<th>최대적용금액</th>
-		</tr>
-		<c:forEach var="c" items="${lists}">
+			<th>구매자</th><td>${dto.id}</td>
+		</tr>	
 		<tr>
-			<td>${c.coupon_seq}</td>
-			<td>${c.couponname}</td>
-			
-			<c:if test="${c.status eq 'P'}">
-				<td>${c.discount}%</td>
-			</c:if>
-			<c:if test="${c.status eq 'D'}">
-				<td>${c.discount}원</td>
-			</c:if>
-			<td>${c.maxprice}원</td>
-			<td><button onclick="giveCoupon(${c.coupon_seq}, '${dto.id}')">지급</button></td>
+			<th>구매상품</th><td id="name"></td>
 		</tr>
-		</c:forEach>
-		
+		<tr>
+			<th>구매가격</th><td id="amount"></td>
+		</tr>
 	</table>
-	<h1>test1</h1>
+	<h1 id="tid"></h1>
+	<h1>${cdto.cl_seq}</h1>
+	<h1><%=seq %></h1>
+	<input type="hidden" id="tid">
 </div>
 </body>
 <script type="text/javascript">
+	
 
-function giveCoupon(seq, id){
-	alert(seq);
-	alert(id);
-	$.ajax({
-		type:"get",
-		url:"./insertcoupon",
-		headers: headers,
-		data : "id="+id+"&seq="+seq,
-		success: function(msg){
-			console.log("성공");
-			location.href = "./list";
-		}
-	})
-}
 window.onload = function(){
 	$.ajax({
 		url:'./kakaoapprove',
 		method: 'GET',
 		headers: headers,
-		data: "pg_token=<%=pg_token%>",
+		data: "pg_token=<%=pg_token%>&seq=<%=seq%>",
 		success:function(data){
 			console.log("성공");
 			console.log(data);
+			var kaka = JSON.parse(data);
+			console.log(kaka.tid);
+			console.log(kaka.item_name);
+			console.log(kaka.amount.total);
+			$('#name').html(kaka.item_name);
+			$('#amount').html(kaka.amount.total);
+			$('#tid').html(kaka.tid);
+			
+			
 			
 		}, 
 		error:function(error){

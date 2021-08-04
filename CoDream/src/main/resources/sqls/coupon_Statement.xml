@@ -14,9 +14,9 @@
 	</insert>
 	
 	<select id="selectMemCoupon" resultType="CouponDto">
-		SELECT c.COUPONNAME ,c.DISCOUNT,c.MAXPRICE , c.STATUS
+		SELECT id, c.COUPONNAME ,c.DISCOUNT,c.MAXPRICE , c.STATUS
 			FROM COUPON_LIST cl JOIN COUPON c USING(COUPON_SEQ)
-			WHERE ID = 'ADMIN'
+			WHERE ID = #{id}
 	</select>
 	
 	<insert id="insertMemCoupon" parameterType="CouponDto">
@@ -24,5 +24,10 @@
 			(CLIST_SEQ, ID, COUPON_SEQ, EXPIRE, DEFLAG)
 			VALUES((SELECT NVL(MAX(CLIST_SEQ),0)+1 FROM COUPON_LIST), #{id}, #{coupon_seq}, SYSDATE+7, 'N')
 	</insert>
-
+	
+	<!-- 쿠폰 가격보다 상품 가격이 큰 제품만 출력
+	 SELECT c.COUPONNAME,c.DISCOUNT,c.MAXPRICE , c.STATUS, cl.EXPIRE
+	FROM COUPON_LIST cl JOIN COUPON c USING(COUPON_SEQ) 
+	WHERE ID = 'ADMIN' AND (SELECT PRICE FROM CLASS class WHERE class.CL_SEQ = 6) > c.DISCOUNT ;
+	 -->
 </mapper>
