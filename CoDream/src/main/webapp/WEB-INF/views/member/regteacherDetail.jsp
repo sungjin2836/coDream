@@ -14,6 +14,7 @@
 		<ul>
 			<li><a href=/mypage/myInfo>나의 회원 정보</a></li>
 			<li><a href="/mypage/regteacher">강사 등록 신청/현황</a></li>
+			<li><a href="/receipt">강의 구매 내역</a></li>
 		</ul>
 	</div>
 
