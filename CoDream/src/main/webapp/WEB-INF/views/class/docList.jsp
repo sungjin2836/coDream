@@ -10,23 +10,28 @@
 <%@include file="../header.jsp"%>
 
 <div class="container">
-	<div style="width:300px;display:inline;float:left;">
-		<div><h2><a href="/class/classMain?cl_seq=${cDto.cl_seq}">${cDto.cl_title}</a></h2></div>
-			<ul>
-				<li><a href="/class/docList?cl_seq=${cDto.cl_seq}">강의 자료</a></li>
-				<li><a href="/class/memoList?cl_seq=${cDto.cl_seq}">필기 공유 게시판</a></li>
-				<li><a href="">출결</a></li>
-			</ul>
-	</div>
+<div style="width:300px;display:inline;float:left;">
+	<div><h2><a href="/class/classMain?cl_seq=${cDto.cl_seq}">${cDto.cl_title}</a></h2></div>
+	<ul>
+		<li><a href="/class/docList?cl_seq=${cDto.cl_seq}">강의 자료</a></li>
+		<li><a href="/class/memoList?cl_seq=${cDto.cl_seq}">필기 공유 게시판</a></li>
+		<li><a href="">출결</a></li>
+	</ul>
+</div>
 	<div style="width:800px;display:inline;float:right;">
 		<h2><a href="/class/docList?cl_seq=${cDto.cl_seq}">강의 자료</a></h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr>
-					<th>강의 제목</th>
+					<th>자료 제목</th>
 					<th>작성자</th>
 					<th>날짜</th>
 				</tr>
+				<c:if test="${list.size() eq 0}">
+					<tr>
+						<td colspan="3">최근 업로드 된 자료가 없습니다.</td>	
+					</tr>
+				</c:if>
 				<c:forEach items="${list}" var="dto">
 					<tr>
 						<!--  [doc_seq=3, cl_seq=1, doc_title=DUMMYD003, doc_content=null, author=DUMMY003, file_gid=0, regdate=Wed Jul 14 15:04:47 KST 2021] -->

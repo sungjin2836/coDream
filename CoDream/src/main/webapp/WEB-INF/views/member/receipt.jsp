@@ -8,8 +8,17 @@
 </head>
 <body>
 <%@include file="../header.jsp" %>
-
 <div class="container">
+	<div style="width:300px;display:inline;float:left;">
+		<h3><a href=/mypage/myInfo>마이 페이지</a></h3>
+		<ul>
+			<li><a href=/mypage/myInfo>나의 회원 정보</a></li>
+			<li><a href="/mypage/regteacher">강사 등록 신청/현황</a></li>
+			<li><a href="/receipt">강의 구매 내역</a></li>
+		</ul>
+	</div>
+
+	<div style="width:800px;display:inline;float:right;">
 	<table class="table">
 		<tr>
 			<th>상품명</th>
@@ -27,6 +36,7 @@
 		</c:forEach>
 	</table>
 	<h3>${lists}</h3>
+	</div>
 </div>
 
 </body>

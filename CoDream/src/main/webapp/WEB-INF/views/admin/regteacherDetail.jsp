@@ -47,10 +47,10 @@
 					</c:forEach>
 					<tr>
 						<td colspan="2">
-						<c:if test="${dto.te_admit eq ''}">
-							<button id='accept' onclick="location.href='/regteacherModify?te_seq=${dto.te_seq}&te_admit=승인'">승인</button>
-							<button id='reject' onclick="location.href='/regteacherModify?te_seq=${dto.te_seq}&te_admit=반려'">반려</button>
-						</c:if>
+<%-- 						<c:if test="${dto.te_admit eq '대기'}"> --%>
+							<button id='accept' class="btn" onclick="location.href='/regteacherModify?te_seq=${dto.te_seq}&te_admit=승인'">승인</button>
+							<button id='reject' class="btn" onclick="location.href='/regteacherModify?te_seq=${dto.te_seq}&te_admit=반려'">반려</button>
+<%-- 						</c:if> --%>
 						</td>
 					</tr>
 				</tbody>

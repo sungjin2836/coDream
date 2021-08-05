@@ -55,6 +55,62 @@ public class StudentController {
 	public String classMain(Authentication authentication, int cl_seq, Model model) {
 		logger.info("[StudentController] classMain");
 		
+		if(checkAccess(authentication, cl_seq)) { // 만약, 해당 강의에 등록한 학생이라면
+			// 강의에 대한 데이터를 받아와서 화면에 뿌려줌	
+			ClassDto cDto = iClassService.classDetail(cl_seq); // 강의 정보를 가져옴		
+			model.addAttribute("cDto", cDto);
+			
+			// 강의자료와 필기자료 조회
+			model.addAttribute("dList",iStudentService.recentDocList(cl_seq));
+			model.addAttribute("mList",iStudentService.recentMemoList(cl_seq));
+			
+			return "/class/classMain";
+		} else { // 아니라면, 잘못된 접근으로 처리함
+			return "redirect:/";
+		}
+	}
+	
+	@RequestMapping(value = "/class/memoList", method = RequestMethod.GET)
+	public String memoList(Authentication authentication, Model model, int cl_seq) {
+		logger.info("[StudentController] memoList");		
+		
+		if(checkAccess(authentication, cl_seq)) { // 만약, 해당 강의에 등록한 학생이라면
+			// 강의에 대한 데이터를 받아와서 화면에 뿌려줌	
+			ClassDto cDto = iClassService.classDetail(cl_seq); // 강의 정보를 가져옴		
+			model.addAttribute("cDto", cDto);
+			
+			List<MemoDto> list = iStudentService.memoList(cl_seq);
+			model.addAttribute("list", list);
+			
+			return "/class/memoList";
+		}else { // 아니라면, 잘못된 접근으로 처리함
+			return "redirect:/";
+		}
+		
+	}
+	
+	@RequestMapping(value = "/class/docList", method = RequestMethod.GET)
+	public String docList(Authentication authentication, Model model, int cl_seq) {
+		logger.info("[StudentController] docList");			
+		
+		if(checkAccess(authentication, cl_seq)) { // 만약, 해당 강의에 등록한 학생이라면
+			// 강의에 대한 데이터를 받아와서 화면에 뿌려줌	
+			ClassDto cDto = iClassService.classDetail(cl_seq); // 강의 정보를 가져옴		
+			model.addAttribute("cDto", cDto);
+			
+			List<DocumentDto> list = iStudentService.docList(cl_seq);
+			model.addAttribute("list", list);
+			
+			return "/class/docList";
+		}else { // 아니라면, 잘못된 접근으로 처리함
+			return "redirect:/";
+		}
+		
+	}
+	
+	// 강의의 관련자 혹은 관리자만 강의에 접근할 수 있도록 한다
+	private boolean checkAccess(Authentication authentication, int cl_seq) {
+		
 		Map<String, String> map = new HashMap<String, String>();
 		
 		// 학생 아이디(로그인한 사람의 아이디)와 강의 번호를 받아서
@@ -68,45 +124,8 @@ public class StudentController {
 		// 강의에 실제로 등록한 사람인가? 혹은, 해당 강의의 강사인가?
 		boolean isc = iStudentService.checkStudent(map)||iClassService.checkTeacher(map);
 		
-		if(isc) { // 만약, 해당 강의에 등록한 학생이라면
-			// 강의에 대한 데이터를 받아와서 화면에 뿌려줌	
-			ClassDto cDto = iClassService.classDetail(cl_seq); // 강의 정보를 가져옴		
-			model.addAttribute("cDto", cDto); // 강의 번호
-			
-			// 강의자료와 필기자료 조회
-			model.addAttribute("dList",iStudentService.recentDocList(cl_seq));
-			model.addAttribute("mList",iStudentService.recentMemoList(cl_seq));
-			
-			return "/class/classMain";
-		} else { // 아니라면, 잘못된 접근으로 처리함
-			return "redirect:/";
-		}
+		return isc;
 	}
-	
-	@RequestMapping(value = "/class/memoList", method = RequestMethod.GET)
-	public String memoList(Model model, int cl_seq) {
-		logger.info("[StudentController] memoList");		
-		
-		List<MemoDto> list = iStudentService.memoList(cl_seq);
-		model.addAttribute("cl_seq", cl_seq);
-		model.addAttribute("list", list);
-		
-		return "/class/memoList";
-	}
-	
-	@RequestMapping(value = "/class/docList", method = RequestMethod.GET)
-	public String docList(Model model, int cl_seq) {
-		logger.info("[StudentController] docList");	
-		
-		List<DocumentDto> list = iStudentService.docList(cl_seq);	
-		
-		model.addAttribute("cl_seq", cl_seq);
-		model.addAttribute("list", list);
-		
-		return "/class/docList";
-	}
-	
-	
 	
 	
 }

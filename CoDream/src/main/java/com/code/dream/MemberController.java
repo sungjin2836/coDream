@@ -97,7 +97,7 @@ public class MemberController {
 		RegisterDto rdto = usDto.getDto();
 		RegisterDto dto = service.selectInfo(rdto.getId());
 		model.addAttribute("dto", dto);
-		return "member/myInfo";
+		return "mypage/myInfo";
 	}
 	
 	@RequestMapping(value="/modifyForm", method=RequestMethod.GET)
