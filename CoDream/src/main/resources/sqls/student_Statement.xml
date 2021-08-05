@@ -51,19 +51,19 @@ FROM  (SELECT ME_SEQ, ME_TITLE, AUTHOR, REGDATE
 <!-- 필기 상세 조회 -->
 <select id="memoDetail" parameterType="java.lang.Integer" resultType="MemoDto">
 SELECT ME_SEQ, ME_TITLE, ME_CONTENT, AUTHOR, REGDATE, FILE_GID
-        FROM MEMO WHERE ME_SEQ ='#{me_seq}'
+        FROM MEMO WHERE ME_SEQ = #{me_seq}
 </select>
 
 <!-- 필기 자료 등록 -->
 <insert id="insertMemo" parameterType="MemoDto">
 INSERT INTO MEMO (ME_SEQ, ME_TITLE, ME_CONTENT, author, REGDATE, FILE_GID, CL_SEQ)
-	VALUES((SELECT NVL(MAX(ME_SEQ),0) FROM MEMO)+1, #{me_title}, #{me_content}, #{author}, #{regdate}, #{file_gid}, 1)
+	VALUES((SELECT NVL(MAX(ME_SEQ),0) FROM MEMO)+1, #{me_title}, #{me_content}, #{author}, SYSDATE, #{file_gid}, #{cl_seq})
 </insert>
 
 <!-- 강의 자료 등록 -->
 <insert id="insertDoc" parameterType="DocumentDto">
 INSERT INTO DOCUMENT (DOC_SEQ, CL_SEQ, DOC_TITLE, DOC_CONTENT, AUTHOR, FILE_GID, REGDATE)
-	VALUES((SELECT NVL(MAX(DOC_SEQ),0) FROM DOCUMENT)+1, #{cl_seq},#{doc_title}, #{doc_content} , #{author}, #{file_gid}, #{regdate})
+	VALUES((SELECT NVL(MAX(DOC_SEQ),0) FROM DOCUMENT)+1, #{cl_seq},#{doc_title}, #{doc_content} , #{author}, #{file_gid}, SYSDATE)
 </insert>
 
 <!-- 강의 자료 전체 조회 -->
