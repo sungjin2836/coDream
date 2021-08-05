@@ -33,12 +33,25 @@
 						<td>${dto.te_admit}</td>
 					</tr>
 				</c:forEach>
+			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3" style="text-align: center">
+						<a href="./regteacherList?page=1"><<</a>
+						<a href="./regteacherList?page=${page.page-page.step}"><</a>
+						<c:forEach begin="${page.pagestart}" end="${page.pageend}" step="1" var="var">
+							<a href="./regteacherList?page=${var}" <c:if test="${page.page eq var}">style="font-weight: bold"</c:if>>${var}</a>
+						</c:forEach>
+						<a href="./regteacherList?page=${page.page+page.step}">></a>
+						<a href="./regteacherList?page=999">>></a>
+					<td>
+				</tr>
 				<tr>
 					<td colspan="3">
 						<button class="btn" onclick="location.href='/regteacherForm'">강사 신청</button>
 					</td>
 				</tr>
-			</tbody>
+			</tfoot>
 		</table>
 		</div>
 	</div>
