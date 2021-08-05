@@ -20,6 +20,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import org.jsoup.parser.Parser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -128,7 +129,7 @@ public class CouponController {
 	
 	@RequestMapping(value = "/coupon/kakaopay", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public String kakaopay(HttpSession session, String result, String title, String seq) {
+	public String kakaopay(HttpSession session, String result, String cl_title, String seq) {
 		Map<String,Object> map = new HashMap<String, Object>();
 		System.out.println("-----------결제 시작-----------");
 		try {
@@ -140,14 +141,14 @@ public class CouponController {
 			kakaoserver.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			// content-type 설정
 			kakaoserver.setDoOutput(true);
-			String ctitle = title;
+			String ctitle = cl_title;
 			String amount = result;
 			String cseq = seq;
 			System.out.println(ctitle);
 			System.out.println(amount);
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&"
 					+ "item_name="+ctitle+"&quantity=1&total_amount="+amount+"&vat_amount=200&tax_free_amount=0&"
-							+ "approval_url=http://localhost:8091/coupon/PayResult?seq="+seq+"&"
+							+ "approval_url=http://localhost:8099/coupon/PayResult?seq="+seq+"&"
 					+ "fail_url=http://localhost:8091/coupon/list&cancel_url=http://localhost:8091";
 			// 결제에 필요한 parameter값들을 param에 넣음
 			OutputStream outst = kakaoserver.getOutputStream();
@@ -296,6 +297,72 @@ public class CouponController {
 		System.out.println(lists);
 		model.addAttribute("lists", lists);
 		return "mypage/myClass";
+	}
+	
+	
+	@RequestMapping(value = "/coupon/refund", method = { RequestMethod.GET, RequestMethod.POST })
+	@ResponseBody
+	public String refund(Authentication authentication, HttpSession session, String tid, String price, String re_seq){
+		System.out.println("-----------환불 시작-----------");
+		try {			
+			URL kakaourl = new URL("https://kapi.kakao.com//v1/payment/cancel");
+			HttpURLConnection kakaoserver = (HttpURLConnection) kakaourl.openConnection();
+			kakaoserver.setRequestMethod("POST");
+			kakaoserver.setRequestProperty("Authorization", "KakaoAK da2e0e25242d6645fdabd978c6a02c92");
+			kakaoserver.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
+			kakaoserver.setDoOutput(true);
+			long amount = Long.parseLong(price);
+			String param = "cid=TC0ONETIME&tid="+tid+"&cancel_amount="+amount+"&cancel_tax_free_amount=0&cancel_vat_amount=200&cancel_available_amount="+amount;
+			OutputStream outst = kakaoserver.getOutputStream();
+			DataOutputStream dataout = new DataOutputStream(outst);
+			dataout.write(param.getBytes("UTF-8"));
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+			System.out.println("환불 파람 값 : "+param);
+			dataout.close();
+			
+			int resultcode = kakaoserver.getResponseCode(); 
+			
+			InputStream inst;
+			if(resultcode == 200) {
+				inst = kakaoserver.getInputStream();
+			}else {
+				inst = kakaoserver.getErrorStream();
+			}
+			InputStreamReader readst = new InputStreamReader(inst);
+			BufferedReader br = new BufferedReader(readst);
+			String str = br.readLine();
+			
+			System.out.println("@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@2");
+			System.out.println("str값 : "+str);
+			System.out.println("-----------환불 완료-----------");
+			
+			JSONParser parser = new JSONParser();
+			try {
+				Object obj = parser.parse(str);
+				JSONObject jsonObj = (JSONObject) obj;
+				String msg = (String) jsonObj.get("status");
+				String sucmsg = "CANCEL_PAYMENT";
+				System.out.println("msg : "+msg);
+				System.out.println("sucmsg : "+sucmsg);
+				System.out.println(re_seq);
+				if(msg.equals(sucmsg)) {
+					service.updateReceipt(re_seq);				
+				}else{
+					System.out.println("환불 안됨");
+				}
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
+			
+			return str;
+		}catch (MalformedURLException e) {
+			e.printStackTrace();
+		}catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	

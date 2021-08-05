@@ -48,5 +48,13 @@ public class CouponServiceImpl implements ICouponService {
 	public List<ReceiptDto> PaymentAll() {
 		return dao.PaymentAll();
 	}
+	@Override
+	public List<ReceiptDto> selectReceipt(String id) {
+		return dao.selectReceipt(id);
+	}
+	@Override
+	public int updateReceipt(String re_seq) {
+		return dao.updateReceipt(re_seq);
+	}
 	
 }
