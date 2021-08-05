@@ -9,6 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.code.dream.dto.PageDto;
 import com.code.dream.dto.RegisterDto;
 import com.code.dream.oauth.IOAuthDao;
 import com.code.dream.oauth.IOAuthService;
@@ -127,8 +128,8 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 	}
 
 	@Override
-	public List<UserSecurityDto> selectUserList() {
-		return dao.selectUserList();
+	public List<UserSecurityDto> selectUserList(PageDto dto) {
+		return dao.selectUserList(dto);
 	}
 
 	@Override
@@ -146,6 +147,11 @@ public class UserSecurityServiceImpl implements IUserSecurityService  {
 		RegisterDto dto = dao.login(id);
 		dto.setPassword(null);
 		return dto;
+	}
+
+	@Override
+	public int userCount() {
+		return dao.userCount();
 	}
 
 

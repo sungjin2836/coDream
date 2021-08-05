@@ -8,6 +8,7 @@ import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.code.dream.dto.PageDto;
 import com.code.dream.dto.RegisterDto;
 
 @Repository
@@ -71,8 +72,13 @@ public class UserSecurityDaoImpl implements IUserSecurityDao {
 	}
 
 	@Override
-	public List<UserSecurityDto> selectUserList() {
-		List<UserSecurityDto> list = session.selectList("register.selectUserList");
+	public List<UserSecurityDto> selectUserList(PageDto dto) {
+		List<UserSecurityDto> list = session.selectList("register.selectUserList", dto);
 		return list;
+	}
+
+	@Override
+	public int userCount() {
+		return session.selectOne("register.userCount");
 	}
 }

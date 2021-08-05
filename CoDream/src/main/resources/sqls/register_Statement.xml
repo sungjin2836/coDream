@@ -20,10 +20,17 @@
 		<result property="adrecieve" column="ADRECIEVE"/>
 	</resultMap>
 	
+	<select id="userCount" resultType="java.lang.Integer">
+		SELECT COUNT(ID) FROM REGISTER
+	</select>
 	
-	<select id="selectUserList" resultMap="UserDto">
-		SELECT re.ID, NAME, PHONE, EMAIL, ADDRESS, DELFLAG, re.REGDATE, ADRECIEVE, ro."ROLE"
-			FROM REGISTER re JOIN "ROLE" ro ON re.ID = ro.ID
+	<select id="selectUserList" parameterType="PageDto" resultMap="UserDto">
+		<![CDATA[
+			SELECT ID, NAME, PHONE, EMAIL, ADDRESS, DELFLAG, REGDATE, ADRECIEVE, "ROLE" FROM 
+				(SELECT RNUM, re.ID, NAME, PHONE, EMAIL, ADDRESS, DELFLAG, re.REGDATE, ADRECIEVE, ro."ROLE"
+				FROM (SELECT ROW_NUMBER() OVER(ORDER BY ID DESC) AS RNUM, ID, NAME, PHONE, EMAIL, ADDRESS, DELFLAG, REGDATE, ADRECIEVE FROM REGISTER) re JOIN "ROLE" ro ON re.ID = ro.ID)
+				WHERE RNUM >= #{start} AND RNUM <= #{step}
+			]]>
 	</select>
 	
 	<select id="selectUser" resultType="RegisterDto">

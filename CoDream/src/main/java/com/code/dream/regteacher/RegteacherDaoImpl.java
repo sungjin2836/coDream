@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.code.dream.dto.AttachFileDto;
+import com.code.dream.dto.PageDto;
 import com.code.dream.dto.RegteacherDto;
 
 @Repository
@@ -23,8 +24,8 @@ public class RegteacherDaoImpl implements IRegteacherDao {
 	}
 
 	@Override
-	public List<RegteacherDto> selectRegteacher() {
-		return session.selectList("regteacher.selectRegteacher");
+	public List<RegteacherDto> selectRegteacher(PageDto dto) {
+		return session.selectList("regteacher.selectRegteacher", dto);
 	}
 
 	@Override
@@ -43,6 +44,11 @@ public class RegteacherDaoImpl implements IRegteacherDao {
 	@Override
 	public List<AttachFileDto> selectFiles(String file_gid) {
 		return session.selectList("attach.searchgid",file_gid);
+	}
+
+	@Override
+	public int regteacherCount() {
+		return session.selectOne("regteacher.regteacherCount");
 	}
 
 }

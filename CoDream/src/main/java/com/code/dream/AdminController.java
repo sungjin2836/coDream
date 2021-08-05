@@ -2,6 +2,8 @@ package com.code.dream;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.code.dream.dto.AttachFileDto;
+import com.code.dream.dto.PageDto;
 import com.code.dream.dto.RegisterDto;
 import com.code.dream.dto.RegteacherDto;
 import com.code.dream.regteacher.IRegteacherService;
@@ -38,9 +41,19 @@ public class AdminController {
 //	}
 	
 	@RequestMapping(value="memberList", method=RequestMethod.GET)
-	public String memberList(Model model) {
-		List<UserSecurityDto> list = uService.selectUserList();
+	public String memberList(Model model, HttpServletRequest request) {
+		int page = 1;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page")); 
+		};
 		
+		int userCount = uService.userCount();
+		PageDto pageDto = new PageDto(userCount);
+		pageDto.setPage(page);
+		List<UserSecurityDto> list = uService.selectUserList(pageDto);
+		
+		
+		model.addAttribute("page", pageDto);
 		model.addAttribute("list", list);
 		
 		return "admin/memberList";
@@ -81,7 +94,7 @@ public class AdminController {
 		return String.valueOf(isc);
 	}
 	
-	@RequestMapping(value = "/regteacherForm", method = RequestMethod.GET)
+	@RequestMapping(value = "regteacherForm", method = RequestMethod.GET)
 	public String regteacherForm(Model model, Authentication authentication) {
 		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
 		RegisterDto dto = usDto.getDto();
@@ -90,7 +103,7 @@ public class AdminController {
 		return "admin/regteacherForm";
 	}
 	
-	@RequestMapping(value = "/regteacher", method = RequestMethod.POST)
+	@RequestMapping(value = "regteacher", method = RequestMethod.POST)
 	public String regteacher(RegteacherDto dto, Authentication authentication) {
 		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
 		RegisterDto rdto = usDto.getDto();
@@ -100,8 +113,17 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "regteacherList", method = RequestMethod.GET)
-	public String regteacherList(Model model) {
-		List<RegteacherDto> list = rService.selectRegteacher();
+	public String regteacherList(Model model, HttpServletRequest request) {
+		int page = 1;
+		if(request.getParameter("page") != null) {
+			page = Integer.parseInt(request.getParameter("page")); 
+		};
+		int regteacherCount = rService.regteacherCount();
+		PageDto pageDto = new PageDto(regteacherCount);
+		pageDto.setPage(page);
+		
+		List<RegteacherDto> list = rService.selectRegteacher(pageDto);
+		model.addAttribute("page", pageDto);
 		model.addAttribute("list", list);
 		return "admin/regteacherList";
 	}

@@ -66,6 +66,20 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="6" style="text-align: center">
+					
+						<a href="./memberList?page=1"><<</a>
+						<a href="./memberList?page=${page.page-page.step}"><</a>
+						<c:forEach begin="${page.pagestart}" end="${page.pageend}" step="1" var="var">
+							<a href="./memberList?page=${var}" <c:if test="${page.page eq var}">style="font-weight: bold"</c:if>>${var}</a>
+						</c:forEach>
+						<a href="./memberList?page=${page.page+page.step}">></a>
+						<a href="./memberList?page=999">>></a>
+					<td>
+				</tr>
+			</tfoot>
 		</table>
 		</div>
 	</div>

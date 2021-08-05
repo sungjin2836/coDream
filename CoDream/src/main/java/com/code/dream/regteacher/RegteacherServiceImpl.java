@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.code.dream.dto.AttachFileDto;
+import com.code.dream.dto.PageDto;
 import com.code.dream.dto.RegteacherDto;
 
 @Service
@@ -20,8 +21,8 @@ public class RegteacherServiceImpl implements IRegteacherService {
 	}
 
 	@Override
-	public List<RegteacherDto> selectRegteacher() {
-		return dao.selectRegteacher();
+	public List<RegteacherDto> selectRegteacher(PageDto dto) {
+		return dao.selectRegteacher(dto);
 	}
 
 	@Override
@@ -37,6 +38,11 @@ public class RegteacherServiceImpl implements IRegteacherService {
 	@Override
 	public List<AttachFileDto> selectFiles(String file_gid) {
 		return dao.selectFiles(file_gid);
+	}
+
+	@Override
+	public int regteacherCount() {
+		return dao.regteacherCount();
 	}
 
 	
