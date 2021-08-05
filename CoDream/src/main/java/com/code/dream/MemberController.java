@@ -1,5 +1,7 @@
 package com.code.dream;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.code.dream.coupon.ICouponService;
+import com.code.dream.dto.ReceiptDto;
 import com.code.dream.dto.RegisterDto;
 import com.code.dream.oauth.IOAuthService;
 import com.code.dream.security.IUserSecurityService;
@@ -27,6 +31,9 @@ public class MemberController {
 	
 	@Autowired
 	private IOAuthService auth;
+	
+	@Autowired
+	private ICouponService coupon;
 	
 	@RequestMapping(value="/member/agree", method=RequestMethod.GET)
 	public String agree() {
@@ -108,5 +115,21 @@ public class MemberController {
 		service.modifyUser(dto);
 		return "redirect:/myInfo";
 	}
+	
+	@RequestMapping(value="/receipt", method=RequestMethod.GET)
+	public String receipt(Model model, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto dto = usDto.getDto();
+		System.out.println(dto.getId());
+		List<ReceiptDto> lists = coupon.selectReceipt(dto.getId());
+		model.addAttribute("lists", lists);
+		
+		
+		
+		return "member/receipt";
+	}
+	
+	
+	
 	
 }

@@ -30,7 +30,7 @@
 
 
 	<div class="dropdown" style="width: 900px; height: 50px; display: inline-block;">
-    <button style="width:700px; text-align:right;" class="btn btn-default dropdown-toggle" type="button" id="coupontagname" data-toggle="dropdown">20퍼할인쿠폰
+    <button style="width:700px; text-align:right;" class="btn btn-default dropdown-toggle" type="button" id="coupontagname" data-toggle="dropdown">없음
     <span class="caret"></span></button>
 	    <ul style="width:700px; text-align:middle" class="dropdown-menu">
 	    <c:forEach var="c" items="${lists}">
@@ -49,7 +49,7 @@
 		<li><a onclick="nocoupon()">없음</a></li>
 	    </ul>
  	 </div>
-	    <div style="display: inline-block; height: 50px;"><h3 id="couponresult" style="text-align: right;"></h3></div>
+	    <div style="display: inline-block; height: 50px;"><h3 id="couponresult" style="text-align: right;">${cdto.price}</h3></div>
  	 
 	<table class="table">
 		<tr>
@@ -126,12 +126,12 @@
 			url:'./kakaopay',
 			method: 'POST',
 			headers: headers,
-			data: "result="+result+"&title="+title+"&seq="+seq,
+			data: "result="+result+"&cl_title="+title+"&seq="+seq,
 			success:function(data){
-				var kaka = JSON.parse(data);
-				console.log(kaka);
-				
-				window.open(kaka.next_redirect_pc_url);
+				console.log(data);
+				var kakao = JSON.parse(data);
+				console.log(kakao)
+				window.open(kakao.next_redirect_pc_url);
 			},
 			error:function(error){
 				console.log(error);

@@ -6,6 +6,7 @@ public class ReceiptDto {
 	private String buyer             ;
 	private String product_seq       ;
 	private String price             ;
+	private String cl_title             ;
 	private String status            ;
 	private String pay_seq           ;
 	private String tid               ;
@@ -14,13 +15,14 @@ public class ReceiptDto {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ReceiptDto(String re_seq, String buyer, String product_seq, String price, String status, String pay_seq,
-			String tid, String paydate) {
+	public ReceiptDto(String re_seq, String buyer, String product_seq, String price, String cl_title, String status,
+			String pay_seq, String tid, String paydate) {
 		super();
 		this.re_seq = re_seq;
 		this.buyer = buyer;
 		this.product_seq = product_seq;
 		this.price = price;
+		this.cl_title = cl_title;
 		this.status = status;
 		this.pay_seq = pay_seq;
 		this.tid = tid;
@@ -28,8 +30,9 @@ public class ReceiptDto {
 	}
 	@Override
 	public String toString() {
-		return "Receipt [re_seq=" + re_seq + ", buyer=" + buyer + ", product_seq=" + product_seq + ", price=" + price
-				+ ", status=" + status + ", pay_seq=" + pay_seq + ", tid=" + tid + ", paydate=" + paydate + "]";
+		return "ReceiptDto [re_seq=" + re_seq + ", buyer=" + buyer + ", product_seq=" + product_seq + ", price=" + price
+				+ ", cl_title=" + cl_title + ", status=" + status + ", pay_seq=" + pay_seq + ", tid=" + tid
+				+ ", paydate=" + paydate + "]";
 	}
 	public String getRe_seq() {
 		return re_seq;
@@ -55,6 +58,12 @@ public class ReceiptDto {
 	public void setPrice(String price) {
 		this.price = price;
 	}
+	public String getCl_title() {
+		return cl_title;
+	}
+	public void setCl_title(String cl_title) {
+		this.cl_title = cl_title;
+	}
 	public String getStatus() {
 		return status;
 	}
@@ -79,7 +88,6 @@ public class ReceiptDto {
 	public void setPaydate(String paydate) {
 		this.paydate = paydate;
 	}
-	
 	
 	
 }

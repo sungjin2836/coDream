@@ -47,5 +47,13 @@ public class CouponDaoImpl implements ICouponDao {
 	public List<ReceiptDto> PaymentAll() {
 		return sqlsession.selectList("receipt.selectPay");
 	}
+	@Override
+	public List<ReceiptDto> selectReceipt(String id) {
+		return sqlsession.selectList("receipt.selectReceipt", id);
+	}
+	@Override
+	public int updateReceipt(String re_seq) {
+		return sqlsession.update("receipt.updateReceipt", re_seq);
+	}
 	
 }

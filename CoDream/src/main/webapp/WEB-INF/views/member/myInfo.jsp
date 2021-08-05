@@ -15,6 +15,7 @@
 			<li><a href="/myInfo">나의 회원 정보</a></li>
 			<!-- 강사 신청을 완료했을 경우 자동으로 강사 신청 현황으로 분기할 수 있도록 해야합니다 -->
 			<li><a href="regteacherForm">강사 등록 신청/현황</a></li>
+			<li><a href="/receipt">강의 구매 내역</a></li>
 		</ul>
 	</div>
 <div style="width:800px;display:inline;float:right;">

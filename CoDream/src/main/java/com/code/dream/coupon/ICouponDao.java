@@ -14,4 +14,6 @@ public interface ICouponDao {
 	public int insertpayment(ReceiptDto dto);
 	public int insertReceipt(ReceiptDto dto);
 	public List<ReceiptDto> PaymentAll();
+	public List<ReceiptDto> selectReceipt(String id);
+	public int updateReceipt(String re_seq);
 }
