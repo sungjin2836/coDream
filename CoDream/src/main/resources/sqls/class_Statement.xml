@@ -149,7 +149,7 @@ SELECT CL_SEQ
 <select id="regClassList" parameterType="java.lang.String" resultType="ClassDto">
 SELECT CL_SEQ, CL_TITLE, CL_CONTENT, TEACHER, PRICE, STARTDAY, ENDDAY, c.ADDRESS
 	FROM CLASS c JOIN STUDENT s USING(CL_SEQ) 
-	WHERE STUDENT = #{id}
+	WHERE STUDENT = #{id} AND STATUS='수강중'
 </select>
 
 <!-- 나의 개설 강의 조회 -->

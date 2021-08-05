@@ -14,7 +14,7 @@ INSERT INTO STUDENT (STUDENT, CL_SEQ, REGDATE, VISIT, STATUS)
 <select id="checkStudent" parameterType="java.util.Map" resultType="StudentDto">
 	SELECT STUDENT
 		FROM STUDENT
-		WHERE CL_SEQ = #{cl_seq} AND STUDENT = #{id}
+		WHERE CL_SEQ = #{cl_seq} AND STUDENT = #{id} AND STATUS='수강중'
 </select>
 
 <!-- 출결 입력 -->
@@ -94,5 +94,10 @@ SELECT STUDENT, CL_SEQ, REGDATE, VISIT, STATUS
         FROM STUDENT
         WHERE CL_SEQ = #{cl_seq}
 </select>
+
+<!-- 수강 취소 -->
+<update id="dropStudent" parameterType="java.util.Map">
+	UPDATE STUDENT SET STATUS='취소' WHERE STUDENT=#{student} AND CL_SEQ=#{cl_seq}
+</update>
 
 </mapper>

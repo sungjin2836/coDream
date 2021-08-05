@@ -18,7 +18,6 @@ import com.code.dream.dto.ClassDto;
 import com.code.dream.dto.DocumentDto;
 import com.code.dream.dto.MemoDto;
 import com.code.dream.dto.RegisterDto;
-import com.code.dream.dto.StudentDto;
 import com.code.dream.security.UserSecurityDto;
 import com.code.dream.student.IStudentService;
 
@@ -37,22 +36,19 @@ public class StudentController {
 	public String studentTest(Authentication authentication, int cl_seq) {
 		logger.info("[StudentController] classMain");
 		
-		StudentDto sDto = new StudentDto();
-		
 		// 학생 아이디(로그인한 사람의 아이디)와 강의 번호를 받아 넘겨준다
 		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
 		RegisterDto rdto = usDto.getDto();
 		String student = rdto.getId();
 		
-		sDto.setStudent(student);
-		sDto.setCl_seq(cl_seq);
-		//{"날짜":"출석여부", "날짜":"출석여부", ...}
-		sDto.setVisit("{}");
-		sDto.setStatus("수강중");
+		Map<String, String> map = new HashMap<String, String>();
 		
-		boolean isc = iStudentService.insertStudent(sDto);
+		map.put("student", student);
+		map.put("cl_seq", String.valueOf(cl_seq));
 		
-		return isc?"/class/classMain":"redirect:/";
+		boolean isc = iStudentService.dropStudent(map);
+		
+		return isc?"/board/classList":"redirect:/";
 	}
 	
 	@RequestMapping(value = "/class/classMain", method = RequestMethod.GET)
