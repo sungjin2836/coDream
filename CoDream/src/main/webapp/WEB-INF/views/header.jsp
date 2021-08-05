@@ -71,7 +71,7 @@
 	<sec:authorize access="isAuthenticated()">
 		<div style="display: inline; float:right; margin : 8px; color : white;">
 <!-- 			<div style="display: inline; color:black;" id = "userName"></div> -->
-				<div class="btn btn-success" id="userName" onclick="location.href='/myInfo'"></div>
+				<div class="btn btn-success" id="userName" onclick="location.href='/mypage/myInfo'"></div>
 			<sec:authorize access="hasRole('ROLE_ADMIN')">
 				  <button class="btn btn-default" onclick="location.href='/admin/memberList'">관리자 페이지</button>
 			</sec:authorize>

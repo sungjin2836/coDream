@@ -24,6 +24,7 @@
 	<input type="submit" value="확인">
 </form>
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 	function chkbtn() {

@@ -10,9 +10,9 @@
 <%@include file="../header.jsp" %>
 <div class="container">
 	<div style="width:300px;display:inline;float:left;">
-		<h3><a href="/myInfo">마이 페이지</a></h3>
+		<h3><a href=/mypage/myInfo>마이 페이지</a></h3>
 		<ul>
-			<li><a href="/myInfo">나의 회원 정보</a></li>
+			<li><a href=/mypage/myInfo>나의 회원 정보</a></li>
 			<!-- 강사 신청을 완료했을 경우 자동으로 강사 신청 현황으로 분기할 수 있도록 해야합니다 -->
 			<li><a href="regteacherForm">강사 등록 신청/현황</a></li>
 		</ul>
@@ -99,6 +99,7 @@
 	</form>
 	</div>
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 function check(){

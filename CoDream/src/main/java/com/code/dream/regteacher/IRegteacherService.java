@@ -10,6 +10,7 @@ public interface IRegteacherService {
 	public boolean insertRegteacher(RegteacherDto dto);
 	public List<RegteacherDto> selectRegteacher();
 	public RegteacherDto detailRegteacher(String te_seq);
+	public RegteacherDto countRegteacher(String userid);
 	public boolean modifyRegteacher(String te_admit, String te_seq);
 	public List<AttachFileDto> selectFiles(String file_gid);
 }

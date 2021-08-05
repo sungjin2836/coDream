@@ -69,6 +69,7 @@
 		</table>
 		</div>
 	</div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 	function changeRole(id, role) {

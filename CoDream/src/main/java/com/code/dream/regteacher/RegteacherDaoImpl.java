@@ -45,4 +45,9 @@ public class RegteacherDaoImpl implements IRegteacherDao {
 		return session.selectList("attach.searchgid",file_gid);
 	}
 
+	@Override
+	public RegteacherDto countRegteacher(String userid) {
+		return session.selectOne("regteacher.countRegteacher", userid);
+	}
+
 }

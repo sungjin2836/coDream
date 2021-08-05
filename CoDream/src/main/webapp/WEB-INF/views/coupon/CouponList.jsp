@@ -44,6 +44,7 @@ String pg_token = request.getParameter("pg_token");
 	</table>
 	<h1>test1</h1>
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 

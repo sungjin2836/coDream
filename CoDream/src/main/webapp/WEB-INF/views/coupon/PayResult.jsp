@@ -36,6 +36,7 @@ String seq = request.getParameter("seq");
 	<h1><%=seq %></h1>
 	<input type="hidden" id="tid">
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 	

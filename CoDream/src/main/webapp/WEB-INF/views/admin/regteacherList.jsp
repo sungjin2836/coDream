@@ -29,18 +29,14 @@
 				<c:forEach items="${list}" var="dto">
 					<tr>
 						<td>${dto.userid}</td>
-						<td><a href="/regteacherDetail?te_seq=${dto.te_seq}">${dto.te_title}</a></td>
+						<td><a href="/admin/regteacherDetail?te_seq=${dto.te_seq}">${dto.te_title}</a></td>
 						<td>${dto.te_admit}</td>
 					</tr>
 				</c:forEach>
-				<tr>
-					<td colspan="3">
-						<button class="btn" onclick="location.href='/regteacherForm'">강사 신청</button>
-					</td>
-				</tr>
 			</tbody>
 		</table>
 		</div>
 	</div>
+<%@include file="../footer.jsp" %>
 </body>
 </html>

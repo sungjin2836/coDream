@@ -20,6 +20,12 @@
 		SELECT TE_SEQ, TE_TITLE, USERID, TE_CONTENT, FILE_GID, TE_ADMIT
 			FROM REGTEACHER WHERE TE_SEQ = #{te_seq}
 	</select>
+
+	<!-- 강사 신청 여부 확인을 위해 사용함 -->
+	<select id="countRegteacher" parameterType="java.lang.String" resultType="RegteacherDto">
+		SELECT TE_SEQ, TE_TITLE, USERID, TE_CONTENT, FILE_GID, TE_ADMIT
+			FROM REGTEACHER WHERE USERID = #{userid}
+	</select>
 	
 	<update id="modifyRegteacher" parameterType="java.util.Map">
 		UPDATE REGTEACHER

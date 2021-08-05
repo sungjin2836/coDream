@@ -1,5 +1,7 @@
 package com.code.dream;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -14,8 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.code.dream.dto.AttachFileDto;
 import com.code.dream.dto.RegisterDto;
+import com.code.dream.dto.RegteacherDto;
 import com.code.dream.oauth.IOAuthService;
+import com.code.dream.regteacher.IRegteacherService;
 import com.code.dream.security.IUserSecurityService;
 import com.code.dream.security.UserSecurityDto;
 
@@ -27,6 +32,9 @@ public class MemberController {
 	
 	@Autowired
 	private IOAuthService auth;
+	
+	@Autowired
+	private IRegteacherService rService;
 	
 	@RequestMapping(value="/member/agree", method=RequestMethod.GET)
 	public String agree() {
@@ -78,7 +86,7 @@ public class MemberController {
 		return String.valueOf(isc);
 	}
 	
-	@RequestMapping(value="/myInfo", method=RequestMethod.GET)
+	@RequestMapping(value="/mypage/myInfo", method=RequestMethod.GET)
 	public String myInfo(Model model, Authentication authentication) {
 		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
 		RegisterDto rdto = usDto.getDto();
@@ -106,7 +114,36 @@ public class MemberController {
 			dto.setAdrecieve("N");
 		}
 		service.modifyUser(dto);
-		return "redirect:/myInfo";
+		return "redirect:/mypage/myInfo";
+	}
+	
+	@RequestMapping(value = "/mypage/regteacher", method = RequestMethod.GET)
+	public String regteacherForm(Model model, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto dto = usDto.getDto();
+		dto.setPassword(null);
+		model.addAttribute("dto", dto);
+		
+		// 이미 강사 등록 신청이 있다면 현황으로
+		RegteacherDto rDto = rService.countRegteacher(dto.getId()); 
+		if(rDto == null) {
+			// 아니라면 form으로 이동
+			return "member/regteacherForm";			
+		} else {
+			List<AttachFileDto> list = rService.selectFiles(String.valueOf(rDto.getTe_seq()));
+			model.addAttribute("dto", rDto);
+			model.addAttribute("list",list);
+			return "member/regteacherDetail";
+		}
+	}
+	
+	@RequestMapping(value = "/mypage/regteacher", method = RequestMethod.POST)
+	public String regteacher(RegteacherDto dto, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto rdto = usDto.getDto();
+		dto.setUserid(rdto.getId());
+		rService.insertRegteacher(dto);
+		return "redirect:/mypage/regteacher";
 	}
 	
 }

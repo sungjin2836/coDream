@@ -39,5 +39,10 @@ public class RegteacherServiceImpl implements IRegteacherService {
 		return dao.selectFiles(file_gid);
 	}
 
+	@Override
+	public RegteacherDto countRegteacher(String userid) {
+		return dao.countRegteacher(userid);
+	}
+
 	
 }

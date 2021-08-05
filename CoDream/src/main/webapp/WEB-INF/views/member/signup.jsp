@@ -86,6 +86,7 @@
 	</table>
 </form>
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 	function check(){

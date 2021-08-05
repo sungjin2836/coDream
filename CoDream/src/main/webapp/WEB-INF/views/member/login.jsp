@@ -13,12 +13,11 @@
 	<form action="/login" method="post">
 		<sec:csrfInput/>
 		<div class="input-group">
-		<!-- 아이콘 넣기 -->
-		<span class="input-group-addon">ID</span>
+		<span class="input-group-addon person"><i class="glyphicon glyphicon-user"></i></span>
 		<input class="form-control" type="text" name="id" autocomplete="off"><br>
 		</div>
 		<div class="input-group">
-		<span class="input-group-addon">PW</span>
+		<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 		<input class="form-control" type="password" name="password" autocomplete="off"><br>
 		</div>
 		<input type="checkbox" name="remember-me" id="autoLogin">자동 로그인<br>
@@ -32,6 +31,7 @@
 	</div>
 </div>
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 </script>
