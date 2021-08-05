@@ -11,6 +11,7 @@ public interface IRegteacherDao {
 	public boolean insertRegteacher(RegteacherDto dto);
 	public List<RegteacherDto> selectRegteacher(PageDto dto);
 	public RegteacherDto detailRegteacher(String te_seq);
+	public RegteacherDto countRegteacher(String te_seq);
 	public boolean modifyRegteacher(String te_admit, String te_seq);
 	public List<AttachFileDto> selectFiles(String file_gid);
 	public int regteacherCount();

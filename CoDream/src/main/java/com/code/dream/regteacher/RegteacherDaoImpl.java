@@ -47,6 +47,11 @@ public class RegteacherDaoImpl implements IRegteacherDao {
 	}
 
 	@Override
+	public RegteacherDto countRegteacher(String userid) {
+		return session.selectOne("regteacher.countRegteacher", userid);
+	}
+  
+	@Override
 	public int regteacherCount() {
 		return session.selectOne("regteacher.regteacherCount");
 	}

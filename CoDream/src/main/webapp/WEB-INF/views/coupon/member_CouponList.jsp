@@ -79,7 +79,7 @@
 	<button onclick="kakao()">kakaopay btn</button>
 </div>
 
-
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 	var price = document.getElementById("order").rows[2].cells[1].innerHTML;

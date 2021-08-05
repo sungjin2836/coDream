@@ -41,6 +41,11 @@ public class RegteacherServiceImpl implements IRegteacherService {
 	}
 
 	@Override
+	public RegteacherDto countRegteacher(String userid) {
+		return dao.countRegteacher(userid);
+  }
+  
+	@Override
 	public int regteacherCount() {
 		return dao.regteacherCount();
 	}

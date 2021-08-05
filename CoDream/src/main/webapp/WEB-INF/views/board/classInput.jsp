@@ -86,6 +86,7 @@
 <!-- 	<div class="g-recaptcha" data-sitekey="6LdWD44bAAAAAHQYVc7qAGmEiVMk1RD4UpNIiR4h"></div> -->
 	
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script type="text/javascript">
 window.onload = function() {

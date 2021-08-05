@@ -52,7 +52,6 @@
 	</form>	
 	<input type="button" value="쿠폰리스트" onclick="location.href='/coupon/list'">
 </div>
-
-
+<%@include file="../footer.jsp" %>
 </body>
 </html>

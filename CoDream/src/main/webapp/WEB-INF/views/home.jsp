@@ -48,5 +48,6 @@
 <button onclick="location.href='/file/uploadTest'">파일 테스트</button>
 <button onclick="location.href='/class/studentTest?cl_seq=1'">수강신청 테스트</button>
 <button onclick="location.href='/class/classMain?cl_seq=1'">강의페이지 테스트</button>
+<%@include file="./footer.jsp" %>
 </body>
 </html>

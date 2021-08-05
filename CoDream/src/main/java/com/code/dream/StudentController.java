@@ -1,6 +1,7 @@
 package com.code.dream;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.code.dream.classes.IClassService;
 import com.code.dream.dto.ClassDto;
+import com.code.dream.dto.DocumentDto;
+import com.code.dream.dto.MemoDto;
 import com.code.dream.dto.RegisterDto;
 import com.code.dream.dto.StudentDto;
 import com.code.dream.security.UserSecurityDto;
@@ -32,7 +35,7 @@ public class StudentController {
 	
 	@RequestMapping(value = "/class/studentTest", method = RequestMethod.GET)
 	public String studentTest(Authentication authentication, int cl_seq) {
-		logger.info("[ClassController] classMain");
+		logger.info("[StudentController] classMain");
 		
 		StudentDto sDto = new StudentDto();
 		
@@ -54,7 +57,7 @@ public class StudentController {
 	
 	@RequestMapping(value = "/class/classMain", method = RequestMethod.GET)
 	public String classMain(Authentication authentication, int cl_seq, Model model) {
-		logger.info("[ClassController] classMain");
+		logger.info("[StudentController] classMain");
 		
 		Map<String, String> map = new HashMap<String, String>();
 		
@@ -84,12 +87,28 @@ public class StudentController {
 		}
 	}
 	
-//	@RequestMapping(value = "/class/memoList", method = RequestMethod.GET)
-//	public String classMain(Authentication authentication, int cl_seq, Model model) {
-//		logger.info("[ClassController] memoList");
-//
-//		return "redirect:/";
-//	}
+	@RequestMapping(value = "/class/memoList", method = RequestMethod.GET)
+	public String memoList(Model model, int cl_seq) {
+		logger.info("[StudentController] memoList");		
+		
+		List<MemoDto> list = iStudentService.memoList(cl_seq);
+		model.addAttribute("cl_seq", cl_seq);
+		model.addAttribute("list", list);
+		
+		return "/class/memoList";
+	}
+	
+	@RequestMapping(value = "/class/docList", method = RequestMethod.GET)
+	public String docList(Model model, int cl_seq) {
+		logger.info("[StudentController] docList");	
+		
+		List<DocumentDto> list = iStudentService.docList(cl_seq);	
+		
+		model.addAttribute("cl_seq", cl_seq);
+		model.addAttribute("list", list);
+		
+		return "/class/docList";
+	}
 	
 	
 	

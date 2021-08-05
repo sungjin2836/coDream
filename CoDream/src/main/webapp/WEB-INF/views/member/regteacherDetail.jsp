@@ -10,61 +10,55 @@
 <%@include file="../header.jsp" %>
 <div class="container">
 	<div style="width:300px;display:inline;float:left;">
-		<h3><a href="/myInfo">마이 페이지</a></h3>
+		<h3><a href=/mypage/myInfo>마이 페이지</a></h3>
 		<ul>
-			<li><a href="/myInfo">나의 회원 정보</a></li>
-			<!-- 강사 신청을 완료했을 경우 자동으로 강사 신청 현황으로 분기할 수 있도록 해야합니다 -->
-			<li><a href="regteacherForm">강사 등록 신청/현황</a></li>
+			<li><a href=/mypage/myInfo>나의 회원 정보</a></li>
+			<li><a href="/mypage/regteacher">강사 등록 신청/현황</a></li>
 		</ul>
 	</div>
-<div style="width:800px;display:inline;float:right;">
-	<h2>강사 등록 신청</h2>
-	<form action="/regteacher" method="POST" id="uploadForm">
-		<sec:csrfInput/>
-		<input type="hidden" name="file_gid" id="file_gid">
-		<table class="table">
-			<tr>
-				<th>
-					작성자
-				</th>
-				<td>
-					${dto.name}
-				</td>
-			</tr>
-			<tr>
-				<th>
-					제목
-				</th>
-				<td>
-					<input class="form-control" type="text" name="te_title" required="required"/>
-				</td>
-			</tr>
-			<tr>
-				<th>
-					내용
-				</th>
-				<td>
-					<textarea class="form-control" rows="10" cols="20" name="te_content" style="resize:vertical;"></textarea>
-				</td>
-			</tr>
-			<tr>
-				<th>
-					첨부파일
-				</th>
-				<td>
-					<input type="file" multiple="multiple" id="files"/>
-				</td>
-			</tr>
-			<tr>
-				<td colspan="2">
-					<button class="btn" id='btnUpload'>확인</button>
-				</td>
-			</tr>
+
+	<div style="width:800px;display:inline;float:right;">
+		<h2>신청정보 확인</h2>
+		<table class="table table-hover">
+			<tbody>
+				<tr>
+					<th>아이디</th>
+					<td>${dto.userid}</td>
+
+				</tr>
+				<tr>
+					<th>제목</th>
+					<td>${dto.te_title}</td>
+				</tr>
+				<tr>
+					<th>상태</th>
+					<td>${dto.te_admit}</td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>${dto.te_content}</td>
+				</tr>
+				<tr>
+					<th rowspan="${fn:length(list) + 1}">첨부파일</th>
+				</tr>
+				<c:forEach items="${list}" var="fDto">
+					<tr>
+					<td><a href="/file/download?filename=${fDto.filename}">${fDto.origname}.${fDto.extension}</a></td>
+					</tr>
+				</c:forEach>
+				<tr>
+					<td colspan="2">
+					<c:if test="${dto.te_admit eq ''}">
+						<button id='accept' onclick="location.href='/regteacherModify?te_seq=${dto.te_seq}&te_admit=승인'">승인</button>
+						<button id='reject' onclick="location.href='/regteacherModify?te_seq=${dto.te_seq}&te_admit=반려'">반려</button>
+					</c:if>
+					</td>
+				</tr>
+			</tbody>
 		</table>
-	    
-	</form>
 	</div>
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 
 <script type="text/javascript">

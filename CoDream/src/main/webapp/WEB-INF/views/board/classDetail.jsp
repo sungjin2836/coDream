@@ -92,6 +92,7 @@
 	<button class="btn btn-success" onclick="location.href='./classList'">강의 목록</button>
 
 </div>
+<%@include file="../footer.jsp" %>
 </body>
 <script>
 //

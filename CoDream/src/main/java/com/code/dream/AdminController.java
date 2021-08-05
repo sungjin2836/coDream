@@ -93,25 +93,7 @@ public class AdminController {
 		
 		return String.valueOf(isc);
 	}
-	
-	@RequestMapping(value = "regteacherForm", method = RequestMethod.GET)
-	public String regteacherForm(Model model, Authentication authentication) {
-		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
-		RegisterDto dto = usDto.getDto();
-		dto.setPassword(null);
-		model.addAttribute("dto", dto);
-		return "admin/regteacherForm";
-	}
-	
-	@RequestMapping(value = "regteacher", method = RequestMethod.POST)
-	public String regteacher(RegteacherDto dto, Authentication authentication) {
-		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
-		RegisterDto rdto = usDto.getDto();
-		dto.setUserid(rdto.getId());
-		rService.insertRegteacher(dto);
-		return "redirect:/admin/regteacherList";
-	}
-	
+  
 	@RequestMapping(value = "regteacherList", method = RequestMethod.GET)
 	public String regteacherList(Model model, HttpServletRequest request) {
 		int page = 1;
