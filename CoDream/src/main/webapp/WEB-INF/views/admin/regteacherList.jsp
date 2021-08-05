@@ -34,6 +34,19 @@
 					</tr>
 				</c:forEach>
 			</tbody>
+			<tfoot>
+				<tr>
+					<td colspan="3" style="text-align: center">
+						<a href="./regteacherList?page=1"><<</a>
+						<a href="./regteacherList?page=${page.page-page.step}"><</a>
+						<c:forEach begin="${page.pagestart}" end="${page.pageend}" step="1" var="var">
+							<a href="./regteacherList?page=${var}" <c:if test="${page.page eq var}">style="font-weight: bold"</c:if>>${var}</a>
+						</c:forEach>
+						<a href="./regteacherList?page=${page.page+page.step}">></a>
+						<a href="./regteacherList?page=999">>></a>
+					<td>
+				</tr>
+			</tfoot>
 		</table>
 		</div>
 	</div>

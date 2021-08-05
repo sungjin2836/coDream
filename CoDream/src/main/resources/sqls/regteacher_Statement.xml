@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="regteacher">
+	
+	<select id="regteacherCount" resultType="java.lang.Integer">
+		SELECT COUNT(*) FROM REGTEACHER
+	</select>
 
 	<insert id="insertRegteacher" parameterType="RegteacherDto">
 		<selectKey keyProperty="te_seq" order="BEFORE" resultType="java.lang.Integer">
@@ -12,8 +16,10 @@
 	</insert>
 	
 	<select id="selectRegteacher" resultType="RegteacherDto">
-		SELECT TE_SEQ, TE_TITLE, USERID, TE_ADMIT
-			FROM REGTEACHER
+		<![CDATA[
+		SELECT TE_SEQ, TE_TITLE, USERID, TE_ADMIT FROM(SELECT ROW_NUMBER() OVER(ORDER BY TE_SEQ DESC) AS RNUM, TE_SEQ, TE_TITLE, USERID, TE_ADMIT
+			FROM REGTEACHER) WHERE RNUM >= #{start} AND RNUM <= #{step}
+			]]>
 	</select>
 
 	<select id="detailRegteacher" parameterType="java.lang.String" resultType="RegteacherDto">

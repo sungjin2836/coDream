@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.code.dream.dto.AttachFileDto;
+import com.code.dream.coupon.ICouponService;
+import com.code.dream.dto.ReceiptDto;
 import com.code.dream.dto.RegisterDto;
 import com.code.dream.dto.RegteacherDto;
 import com.code.dream.oauth.IOAuthService;
@@ -35,6 +37,9 @@ public class MemberController {
 	
 	@Autowired
 	private IRegteacherService rService;
+  
+	@Autowired
+	private ICouponService coupon;
 	
 	@RequestMapping(value="/member/agree", method=RequestMethod.GET)
 	public String agree() {
@@ -145,5 +150,21 @@ public class MemberController {
 		rService.insertRegteacher(dto);
 		return "redirect:/mypage/regteacher";
 	}
+	
+	@RequestMapping(value="/receipt", method=RequestMethod.GET)
+	public String receipt(Model model, Authentication authentication) {
+		UserSecurityDto usDto = (UserSecurityDto) authentication.getPrincipal();
+		RegisterDto dto = usDto.getDto();
+		System.out.println(dto.getId());
+		List<ReceiptDto> lists = coupon.selectReceipt(dto.getId());
+		model.addAttribute("lists", lists);
+		
+		
+		
+		return "member/receipt";
+	}
+	
+	
+	
 	
 }
