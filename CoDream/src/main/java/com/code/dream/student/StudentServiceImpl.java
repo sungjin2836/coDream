@@ -109,5 +109,11 @@ public class StudentServiceImpl implements IStudentService {
 		logger.info("[StudentServiceImpl] recentDocList 최근 강의 자료 조회 {}", cl_seq);
 		return dao.recentDocList(cl_seq);
 	}
+	
+	@Override
+	public boolean dropStudent(Map<String, String> map) {
+		logger.info("[StudentServiceImpl] dropStudent 수강취소 {}", map);
+		return dao.dropStudent(map);
+	}
 
 }

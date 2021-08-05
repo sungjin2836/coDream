@@ -45,7 +45,7 @@
 </script>
 </head>
 <header>
-<div>
+<div style="width:1200px;margin:auto;">
 	<%-- <c:if test="${requestScope.loginFailMsg ne null }">
 		<div style="display: inline; float:right; margin : 8px;">
 			<button class="btn btn-info" onclick="location.href='/member/login'">Sign in</button>

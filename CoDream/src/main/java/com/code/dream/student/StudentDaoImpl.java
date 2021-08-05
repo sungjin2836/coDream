@@ -118,4 +118,10 @@ public class StudentDaoImpl implements IStudentDao {
 		logger.info("[StudentDaoImpl] recentDocList 최근 강의 자료 조회 {}", cl_seq);
 		return session.selectList(NS+"recentDocList",cl_seq);
 	}
+	
+	@Override
+	public boolean dropStudent(Map<String, String> map) {
+		int n=session.delete(NS+"dropStudent", map);
+		return (n>0)?true:false;
+	}
 }

@@ -47,4 +47,7 @@ public interface IStudentService {
 	
 	// 수강생 조회
 	public List<StudentDto> studentList(int cl_seq);
+	
+	// 수강 취소
+	public boolean dropStudent(Map<String, String> map);
 }
