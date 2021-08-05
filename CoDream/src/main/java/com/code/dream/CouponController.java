@@ -148,7 +148,7 @@ public class CouponController {
 			System.out.println(amount);
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&"
 					+ "item_name="+ctitle+"&quantity=1&total_amount="+amount+"&vat_amount=200&tax_free_amount=0&"
-							+ "approval_url=http://localhost:8099/coupon/PayResult?seq="+seq+"&"
+							+ "approval_url=http://localhost:8091/coupon/PayResult?seq="+seq+"&"
 					+ "fail_url=http://localhost:8091/coupon/list&cancel_url=http://localhost:8091";
 			// 결제에 필요한 parameter값들을 param에 넣음
 			OutputStream outst = kakaoserver.getOutputStream();
