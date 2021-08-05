@@ -121,7 +121,7 @@ public class StudentDaoImpl implements IStudentDao {
 	
 	@Override
 	public boolean dropStudent(Map<String, String> map) {
-		int n=session.update(NS+"dropStudent", map);
+		int n=session.delete(NS+"dropStudent", map);
 		return (n>0)?true:false;
 	}
 }

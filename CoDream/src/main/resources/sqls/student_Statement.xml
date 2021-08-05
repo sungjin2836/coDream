@@ -96,8 +96,8 @@ SELECT STUDENT, CL_SEQ, REGDATE, VISIT, STATUS
 </select>
 
 <!-- 수강 취소 -->
-<update id="dropStudent" parameterType="java.util.Map">
-	UPDATE STUDENT SET STATUS='취소' WHERE STUDENT=#{student} AND CL_SEQ=#{cl_seq}
-</update>
+<delete id="dropStudent" parameterType="java.util.Map">
+	DELETE STUDENT WHERE STUDENT=#{student} AND CL_SEQ=#{cl_seq}
+</delete>
 
 </mapper>
