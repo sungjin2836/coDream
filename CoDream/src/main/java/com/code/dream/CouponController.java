@@ -148,8 +148,8 @@ public class CouponController {
 			System.out.println(amount);
 			String param = "cid=TC0ONETIME&partner_order_id=partner_order_id&partner_user_id=partner_user_id&"
 					+ "item_name="+ctitle+"&quantity=1&total_amount="+amount+"&vat_amount=200&tax_free_amount=0&"
-							+ "approval_url=http://localhost:8091/coupon/PayResult?seq="+seq+"&"
-					+ "fail_url=http://localhost:8091/coupon/list&cancel_url=http://localhost:8091";
+							+ "approval_url=http://localhost:8099/coupon/PayResult?seq="+cseq+"&"
+					+ "fail_url=http://localhost:8099/coupon/list&cancel_url=http://localhost:8099";
 			// 결제에 필요한 parameter값들을 param에 넣음
 			OutputStream outst = kakaoserver.getOutputStream();
 			DataOutputStream dataout = new DataOutputStream(outst); 
@@ -237,8 +237,8 @@ public class CouponController {
             JSONObject jsonObj1 = (JSONObject) jsonParser.parse(str3);
             System.out.println(jsonObj1);
             JSONObject amount = (JSONObject) jsonObj1.get("amount");
-            String amount1 = String.valueOf(amount.get("total"));
-            System.out.println(amount1);
+            String total = String.valueOf(amount.get("total"));
+            System.out.println(total);
 			
             StudentDto sDto = new StudentDto();
          // 학생 아이디(로그인한 사람의 아이디)와 강의 번호를 받아 넘겨준다
@@ -259,7 +259,7 @@ public class CouponController {
 			dto.setBuyer(udto.getId());
 			dto.setProduct_seq(seq);
 			dto.setTid(tid);
-			dto.setPrice(amount1);
+			dto.setPrice(total);
 			System.out.println(dto);
 			service.insertPay(dto);
 			return str3;
@@ -302,8 +302,9 @@ public class CouponController {
 	
 	@RequestMapping(value = "/coupon/refund", method = { RequestMethod.GET, RequestMethod.POST })
 	@ResponseBody
-	public String refund(Authentication authentication, HttpSession session, String tid, String price, String re_seq){
+	public String refund(Authentication authentication, HttpSession session, String tid, String price, String re_seq, String cl_seq, String student){
 		System.out.println("-----------환불 시작-----------");
+		Map<String, String> map = new HashMap<String, String>();
 		try {			
 			URL kakaourl = new URL("https://kapi.kakao.com//v1/payment/cancel");
 			HttpURLConnection kakaoserver = (HttpURLConnection) kakaourl.openConnection();
@@ -311,6 +312,7 @@ public class CouponController {
 			kakaoserver.setRequestProperty("Authorization", "KakaoAK da2e0e25242d6645fdabd978c6a02c92");
 			kakaoserver.setRequestProperty("Content-type", "application/x-www-form-urlencoded;charset=utf-8");
 			kakaoserver.setDoOutput(true);
+			StudentDto sDto = new StudentDto();
 			long amount = Long.parseLong(price);
 			String param = "cid=TC0ONETIME&tid="+tid+"&cancel_amount="+amount+"&cancel_tax_free_amount=0&cancel_vat_amount=200&cancel_available_amount="+amount;
 			OutputStream outst = kakaoserver.getOutputStream();
@@ -345,8 +347,14 @@ public class CouponController {
 				System.out.println("msg : "+msg);
 				System.out.println("sucmsg : "+sucmsg);
 				System.out.println(re_seq);
+				int clseq = Integer.parseInt(cl_seq);
+				sDto.setCl_seq(clseq);
+				sDto.setStudent(student);
+				map.put("cl_seq", String.valueOf(clseq));
+				map.put("student", String.valueOf(student));
 				if(msg.equals(sucmsg)) {
-					service.updateReceipt(re_seq);				
+					service.updateReceipt(re_seq);		
+					iStudentService.dropStudent(map);
 				}else{
 					System.out.println("환불 안됨");
 				}
