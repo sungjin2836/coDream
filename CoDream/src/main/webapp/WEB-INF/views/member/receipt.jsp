@@ -31,7 +31,7 @@
 			<td>${c.cl_title}</td>
 			<td>${c.price}</td>
 			<td>${c.paydate}</td>
-			<td><button onclick="refundbtn('${c.tid}','${c.price}','${c.re_seq}')">환불</button></td>
+			<td><button onclick="refundbtn('${c.tid}','${c.price}','${c.re_seq}','${c.buyer}','${c.product_seq}')">환불</button></td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -41,15 +41,13 @@
 
 </body>
 <script type="text/javascript">
-function refundbtn(tid, price, re_seq){
-	console.log(tid);
-	console.log(price);
+function refundbtn(tid, price, re_seq, buyer, product_seq){
 	$.ajax({
 		url:'./coupon/refund',
 		method: 'POST',
 		headers: headers,
 		dataType:'json',
-		data: "tid="+tid+"&price="+price+"&re_seq="+re_seq,
+		data: "tid="+tid+"&price="+price+"&re_seq="+re_seq+"&cl_seq="+product_seq+"&student="+buyer,
 		success:function(data){
 			location.reload();
 		},

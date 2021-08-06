@@ -25,6 +25,11 @@
 			VALUES((SELECT NVL(MAX(CLIST_SEQ),0)+1 FROM COUPON_LIST), #{id}, #{coupon_seq}, SYSDATE+7, 'N')
 	</insert>
 	
+	<delete id="deleteCouponList" parameterType="CouponDto">
+		DELETE FROM COUPON_LIST
+		WHERE CLIST_SEQ=#{clist_seq}
+	</delete>
+	
 	<!-- 쿠폰 가격보다 상품 가격이 큰 제품만 출력
 	 SELECT c.COUPONNAME,c.DISCOUNT,c.MAXPRICE , c.STATUS, cl.EXPIRE
 	FROM COUPON_LIST cl JOIN COUPON c USING(COUPON_SEQ) 
