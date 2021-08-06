@@ -14,7 +14,7 @@
 	<ul>
 		<li><a href="/class/docList?cl_seq=${cDto.cl_seq}">강의 자료</a></li>
 		<li><a href="/class/memoList?cl_seq=${cDto.cl_seq}">필기 공유 게시판</a></li>
-		<li><a href="">출결</a></li>
+		<li><a href="/class/visit?cl_seq=${cDto.cl_seq}">출결</a></li>
 	</ul>
 </div>
 

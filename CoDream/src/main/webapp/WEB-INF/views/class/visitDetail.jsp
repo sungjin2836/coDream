@@ -19,34 +19,40 @@
 	</div>
 	
 	<div style="width:800px;display:inline;float:right;">
-		<h2>필기 상세</h2>
-		<table class="table table-hover">
+		<h2>${sDto.student}님의 출석 현황</h2>
+		
+		<table class="table">
+			<thead>
+				<tr>
+					<th>수업 일수</th>
+					<th>출석 일수</th>
+					<th>이수율</th>
+				</tr>
+			</thead>
 			<tbody>
 				<tr>
-					<th>제목</th>
-					<td>${mDto.doc_title}</td>
+					<td><span id="allDays">-</span>일</td>
+					<td><span id="visitDays">-</span>일</td>
+					<td><span id="visitRate">-</span>%</td>
 				</tr>
+			</tbody>
+		</table>
+		
+		<table class="table">
+			<thead>
 				<tr>
-					<th>아이디</th>
-					<td>${mDto.author}</td>
-
+					<th>일차</th>
+					<th>날짜</th>
+					<th>출결여부</th>
 				</tr>
+			</thead>				
+			<tbody>
+				<!-- 일수에 따라 반복하도록 함 -->
 				<tr>
-					<th>작성일자</th>
-					<td><fmt:formatDate value="${mDto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+					<td></td>
+					<!-- 날짜는 아래의 포맷을 따릅니다 -->
+<%-- 					<td><fmt:formatDate value="${mDto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td> --%>
 				</tr>
-				<tr>
-					<th>내용</th>
-					<td>${mDto.doc_content}</td>
-				</tr>
-				<tr>
-					<th rowspan="${fn:length(list) + 1}">첨부파일</th>
-				</tr>
-				<c:forEach items="${list}" var="fDto">
-					<tr>
-					<td><a href="/file/download?filename=${fDto.filename}">${fDto.origname}.${fDto.extension}</a></td>
-					</tr>
-				</c:forEach>
 			</tbody>
 		</table>
 	</div>

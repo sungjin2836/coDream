@@ -135,7 +135,7 @@ public class MemberController {
 			// 아니라면 form으로 이동
 			return "member/regteacherForm";			
 		} else {
-			List<AttachFileDto> list = rService.selectFiles(String.valueOf(rDto.getTe_seq()));
+			List<AttachFileDto> list = rService.selectFiles(String.valueOf(rDto.getFile_gid()));
 			model.addAttribute("dto", rDto);
 			model.addAttribute("list",list);
 			return "member/regteacherDetail";

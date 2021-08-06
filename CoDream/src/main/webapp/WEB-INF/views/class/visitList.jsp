@@ -17,38 +17,42 @@
 			<li><a href="/class/visit?cl_seq=${cDto.cl_seq}">출결</a></li>
 		</ul>
 	</div>
-	
 	<div style="width:800px;display:inline;float:right;">
-		<h2>필기 상세</h2>
-		<table class="table table-hover">
-			<tbody>
+		<h2><a href="/class/visit?cl_seq=${cDto.cl_seq}">${cDto.cl_title}의 출결 현황</a></h2>
+		<div>
+			<table class="table">
 				<tr>
-					<th>제목</th>
-					<td>${mDto.doc_title}</td>
+					<th>수강 인원</th>
+					<th>수업 일수</th>
+					<th>평균 이수율</th>
 				</tr>
 				<tr>
-					<th>아이디</th>
-					<td>${mDto.author}</td>
-
+					<td><span class="allDays">-</span>명</td>
+					<td><span class="visitDays">-</span>일</td>
+					<td><span class="visitRate">-</span>%</td>
 				</tr>
-				<tr>
-					<th>작성일자</th>
-					<td><fmt:formatDate value="${mDto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
-				</tr>
-				<tr>
-					<th>내용</th>
-					<td>${mDto.doc_content}</td>
-				</tr>
-				<tr>
-					<th rowspan="${fn:length(list) + 1}">첨부파일</th>
-				</tr>
-				<c:forEach items="${list}" var="fDto">
+			</table>
+		</div>
+		<div>
+			<table class="table table-hover">
+				<thead>
 					<tr>
-					<td><a href="/file/download?filename=${fDto.filename}">${fDto.origname}.${fDto.extension}</a></td>
+						<th>이름</th>
+						<th>출석 일수</th>
+						<th>이수율</th>
 					</tr>
-				</c:forEach>
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					<tr>
+						<c:forEach var="dto" items="${list}">
+							<td><a href="/class/visitDetail?cl_seq=${cDto.cl_seq}&student=${dto.student}">${dto.student}</a></td>
+							<td>${dto.visit}</td>
+							<td></td>
+						</c:forEach>
+					</tr>
+				</tbody>
+			</table>
+		</div>
 	</div>
 </div>
 <%@include file="../footer.jsp" %>

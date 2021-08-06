@@ -17,33 +17,37 @@
 			<li><a href="/class/visit?cl_seq=${cDto.cl_seq}">출결</a></li>
 		</ul>
 	</div>
+	
 	<div style="width:800px;display:inline;float:right;">
-		<h2><a href="/class/docList?cl_seq=${cDto.cl_seq}">필기 공유</a></h2>
+		<h2>강의 자료</h2>
 		<table class="table table-hover">
 			<tbody>
 				<tr>
-					<th>작성자</th>
-					<th>필기 제목</th>
-					<th>날짜</th>
+					<th>제목</th>
+					<td>${mDto.me_title}</td>
 				</tr>
-				<c:if test="${list.size() eq 0}">
+				<tr>
+					<th>아이디</th>
+					<td>${mDto.author}</td>
+
+				</tr>
+				<tr>
+					<th>작성일자</th>
+					<td><fmt:formatDate value="${mDto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+				</tr>
+				<tr>
+					<th>내용</th>
+					<td>${mDto.me_content}</td>
+				</tr>
+				<tr>
+					<th rowspan="${fn:length(list) + 1}">첨부파일</th>
+				</tr>
+				<c:forEach items="${list}" var="fDto">
 					<tr>
-						<td colspan="3">최근 업로드 된 자료가 없습니다.</td>	
-					</tr>
-				</c:if>
-				<c:forEach items="${list}" var="dto">
-					<tr>
-						<td>${dto.author}</td>
-						<td><a href="/class/memoDetail?cl_seq=${cDto.cl_seq}&me_seq=${dto.me_seq}">${dto.me_title}</a><c:if test="${dto.file_gid ne 0}">&nbsp;<span class="glyphicon glyphicon-floppy-disk"></span></c:if></td>
-						<td><fmt:formatDate value="${dto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+					<td><a href="/file/download?filename=${fDto.filename}">${fDto.origname}.${fDto.extension}</a></td>
 					</tr>
 				</c:forEach>
 			</tbody>
-			<tfoot>
-				<tr>
-					<td colspan="3"><button class="btn" onclick="location.href='/class/insertMemo?cl_seq=${cDto.cl_seq}'">새 필기</button></td>
-				</tr>
-			</tfoot>
 		</table>
 	</div>
 </div>
