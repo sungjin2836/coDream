@@ -14,13 +14,13 @@
 	<input type="hidden" id="uid" name="uid" value="${uid}">
 	<input type="hidden" id="site" name="site" value="${site}">
 	<sec:csrfInput/>
-	<table>
+	<table class="table .table-bordered" style="width:800px;margin:auto;">
 		<tr>
 			<th>
 				아이디
 			</th>
 			<td>
-				<input type="text" id="id" name="id" required="required" autocomplete="off">
+				<input class="form-control" type="text" id="id" name="id" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -33,7 +33,7 @@
 				비밀번호
 			</th>
 			<td>
-				<input type="password" id="pw" name="password" required="required" autocomplete="off">
+				<input class="form-control" type="password" id="pw" name="password" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -41,7 +41,7 @@
 				비밀번호 확인
 			</th>
 			<td>
-				<input type="password" id="pwChk" required="required" autocomplete="off">
+				<input class="form-control" type="password" id="pwChk" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -49,7 +49,7 @@
 				이름
 			</th>
 			<td>
-				<input type="text" id="name" name="name" required="required" autocomplete="off">
+				<input class="form-control" type="text" id="name" name="name" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -57,7 +57,7 @@
 				핸드폰 번호
 			</th>
 			<td>
-				<input type="text" id="phone" name="phone" required="required" autocomplete="off">
+				<input class="form-control" type="text" id="phone" name="phone" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -65,7 +65,7 @@
 				이메일
 			</th>
 			<td>
-				<input type="text" id="email" name="email" required="required" autocomplete="off">
+				<input class="form-control" type="text" id="email" name="email" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
@@ -73,15 +73,15 @@
 				주소
 			</th>
 			<td>
-				<input type="text" id="address" name="address" required="required" autocomplete="off">
+				<input class="form-control" type="text" id="address" name="address" required="required" autocomplete="off">
 			</td>
 		</tr>
 		<tr>
 			<th></th>
-			<td><input type="checkbox" id="adrecieve" name="adrecieve"><label for="adrecive">마케팅 수신 동의</label></td>
+			<td><input type="checkbox" id="adrecieve" name="adrecieve"><label for="adrecive">&nbsp;마케팅 수신 동의</label></td>
 		</tr>
 		<tr>
-			<td colspan="2"><input type="submit" value="회원 가입"></td>
+			<td colspan="2"><input class="btn" type="submit" value="회원 가입"></td>
 		</tr>
 	</table>
 </form>

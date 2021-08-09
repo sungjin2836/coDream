@@ -30,7 +30,7 @@
 		</c:if>
 		<c:forEach var="d" items="${dList}">
 			<tr>
-				<td><a href="/class/docDetail?doc_seq=${d.doc_seq}">${d.doc_title}</a></td>
+				<td><a href="/class/docDetail?cl_seq=${cDto.cl_seq}&doc_seq=${d.doc_seq}">${d.doc_title}</a></td>
 				<td>${d.author}</td>
 				<td><fmt:formatDate value="${d.regdate}" pattern="yyyy-MM-dd hh:mm"/></td>
 			</tr>
@@ -49,7 +49,7 @@
 		</c:if>
 		<c:forEach var="m" items="${mList}">
 			<tr>
-				<td><a href="/class/memoDetail?doc_seq=${m.me_seq}">${m.me_title}</a></td>
+				<td><a href="/class/memoDetail?cl_seq=${cDto.cl_seq}&me_seq=${m.me_seq}">${m.me_title}</a></td>
 				<td>${m.author}</td>
 				<td><fmt:formatDate value="${m.regdate}" pattern="yyyy-MM-dd hh:mm"/></td>
 			</tr>

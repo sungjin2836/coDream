@@ -26,6 +26,11 @@
 			<th>구매일자</th>
 			<th>환불</th>
 		</tr>
+		<c:if test="${lists.size() eq 0}">
+			<tr>
+				<td colspan="4">최근 구매내역이 존재하지 않습니다.</td>	
+			</tr>
+		</c:if>
 		<c:forEach var="c" items="${lists}">
 		<tr>
 			<td>${c.cl_title}</td>
@@ -35,7 +40,6 @@
 		</tr>
 		</c:forEach>
 	</table>
-	<h3>${lists}</h3>
 	</div>
 </div>
 

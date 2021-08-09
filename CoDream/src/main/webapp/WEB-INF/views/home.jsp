@@ -7,9 +7,9 @@
 <body>
 <%@include file="./header.jsp" %>
 
-<!-- <div><img alt="광고용 슬라이드" src="/images/banner.PNG" style="margin:auto;"/></div> -->
 <div class="container">
-	<div>
+<div style="text-align:center;"><img alt="광고용 슬라이드" src="/images/banner.png" style="width:1100px;object-fit:cover;"/></div>
+	<div style="width:550px;float:left;display:inline;">
 		<h3>신규 개설 강의</h3>
 		<table class="table">
 			<c:if test="${ncList.size() eq 0}">
@@ -21,12 +21,12 @@
 				<tr>
 					<td><a href="/board/classDetail?cl_seq=${nc.cl_seq}">${nc.cl_title}</a></td>
 					<td>${nc.teacher}</td>
-					<td>${nc.price}</td>
+					<td>${nc.price}원</td>
 				</tr>
 			</c:forEach>
 		</table>
 	</div>
-	<div>
+	<div style="width:550px;float:right;display:inline;">
 		<h3>개강 임박 강의</h3>
 		<table class="table">
 			<c:if test="${dcList.size() eq 0}">

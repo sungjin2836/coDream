@@ -20,7 +20,7 @@
 		<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
 		<input class="form-control" type="password" name="password" autocomplete="off"><br>
 		</div>
-		<input type="checkbox" name="remember-me" id="autoLogin">자동 로그인<br>
+		<input type="checkbox" name="remember-me" id="autoLogin">&nbsp;자동 로그인<br>
 		<input class="btn btn-block btn-lg" type="submit" value="로그인"><br>
 		${requestScope.loginFailMsg}
 	</form>

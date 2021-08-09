@@ -24,20 +24,20 @@
 			<tbody>
 				<tr>
 					<th>제목</th>
-					<td>${mDto.doc_title}</td>
+					<td>${dDto.doc_title}</td>
 				</tr>
 				<tr>
 					<th>아이디</th>
-					<td>${mDto.author}</td>
+					<td>${dDto.author}</td>
 
 				</tr>
 				<tr>
 					<th>작성일자</th>
-					<td><fmt:formatDate value="${mDto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
+					<td><fmt:formatDate value="${dDto.regdate}" pattern="yyyy-MM-dd hh:mm:ss"/></td>
 				</tr>
 				<tr>
 					<th>내용</th>
-					<td>${mDto.doc_content}</td>
+					<td>${dDto.doc_content}</td>
 				</tr>
 				<tr>
 					<th rowspan="${fn:length(list) + 1}">첨부파일</th>
