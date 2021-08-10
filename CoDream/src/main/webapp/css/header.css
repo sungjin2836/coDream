@@ -1,8 +1,26 @@
 @charset "UTF-8";
 
+@import url('https://fonts.googleapis.com/earlyaccess/jejugothic.css');
+@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
+
+@font-face{
+	font-family: 'Hallasan';
+	src: url('https://fonts.gstatic.com/ea/jejugothic/v3/JejuGothic-Regular.ttf') format('truetype');
+}
+
+
 *{
+	font-family: 'Nanum Gothic';
 	padding:0px;
 	margin:0px;
+}
+
+h1, h2, h3, h4, h5  {
+	font-family: 'Hallasan';
+}
+
+h1>a, h2>a, h3>a, h4>a, h5>a {
+	font-family: 'Hallasan';
 }
 
 .container{
